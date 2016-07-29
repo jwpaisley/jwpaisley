@@ -1,0 +1,149 @@
+2016-7-19 10:46:58 [INFO] The application for jwpaisley.com has started.
+2016-7-19 11:08:10 [INFO] The application for jwpaisley.com has started.
+2016-7-19 11:08:14 [INFO] A user has connected to the site.
+2016-7-19 11:08:48 [INFO] A user has disconnected from the site.
+2016-7-19 11:08:49 [INFO] A user has connected to the site.
+2016-7-19 11:11:29 [INFO] The application for jwpaisley.com has started.
+2016-7-19 11:11:29 [INFO] A user has connected to the site.
+2016-7-19 11:11:50 [INFO] A user has disconnected from the site.
+2016-7-19 11:11:50 [INFO] A user has connected to the site.
+2016-7-19 12:26:43 [INFO] The application for jwpaisley.com has started.
+2016-7-19 12:26:46 [INFO] A user has connected to the site.
+2016-7-19 12:26:50 [INFO] A user has disconnected from the site.
+2016-7-19 12:26:51 [INFO] A user has connected to the site.
+2016-7-19 12:29:10 [INFO] The application for jwpaisley.com has started.
+2016-7-19 12:29:10 [INFO] A user has connected to the site.
+2016-7-19 12:29:21 [INFO] A user has disconnected from the site.
+2016-7-19 12:29:22 [INFO] A user has connected to the site.
+2016-7-19 13:16:45 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:16:46 [INFO] A user has connected to the site.
+2016-7-19 13:17:00 [INFO] A user has disconnected from the site.
+2016-7-19 13:17:00 [INFO] A user has connected to the site.
+2016-7-19 13:30:33 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:30:33 [INFO] A user has connected to the site.
+2016-7-19 13:30:55 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:30:56 [INFO] A user has connected to the site.
+2016-7-19 13:31:05 [INFO] A user has disconnected from the site.
+2016-7-19 13:31:05 [INFO] A user has connected to the site.
+2016-7-19 13:33:12 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:33:12 [INFO] A user has connected to the site.
+2016-7-19 13:33:16 [INFO] A user has disconnected from the site.
+2016-7-19 13:33:16 [INFO] A user has connected to the site.
+2016-7-19 13:33:17 [INFO] A user has disconnected from the site.
+2016-7-19 13:33:17 [INFO] A user has connected to the site.
+2016-7-19 13:34:07 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:34:08 [INFO] A user has connected to the site.
+2016-7-19 13:37:08 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:37:08 [INFO] A user has connected to the site.
+2016-7-19 13:37:14 [INFO] A user has disconnected from the site.
+2016-7-19 13:37:14 [INFO] A user has connected to the site.
+2016-7-19 13:38:38 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:38:38 [INFO] A user has connected to the site.
+2016-7-19 13:38:56 [INFO] A user has disconnected from the site.
+2016-7-19 13:38:56 [INFO] A user has connected to the site.
+2016-7-19 13:43:27 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:43:27 [INFO] A user has connected to the site.
+2016-7-19 13:56:37 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:56:37 [INFO] A user has connected to the site.
+2016-7-19 13:56:41 [INFO] A user has disconnected from the site.
+2016-7-19 13:56:41 [INFO] A user has connected to the site.
+2016-7-19 13:57:13 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:57:13 [INFO] A user has connected to the site.
+2016-7-19 13:57:15 [INFO] A user has disconnected from the site.
+2016-7-19 13:57:15 [INFO] A user has connected to the site.
+2016-7-19 13:57:43 [INFO] The application for jwpaisley.com has started.
+2016-7-19 13:57:44 [INFO] A user has connected to the site.
+2016-7-19 13:57:46 [INFO] A user has disconnected from the site.
+2016-7-19 13:57:46 [INFO] A user has connected to the site.
+2016-7-19 13:59:58 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:00:02 [INFO] A user has connected to the site.
+2016-7-19 14:00:05 [INFO] A user has disconnected from the site.
+2016-7-19 14:00:05 [INFO] A user has connected to the site.
+2016-7-19 14:00:05 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:00:05 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:00:05 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:04:42 [INFO] A user has disconnected from the site.
+2016-7-19 14:41:27 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:41:39 [INFO] A user has connected to the site.
+2016-7-19 14:41:39 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:41:39 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:41:39 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:41:47 [INFO] User accessed "/readData"
+2016-7-19 14:41:47 [INFO] A user has disconnected from the site.
+2016-7-19 14:41:47 [INFO] A user has connected to the site.
+2016-7-19 14:41:47 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:41:47 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:41:47 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:43:35 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:43:35 [INFO] /readData?undefined
+2016-7-19 14:43:36 [INFO] A user has connected to the site.
+2016-7-19 14:43:36 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:43:36 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:43:36 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:43:48 [INFO] /readData?undefined
+2016-7-19 14:43:48 [INFO] A user has disconnected from the site.
+2016-7-19 14:43:48 [INFO] A user has connected to the site.
+2016-7-19 14:43:48 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:43:48 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:43:48 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:44:33 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:44:34 [INFO] A user has connected to the site.
+2016-7-19 14:44:34 [INFO] /readData?[object Object]
+2016-7-19 14:44:35 [INFO] A user has connected to the site.
+2016-7-19 14:44:35 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:44:35 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:44:35 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:44:57 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:44:58 [INFO] A user has connected to the site.
+2016-7-19 14:44:58 [INFO] /readData?true
+2016-7-19 14:44:58 [INFO] A user has disconnected from the site.
+2016-7-19 14:44:59 [INFO] A user has connected to the site.
+2016-7-19 14:44:59 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:44:59 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:44:59 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:45:51 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:45:51 [INFO] A user has connected to the site.
+2016-7-19 14:45:53 [INFO] /readData?folder=undefined&key=undefined
+2016-7-19 14:45:53 [INFO] A user has disconnected from the site.
+2016-7-19 14:45:53 [INFO] A user has connected to the site.
+2016-7-19 14:45:53 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:45:53 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:45:53 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:46:11 [INFO] /readData?folder=users&key=jacobpaisley97@gmail.com
+2016-7-19 14:46:11 [INFO] A user has disconnected from the site.
+2016-7-19 14:46:12 [INFO] A user has connected to the site.
+2016-7-19 14:46:12 [WARN] A user has attempted to save data to db/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:46:12 [WARN] A user has attempted to save data to db/05af6ccfc9610a26ad5405b1966e3083a163d1f6/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:46:12 [WARN] A user has attempted to save data to db/16af6dd6fd7c2821e55505c3bb6b3c9afb7ed7eaf5f8f52b/04b97ac9d8731b35, but the application's configuration has not enabled the database.
+2016-7-19 14:53:12 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:53:13 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:15 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:16 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:30 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:41 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:53:42 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:43 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:43 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:43 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:53:44 [ERR]  Database file db/04b97ac9ef/1bab7cd4fe620e3def085188c2381988e26cddeef5f4e821 does not exist.
+2016-7-19 14:54:14 [INFO] A user has connected to the site.
+2016-7-19 14:54:47 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:54:48 [INFO] A user has connected to the site.
+2016-7-19 14:54:49 [INFO] A user has disconnected from the site.
+2016-7-19 14:54:50 [INFO] A user has connected to the site.
+2016-7-19 14:57:24 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:57:29 [INFO] A user has connected to the site.
+2016-7-19 14:57:29 [INFO] A user has disconnected from the site.
+2016-7-19 14:57:29 [INFO] A user has connected to the site.
+2016-7-19 14:57:53 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:57:54 [INFO] A user has connected to the site.
+2016-7-19 14:57:56 [INFO] A user has disconnected from the site.
+2016-7-19 14:57:57 [INFO] A user has connected to the site.
+2016-7-19 14:58:24 [INFO] The application for jwpaisley.com has started.
+2016-7-19 14:58:24 [INFO] A user has connected to the site.
+2016-7-19 14:58:25 [INFO] A user has disconnected from the site.
+2016-7-19 14:58:25 [INFO] A user has connected to the site.
+2016-7-19 14:59:59 [INFO] A user has disconnected from the site.
+2016-7-19 14:59:59 [INFO] A user has connected to the site.
+2016-7-19 14:59:59 [ERR]  Database file db/53a07ed8f3701f35f517589482366eafe860d5ebb7b9e423fe77/53bf6cdeee560e20fd46 does not exist.
+2016-7-19 15:00:11 [INFO] A user has disconnected from the site.

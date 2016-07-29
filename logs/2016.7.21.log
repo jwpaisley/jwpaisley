@@ -1,0 +1,333 @@
+2016-7-21 10:11:20 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:11:33 [INFO] A user has connected to the site.
+2016-7-21 10:12:05 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:12:05 [INFO] A user has connected to the site.
+2016-7-21 10:13:13 [INFO] A user has disconnected from the site.
+2016-7-21 10:13:14 [INFO] A user has connected to the site.
+2016-7-21 10:20:38 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:20:40 [INFO] A user has connected to the site.
+2016-7-21 10:20:47 [INFO] A user has disconnected from the site.
+2016-7-21 10:20:47 [INFO] A user has connected to the site.
+2016-7-21 10:20:47 [INFO] SAVE: undefined
+2016-7-21 10:21:04 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:21:04 [INFO] A user has connected to the site.
+2016-7-21 10:21:09 [INFO] A user has disconnected from the site.
+2016-7-21 10:21:09 [INFO] A user has connected to the site.
+2016-7-21 10:21:09 [INFO] SAVE: undefined
+2016-7-21 10:21:10 [INFO] A user has disconnected from the site.
+2016-7-21 10:21:10 [INFO] A user has connected to the site.
+2016-7-21 10:21:10 [INFO] SAVE: undefined
+2016-7-21 10:23:10 [INFO] SAVE: undefined
+2016-7-21 10:23:10 [INFO] SAVE: undefined
+2016-7-21 10:29:12 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:29:16 [INFO] A user has connected to the site.
+2016-7-21 10:29:16 [INFO] SAVE: This is a test
+2016-7-21 10:31:16 [INFO] SAVE: This is a test
+2016-7-21 10:31:16 [INFO] SAVE: This is a test
+2016-7-21 10:34:30 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:34:30 [INFO] A user has connected to the site.
+2016-7-21 10:34:34 [INFO] A user has disconnected from the site.
+2016-7-21 10:34:34 [INFO] A user has connected to the site.
+2016-7-21 10:34:34 [INFO] SAVE: undefined
+2016-7-21 10:35:30 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:35:30 [INFO] A user has connected to the site.
+2016-7-21 10:35:32 [INFO] A user has disconnected from the site.
+2016-7-21 10:35:32 [INFO] A user has connected to the site.
+2016-7-21 10:35:32 [INFO] SAVE: [object Object]
+2016-7-21 10:36:22 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:36:22 [INFO] A user has connected to the site.
+2016-7-21 10:36:27 [INFO] A user has disconnected from the site.
+2016-7-21 10:36:27 [INFO] A user has connected to the site.
+2016-7-21 10:36:27 [INFO] SAVE: users | jacobpaisley97@gmail.com | undefined | 
+2016-7-21 10:37:13 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:37:13 [INFO] A user has connected to the site.
+2016-7-21 10:37:14 [INFO] A user has disconnected from the site.
+2016-7-21 10:37:14 [INFO] A user has connected to the site.
+2016-7-21 10:37:14 [INFO] SAVE: 
+users | jacobpaisley97@gmail.com | undefined
+2016-7-21 10:37:51 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:37:51 [INFO] A user has connected to the site.
+2016-7-21 10:37:52 [INFO] A user has disconnected from the site.
+2016-7-21 10:37:53 [INFO] A user has connected to the site.
+2016-7-21 10:37:53 [INFO] SAVE: 
+	users | jacobpaisley97@gmail.com | undefined
+2016-7-21 10:38:21 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:38:21 [INFO] A user has connected to the site.
+2016-7-21 10:39:14 [INFO] A user has disconnected from the site.
+2016-7-21 10:39:14 [INFO] A user has connected to the site.
+2016-7-21 10:39:14 [INFO] SAVE: 
+		users | jacobpaisley97@gmail.com | undefined
+2016-7-21 10:41:14 [INFO] SAVE: 
+		users | jacobpaisley97@gmail.com | undefined
+2016-7-21 10:41:14 [INFO] SAVE: 
+		users | jacobpaisley97@gmail.com | undefined
+2016-7-21 10:48:50 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:48:50 [INFO] A user has connected to the site.
+2016-7-21 10:48:54 [INFO] A user has disconnected from the site.
+2016-7-21 10:48:55 [INFO] A user has connected to the site.
+2016-7-21 10:48:55 [INFO] users | jacobpaisley97@gmail.com | {name: 'Jacob'}
+2016-7-21 10:50:55 [INFO] users | jacobpaisley97@gmail.com | {name: 'Jacob'}
+2016-7-21 10:50:56 [INFO] users | jacobpaisley97@gmail.com | {name: 'Jacob'}
+2016-7-21 10:54:58 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:54:58 [INFO] A user has connected to the site.
+2016-7-21 10:56:38 [INFO] A user has disconnected from the site.
+2016-7-21 10:56:38 [INFO] A user has connected to the site.
+2016-7-21 10:56:38 [INFO] users | jacobpaisley97@gmail.com | undefined
+2016-7-21 10:58:02 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:58:02 [INFO] A user has connected to the site.
+2016-7-21 10:58:06 [INFO] A user has disconnected from the site.
+2016-7-21 10:58:06 [INFO] A user has connected to the site.
+2016-7-21 10:58:06 [INFO] users | jacobpaisley97@gmail.com | {name: 'Jacob'}
+2016-7-21 10:58:28 [INFO] The application for jwpaisley.com has started.
+2016-7-21 10:58:28 [INFO] A user has connected to the site.
+2016-7-21 10:58:28 [INFO] users | jacobpaisley97@gmail.com | { 'name': 'Jacob'}
+2016-7-21 10:58:46 [INFO] A user has disconnected from the site.
+2016-7-21 10:58:46 [INFO] A user has connected to the site.
+2016-7-21 10:58:46 [INFO] users | jacobpaisley97@gmail.com | { name: 'Jacob' }
+2016-7-21 11:02:12 [INFO] A user has disconnected from the site.
+2016-7-21 11:02:12 [INFO] A user has connected to the site.
+2016-7-21 11:02:12 [INFO] users | jacobpaisley97@gmail.com | { 'name': 'Jacob' }
+2016-7-21 11:03:09 [INFO] A user has disconnected from the site.
+2016-7-21 11:03:09 [INFO] A user has connected to the site.
+2016-7-21 11:03:09 [WARN] Jacob
+2016-7-21 11:03:09 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 11:05:02 [INFO] The application for jwpaisley.com has started.
+2016-7-21 11:05:03 [INFO] A user has connected to the site.
+2016-7-21 11:05:04 [INFO] A user has disconnected from the site.
+2016-7-21 11:05:05 [INFO] A user has connected to the site.
+2016-7-21 11:05:05 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 11:07:05 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 11:07:05 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 11:56:38 [INFO] The application for jwpaisley.com has started.
+2016-7-21 11:56:40 [INFO] A user has connected to the site.
+2016-7-21 11:56:40 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 11:57:45 [INFO] The application for jwpaisley.com has started.
+2016-7-21 11:57:45 [INFO] A user has connected to the site.
+2016-7-21 11:57:46 [INFO] A user has disconnected from the site.
+2016-7-21 11:57:46 [INFO] A user has connected to the site.
+2016-7-21 11:57:47 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 12:05:23 [INFO] The application for jwpaisley.com has started.
+2016-7-21 12:05:39 [INFO] The application for jwpaisley.com has started.
+2016-7-21 12:05:42 [INFO] A user has connected to the site.
+2016-7-21 12:05:46 [INFO] A user has disconnected from the site.
+2016-7-21 12:05:46 [INFO] A user has connected to the site.
+2016-7-21 12:05:47 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 12:07:46 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 12:07:47 [INFO] users | jacobpaisley97@gmail.com | { "name": "Jacob" }
+2016-7-21 12:12:22 [INFO] The application for jwpaisley.com has started.
+2016-7-21 12:12:24 [INFO] A user has connected to the site.
+2016-7-21 12:12:28 [INFO] A user has disconnected from the site.
+2016-7-21 12:12:29 [INFO] A user has connected to the site.
+2016-7-21 12:12:29 [WARN] Sending an email...
+2016-7-21 12:22:23 [INFO] The application for jwpaisley.com has started.
+2016-7-21 12:22:24 [INFO] A user has connected to the site.
+2016-7-21 12:29:15 [INFO] The application for jwpaisley.com has started.
+2016-7-21 12:29:17 [INFO] A user has connected to the site.
+2016-7-21 12:29:19 [INFO] A user has disconnected from the site.
+2016-7-21 12:29:19 [INFO] A user has connected to the site.
+2016-7-21 12:29:19 [WARN] Sending an email...
+2016-7-21 12:29:19 [ERR]  Error: Failed to lookup view "email" in views directory "c:\Users\p464598\Documents\Code Jam\site/views"
+2016-7-21 12:31:34 [INFO] The application for jwpaisley.com has started.
+2016-7-21 12:31:37 [INFO] A user has connected to the site.
+2016-7-21 12:31:38 [INFO] A user has disconnected from the site.
+2016-7-21 12:31:38 [INFO] A user has connected to the site.
+2016-7-21 12:31:38 [WARN] Sending an email...
+2016-7-21 12:31:59 [ERR]  Error: connect ETIMEDOUT 173.194.193.108:465
+2016-7-21 17:08:22 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:08:29 [INFO] A user has connected to the site.
+2016-7-21 17:08:29 [WARN] Sending an email...
+2016-7-21 17:08:30 [ERR]  AuthError: Invalid login - 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbvY
+534-5.7.14 oiX5mpMJsXQcVDaxuqCoE1f2eZzce53eUB4aqf6OexYsgtd7d8lwRbwXJ58yrsNJekBrvS
+534-5.7.14 uJyDq35XxweUwQkzb2dzHdfmvvArhRt4HC2-iiunWSRd5HDwWM3AYz_IqNvUJUGMcTp_Z3
+534-5.7.14 RUN7fijsJGWdfUJhqe1u2GH-UKUmZfqyDdv5ed7WMbKCsTc7SyfpoCgHlNQelMCTZn2TJC
+534-5.7.14 ca_ujVSFTrHYLyPY1ZyKDmVfn0dcc> Please log in via your web browser and
+534-5.7.14 then try again.
+534-5.7.14  Learn more at
+534 5.7.14  https://support.google.com/mail/answer/78754 w138sm2144581itc.8 - gsmtp
+2016-7-21 17:10:03 [INFO] A user has disconnected from the site.
+2016-7-21 17:10:03 [INFO] A user has connected to the site.
+2016-7-21 17:10:03 [WARN] Sending an email...
+2016-7-21 17:10:04 [ERR]  AuthError: Invalid login - 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbvm
+534-5.7.14 lFJ_TGCi_p9EzlqxDYJ6Oe6yqpXrJ9LHrrj9BIgoGOh1f318RM77bmE-v4OxtFcX-2wabX
+534-5.7.14 Vf2xWF4kCQIgKd0j_M4VNLqHnKTOSmZO5LbUp_p0mydghLZpScbsyiGKzURKWDm2xomh0_
+534-5.7.14 DpwjhgtXerW1snpIbojAI0GI2eU6xmjwsxC37rAlneyJ3kGFbRBhPQ7N_KJ6p8oZCWx095
+534-5.7.14 wC4_LL3fPgufIs_b2coGAzF2VlLOs> Please log in via your web browser and
+534-5.7.14 then try again.
+534-5.7.14  Learn more at
+534 5.7.14  https://support.google.com/mail/answer/78754 w12sm4386409iow.29 - gsmtp
+2016-7-21 17:10:04 [INFO] A user has disconnected from the site.
+2016-7-21 17:10:04 [INFO] A user has connected to the site.
+2016-7-21 17:10:04 [WARN] Sending an email...
+2016-7-21 17:10:05 [ERR]  AuthError: Invalid login - 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbtl
+534-5.7.14 zSo0KzmIHVmc8LGumgKJHTnY0cr7V2xxMprmsZAQKXzQzlgxpKesxtJtz89yR8DTVAkpgM
+534-5.7.14 5NvNO-vOw0rrHDMhPG_maSexxh1JZSueZtkIgvXwcU7B_3F0SdTGUMX508x3SWgGYyl2wE
+534-5.7.14 Ck7gcIqnWuE-IRDF_QWjbZ_1z2msRdTkCmuTR_Pe0jNsvtfBPEFDey34Ki1_C347JKc1ch
+534-5.7.14 mQb8vOl4guvIIjm353J7yIQnDO8zc> Please log in via your web browser and
+534-5.7.14 then try again.
+534-5.7.14  Learn more at
+534 5.7.14  https://support.google.com/mail/answer/78754 r8sm2139108itb.5 - gsmtp
+2016-7-21 17:12:03 [INFO] A user has disconnected from the site.
+2016-7-21 17:12:04 [INFO] A user has connected to the site.
+2016-7-21 17:12:04 [WARN] Sending an email...
+2016-7-21 17:12:04 [ERR]  AuthError: Invalid login - 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbva
+534-5.7.14 DV9TIuF1kObae4s46HDX2WAgl-SL7jUMmc9qn4ixp7ACvlx5Rxy_hT5cIofkWP97MA-ek4
+534-5.7.14 GkeDXDkXN8JbZtI2aWzl9YmQ510GWr7UIlvOB6-JyXvN0-nqfSLOXg-xv9Amvtyfs3QSL-
+534-5.7.14 We_QwLiUewuDNEkVKU9PeW2Vs_q6UnP8MtrzBXbP3x6CF_UfCpnsOJRVRDqclXnJ7893d2
+534-5.7.14 qMAfyxuIkpPujRpDTqcKjtu4_CXgo> Please log in via your web browser and
+534-5.7.14 then try again.
+534-5.7.14  Learn more at
+534 5.7.14  https://support.google.com/mail/answer/78754 b14sm2128735itd.15 - gsmtp
+2016-7-21 17:13:15 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:13:23 [INFO] A user has connected to the site.
+2016-7-21 17:13:23 [WARN] Sending an email...
+2016-7-21 17:13:24 [ERR]  AuthError: Invalid login - 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbsR
+534-5.7.14 gGphUtz-zw_af7KDj1uk5A7WW4IaCODl0PI9OLWCIljcWJnV_x-kr94R1ekSYR33RTvewn
+534-5.7.14 aLcuxsBre7boD345GP0MFn_Ic2SB8MsiW4igxJsIIVEKQ4gLOLdovUqTsBwFZVxL9Lw7di
+534-5.7.14 mdm6cyvphhNoMPwKApzUdXrBJHzNxMFln8mAiPFMl5ZuDnDcdtS0D4aggOK41DhCH_YGqL
+534-5.7.14 tefepa7EiH477v-P631nR8IflZFAU> Please log in via your web browser and
+534-5.7.14 then try again.
+534-5.7.14  Learn more at
+534 5.7.14  https://support.google.com/mail/answer/78754 s84sm4380692ioe.39 - gsmtp
+2016-7-21 17:13:28 [INFO] A user has disconnected from the site.
+2016-7-21 17:13:28 [INFO] A user has connected to the site.
+2016-7-21 17:13:28 [WARN] Sending an email...
+2016-7-21 17:13:29 [ERR]  AuthError: Invalid login - 534-5.7.14 <https://accounts.google.com/signin/continue?sarp=1&scc=1&plt=AKgnsbv_
+534-5.7.14 xFGbb6fTkP4a4r54y4Go3lvpW5I1amggtGxsVCt-BiZVORXQ3BYqtpy8PWJX1Q9ZEkoh-E
+534-5.7.14 PJa47L_ZTIbaOb07YQ-IKSUpu0x_a6ONUq1T_eYYsC70YAh9kmDyUGzzi8Xg7Aub_wqbm2
+534-5.7.14 6LOilJzCtfrx6h3txHcAL8biorXv5Dh3NaTZsi4ZdDDeOg1okhO_AQdAvcGjxfqye-vUpV
+534-5.7.14 gVWXnDONcEkjJOkZrxqtPGsONbFPs> Please log in via your web browser and
+534-5.7.14 then try again.
+534-5.7.14  Learn more at
+534 5.7.14  https://support.google.com/mail/answer/78754 4sm2147871itw.4 - gsmtp
+2016-7-21 17:15:00 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:15:02 [INFO] A user has connected to the site.
+2016-7-21 17:15:54 [INFO] A user has disconnected from the site.
+2016-7-21 17:15:54 [INFO] A user has connected to the site.
+2016-7-21 17:15:54 [WARN] Sending an email...
+2016-7-21 17:15:56 [INFO] Email Sent
+2016-7-21 17:21:55 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:21:55 [INFO] A user has connected to the site.
+2016-7-21 17:22:11 [INFO] A user has disconnected from the site.
+2016-7-21 17:22:12 [INFO] A user has connected to the site.
+2016-7-21 17:22:12 [WARN] Sending an email...
+2016-7-21 17:22:33 [ERR]  Error: connect ETIMEDOUT 216.145.54.171:465
+2016-7-21 17:23:48 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:23:48 [INFO] A user has connected to the site.
+2016-7-21 17:23:52 [INFO] A user has disconnected from the site.
+2016-7-21 17:23:52 [INFO] A user has connected to the site.
+2016-7-21 17:23:52 [WARN] Sending an email...
+2016-7-21 17:23:56 [ERR]  AuthError: Invalid login - 535 5.7.0 (#MBR1212) Incorrect username or password.
+2016-7-21 17:29:37 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:29:37 [INFO] A user has connected to the site.
+2016-7-21 17:29:48 [INFO] A user has disconnected from the site.
+2016-7-21 17:29:49 [INFO] A user has connected to the site.
+2016-7-21 17:29:49 [WARN] Sending an email...
+2016-7-21 17:29:54 [ERR]  AuthError: Invalid login - 535 5.7.0 (#MBR1212) Incorrect username or password.
+2016-7-21 17:41:41 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:41:41 [INFO] A user has connected to the site.
+2016-7-21 17:41:46 [INFO] A user has disconnected from the site.
+2016-7-21 17:41:46 [INFO] A user has connected to the site.
+2016-7-21 17:41:46 [WARN] Sending an email...
+2016-7-21 17:41:48 [ERR]  SenderError: Mail from command failed - 553 From address not verified - see http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html
+2016-7-21 17:44:52 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:44:54 [INFO] A user has connected to the site.
+2016-7-21 17:44:54 [INFO] A user has disconnected from the site.
+2016-7-21 17:44:54 [INFO] A user has connected to the site.
+2016-7-21 17:44:54 [WARN] Sending an email...
+2016-7-21 17:44:56 [ERR]  SenderError: Mail from command failed - 553 From address not verified - see http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html
+2016-7-21 17:46:48 [INFO] The application for jwpaisley.com has started.
+2016-7-21 17:46:52 [INFO] A user has connected to the site.
+2016-7-21 17:46:52 [WARN] Sending an email...
+2016-7-21 17:46:53 [INFO] Email Sent
+2016-7-21 18:27:54 [INFO] The application for jwpaisley.com has started.
+2016-7-21 18:27:58 [INFO] A user has connected to the site.
+2016-7-21 18:27:58 [WARN] Sending an email...
+2016-7-21 18:28:02 [INFO] Email Sent
+2016-7-21 18:36:17 [INFO] The application for jwpaisley.com has started.
+2016-7-21 18:36:17 [INFO] A user has connected to the site.
+2016-7-21 18:36:23 [INFO] A user has disconnected from the site.
+2016-7-21 18:36:27 [INFO] A user has connected to the site.
+2016-7-21 18:36:27 [WARN] Sending an email...
+2016-7-21 18:36:32 [INFO] Email Sent
+2016-7-21 18:38:25 [INFO] A user has disconnected from the site.
+2016-7-21 18:38:25 [INFO] A user has connected to the site.
+2016-7-21 18:38:25 [WARN] Sending an email...
+2016-7-21 18:38:26 [INFO] Email Sent
+2016-7-21 18:38:48 [INFO] The application for jwpaisley.com has started.
+2016-7-21 18:38:48 [INFO] A user has connected to the site.
+2016-7-21 18:39:16 [INFO] A user has disconnected from the site.
+2016-7-21 18:39:16 [INFO] A user has connected to the site.
+2016-7-21 18:39:16 [WARN] Sending an email...
+2016-7-21 18:39:20 [INFO] Email Sent
+2016-7-21 18:39:42 [INFO] A user has disconnected from the site.
+2016-7-21 18:39:42 [INFO] A user has connected to the site.
+2016-7-21 18:39:42 [WARN] Sending an email...
+2016-7-21 18:39:46 [INFO] Email Sent
+2016-7-21 18:47:39 [INFO] The application for jwpaisley.com has started.
+2016-7-21 18:47:39 [INFO] A user has connected to the site.
+2016-7-21 18:47:41 [INFO] A user has disconnected from the site.
+2016-7-21 18:47:41 [INFO] A user has connected to the site.
+2016-7-21 18:47:41 [WARN] Sending an email...
+2016-7-21 18:47:46 [INFO] Email Sent
+2016-7-21 19:11:11 [INFO] The application for jwpaisley.com has started.
+2016-7-21 19:11:11 [INFO] A user has connected to the site.
+2016-7-21 19:11:19 [INFO] A user has disconnected from the site.
+2016-7-21 19:11:20 [INFO] A user has connected to the site.
+2016-7-21 19:11:20 [INFO] Sending an email...
+2016-7-21 19:11:26 [INFO] Email with subject "August Newsletter | Jacob Paisley" was sent to jacobpaisley97@gmail.com.
+2016-7-21 21:30:57 [INFO] The application for jwpaisley.com has started.
+2016-7-21 21:30:59 [INFO] A user has connected to the site.
+2016-7-21 21:30:59 [INFO] A user has disconnected from the site.
+2016-7-21 21:30:59 [INFO] A user has connected to the site.
+2016-7-21 21:31:01 [INFO] Email with subject "My Principal Internship || New Blog Post by Jacob Paisley " was sent to jacobpaisley97@gmail.com.
+2016-7-21 21:31:30 [INFO] The application for jwpaisley.com has started.
+2016-7-21 21:31:31 [INFO] A user has connected to the site.
+2016-7-21 21:31:34 [INFO] A user has disconnected from the site.
+2016-7-21 21:31:34 [INFO] A user has connected to the site.
+2016-7-21 21:31:42 [INFO] Email with subject "My Principal Internship  ||  New Blog Post by Jacob Paisley " was sent to jacobpaisley97@gmail.com.
+2016-7-21 21:32:16 [INFO] The application for jwpaisley.com has started.
+2016-7-21 21:32:19 [INFO] A user has connected to the site.
+2016-7-21 21:32:20 [INFO] A user has disconnected from the site.
+2016-7-21 21:32:20 [INFO] A user has connected to the site.
+2016-7-21 21:32:27 [INFO] Email with subject "My Internship with Principal Financial Group  ||  New Blog Post by Jacob Paisley " was sent to jacobpaisley97@gmail.com.
+2016-7-21 21:37:16 [INFO] A user has disconnected from the site.
+2016-7-21 21:37:16 [INFO] A user has connected to the site.
+2016-7-21 21:37:18 [INFO] Email with subject "My Internship with Principal Financial Group  ||  New Blog Post by Jacob Paisley " was sent to jacobpaisley97@gmail.com.
+2016-7-21 21:40:36 [INFO] The application for jwpaisley.com has started.
+2016-7-21 21:40:36 [INFO] A user has connected to the site.
+2016-7-21 21:40:39 [INFO] A user has disconnected from the site.
+2016-7-21 21:40:40 [INFO] A user has connected to the site.
+2016-7-21 21:40:41 [INFO] A user has disconnected from the site.
+2016-7-21 21:40:41 [INFO] A user has connected to the site.
+2016-7-21 21:41:07 [INFO] A user has disconnected from the site.
+2016-7-21 21:41:08 [INFO] A user has connected to the site.
+2016-7-21 21:41:26 [INFO] A user has disconnected from the site.
+2016-7-21 21:41:26 [INFO] A user has connected to the site.
+2016-7-21 21:41:27 [INFO] A user has disconnected from the site.
+2016-7-21 21:41:27 [INFO] A user has connected to the site.
+2016-7-21 21:41:32 [INFO] A user has disconnected from the site.
+2016-7-21 21:41:32 [INFO] A user has connected to the site.
+2016-7-21 21:45:35 [INFO] A user has disconnected from the site.
+2016-7-21 21:45:36 [INFO] A user has connected to the site.
+2016-7-21 21:53:01 [INFO] A user has disconnected from the site.
+2016-7-21 21:53:02 [INFO] A user has connected to the site.
+2016-7-21 21:53:14 [INFO] A user has disconnected from the site.
+2016-7-21 21:53:15 [INFO] A user has connected to the site.
+2016-7-21 21:53:24 [INFO] A user has disconnected from the site.
+2016-7-21 21:53:24 [INFO] A user has connected to the site.
+2016-7-21 21:53:42 [INFO] A user has disconnected from the site.
+2016-7-21 21:53:43 [INFO] A user has connected to the site.
+2016-7-21 21:53:59 [INFO] A user has disconnected from the site.
+2016-7-21 21:53:59 [INFO] A user has connected to the site.
+2016-7-21 21:54:15 [INFO] A user has disconnected from the site.
+2016-7-21 21:54:15 [INFO] A user has connected to the site.
+2016-7-21 21:54:26 [INFO] A user has disconnected from the site.
+2016-7-21 21:54:26 [INFO] A user has connected to the site.
+2016-7-21 21:55:07 [INFO] A user has disconnected from the site.
+2016-7-21 21:55:07 [INFO] A user has connected to the site.
+2016-7-21 21:55:58 [INFO] A user has disconnected from the site.
+2016-7-21 21:55:58 [INFO] A user has connected to the site.
+2016-7-21 21:56:44 [INFO] A user has disconnected from the site.
+2016-7-21 21:56:44 [INFO] A user has connected to the site.
+2016-7-21 21:57:37 [INFO] A user has disconnected from the site.
+2016-7-21 21:57:38 [INFO] A user has connected to the site.

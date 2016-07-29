@@ -1,0 +1,25 @@
+{
+    "name": "jwpaisley.com",
+    "version" : "v0.0.1",
+    "author" : "Jacob Paisley",
+    "port": 3000,
+    "lang": "en",
+    "settings" : {
+      "database": {
+        "enable_db": true,
+        "file_ext": ""
+      },
+      "email":{
+        "enable_email": false,
+        "mail_addr": "no-reply@jwpaisley.com",
+        "mail_host": "mail.privateemail.com",
+        "mail_pass": "jwp!SG#8",
+        "mail_port": 465,
+        "secure_connection": true
+      },
+    	"enable_logs": true,
+    	"encryption": {
+    		"key": "9396E3C4C32581BE75C4943879AE4"
+    	}
+    }
+}

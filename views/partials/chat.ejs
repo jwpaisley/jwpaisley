@@ -1,0 +1,13 @@
+<div class='chat-container hide' id='chat-container-tab'>
+	<button class="btn btn-default chat-tab" type="button" data-toggle="modal" data-target="#chat-modal">
+    	<i class="fa fa-comments"></i> Chat
+    </button>
+</div>
+<script>
+  $(document).ready(function(){
+    var loggedInCookie = readCookie('loggedIn');
+    if(loggedInCookie == 'true'){
+      $('#chat-container-tab').removeClass('hide');
+    }
+  });
+</script>

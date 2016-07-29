@@ -1,0 +1,24 @@
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content login-dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title" id="chat-modal-label">Log In</h2>
+              </div>
+              <div class="modal-body chat-body">
+                <h4 id='register-success-text' class='hide'>Registration successful!</h4>
+                <h4 id='login-failure-text' class='hide'>That email address and password combination was not recognized.</h4>
+                <form>
+                    <div id='login-email-div'>
+                        <input id='login-email' type="text" autocomplete="off" class="form-control login-input" placeholder="Email Address">
+                    </div>
+                    <div id='login-password-div'>
+                        <input id='login-password' type="password" autocomplete="off" class="form-control login-input" placeholder="Password">
+                    </div>
+                    <button type='button' id='login-btn-submit' class='btn btn-primary login-submit'>Log In</button>
+                    <button type="button" id='register-btn-submit' data-toggle="modal" data-target="#register-modal" class='btn btn-default login-submit'>Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

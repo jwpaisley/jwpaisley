@@ -1,0 +1,29 @@
+    <div class="modal fade" id="chat-modal" tabindex="-1" role="dialog" aria-labelledby="chat-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content chat-dialog">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2 class="modal-title" id="chat-modal-label"><i class="fa fa-comments"></i> Chat</h2>
+          </div>
+          <div class="modal-body chat-body">
+            <div class='chat-online-users col-md-3'>
+              <ul class='chat-user-list' id='chat-user-list'>
+              </ul>
+            </div>
+            <div class='chat-box-container col-md-9'>
+              <div id='chat-msg-container' class='chat-messages-list'>
+                <h5 id="no-other-users-msg">There are no other users online at the moment.</h5>
+                <ul id="chat-list">
+                </ul>
+              </div>
+              <div class="chat-box input-group">
+                <input type="text" autocomplete="off" class="form-control" id='chat-text-box' placeholder="Type here to chat...">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" id='chat-submit' type="button"><i class="fa fa-comment"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
