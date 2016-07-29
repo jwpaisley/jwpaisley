@@ -22,7 +22,7 @@ mailer.extend(app, {
   }
 });
 
-server.listen(config.port, function(){
+server.listen(process.env.PORT || config.port, function(){
 	log.info('The application for ' + config.name + ' has started.');
 });
 
