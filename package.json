@@ -15,6 +15,7 @@
     "express": "4.13.3",
     "express-mailer": "^0.3.1",
     "jquery": "^3.0.0",
+    "lacewood": "^1.0.2",
     "node-linkedin": "^0.5.3",
     "nodemailer": "^0.7.1",
     "nstore": "^0.5.2",

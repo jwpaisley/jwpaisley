@@ -1,6 +1,7 @@
-// var socket = io();
+var socket = io();
 
 $(document).ready(function(){
+	$('.fade-in').fadeIn(1000);
 	$('#construction-modal').modal('show');
 	// var folder = 'jacobpaisley97@gmail.com';
 	// var key = 'userData';

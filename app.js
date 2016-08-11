@@ -7,7 +7,7 @@ var io = require('socket.io')(server);
 var bodyParser = require("body-parser");
 var db = require('./js/db.js');
 var colors = require('colors');
-var log = require('./js/log.js');
+var lacewood = require('lacewood');
 var mailer = require('express-mailer');
 
 mailer.extend(app, {
@@ -23,7 +23,7 @@ mailer.extend(app, {
 });
 
 server.listen(process.env.PORT || config.port, function(){
-	log.info('The application for ' + config.name + ' has started.');
+	lacewood.info('The application for ' + config.name + ' has restarted.');
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -31,32 +31,50 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
 app.get('/', function(req, res){
 	res.render('pages/index');
 });
+app.get('/blog', function(req, res){
+	res.render('pages/blog');
+});
+app.get('/projects', function(req, res){
+  res.render('pages/projects');
+});
+app.get('/resume', function(req, res){
+  res.render('pages/resume');
+});
+app.get('/skills', function(req, res){
+  res.render('pages/skills');
+});
+app.get('/contact', function(req, res){
+  res.render('pages/contact');
+});
+
+
 app.get('/readData', function(req, res){
 	var data = db.readData(req.query.folder, req.query.key);
 	res.send(data);
 });
 app.post('/saveData', function(req, res){
-	log.info(req.body.folder + " | " + req.body.key + " | " + req.body.data);
+	lacewood.info(req.body.folder + " | " + req.body.key + " | " + req.body.data);
 	var data = JSON.parse(req.body.data);
 	db.saveData(req.body.folder, req.body.key, data);
 });
 
 io.on('connection', function(client){
-	log.info('A user has connected to the site.');
+	lacewood.info('A user has connected to the site.');
 
 	client.on('email',function(){
-    // sendMail("jacobpaisley97@gmail.com", "My Internship with Principal Financial Group  ||  New Blog Post by Jacob Paisley ");
+    sendMail("jacobpaisley97@gmail.com", "A Test Email  || jwpaisley.com");
 	});
 
 	client.on('log', function(msg){
-		log.info(msg);
+		lacewood.info(msg);
 	});
 
 	client.on('disconnect', function(){
-		log.info('A user has disconnected from the site.');
+		lacewood.info('A user has disconnected from the site.');
 	});
 });
 
@@ -65,7 +83,7 @@ function sendMail(recipient, subject){
       to: recipient,
       subject: subject
     }, function(err){
-      if(err){ log.err(err); return; }
-      log.info('Email with subject "' + subject + '" was sent to ' + recipient + '.');
+      if(err){ lacewood.err(err); return; }
+      lacewood.info('Email with subject "' + subject + '" was sent to ' + recipient + '.');
     });
 }
