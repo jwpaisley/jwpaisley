@@ -2,11 +2,83 @@
 <html>
   <head>
     <% include ../partials/imports.ejs %>
-    <title>jwpaisley | Contact</title>
+    <title>jwpaisley | Contact Me</title>
   </head>
   <body>
       <% include ../partials/header.ejs %>
       <% include ../partials/navbar.ejs %>
+      <div class='row'>
+        <div class='detail-container fade-in'>
+          <h1 class='centered'>Contact Me</h1>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='detail-container fade-in'>
+          <div class='col-md-6 detail-content'>
+            <h2 class='detail-title centered'>Contact Form</h2>
+            <h4 class='centered'>The easiest way to contact me is through this form.</h4>
+            <div class="form-group" id="contact-form">
+              <input type="text" class="form-control contact-input" id="name-input" placeholder="Full Name">
+              <input type="text" class="form-control contact-input" id="company-input" placeholder="Company or School">
+              <input type="email" class="form-control contact-input" id="email-input" placeholder="Email Address">
+              <input type="email" class="form-control contact-input" id="phone-input" placeholder="Phone Number (Optional)">
+              <textarea class="form-control contact-input" id="message-input" rows="10" placeholder="Type your message here..."></textarea>
+            </div>
+            <h4 class="centered">
+              <a type="button" class="btn btn-primary" id="submit-contact-form">Submit</a>
+              <a type="button" class="btn btn-danger" id="clear-contact-form">Clear Form</a>
+            </h4>
+            <p class="centered">
+              <small id="error-message" class="centered form-text error-text hidden">There was an error in your submission. Did you leave anything blank?</small>
+              <small id="sent-message" class="centered form-text hidden">Your message was sent! I will respond as soon as possible.</small>
+            </p>
+            <p class="centered">
+              <small class="centered form-text text-muted">Note that I will never share any of your personal information with anyone.</small>
+            </p>
+          </div>
+        </div>
+        <div class='detail-container fade-in'>
+          <div class='col-md-6 detail-content'>
+            <h2 class='detail-title centered'>Other Ways to Contact Me</h2>
+            <h4 class='centered'>These are alternative methods of contacting or interacting with me.</h4>
+            <table class='alt-contact-table centered'>
+              <tr>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+                <td>
+                  <img class='alt-contact-img' src='twitter.png' />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
       <% include ../partials/footer.ejs %>
   </body>
 </html>

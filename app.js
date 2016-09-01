@@ -8,6 +8,7 @@ var bodyParser = require("body-parser");
 var db = require('./js/db.js');
 var colors = require('colors');
 var lacewood = require('lacewood');
+var ejs = require('ejs');
 var mailer = require('express-mailer');
 
 mailer.extend(app, {
@@ -65,8 +66,8 @@ app.post('/saveData', function(req, res){
 io.on('connection', function(client){
 	lacewood.info('A user has connected to the site.');
 
-	client.on('email',function(){
-    sendMail("jacobpaisley97@gmail.com", "A Test Email  || jwpaisley.com");
+	client.on('email', function(recipient, subject, template){
+    sendMail(recipient, subject, template);
 	});
 
 	client.on('log', function(msg){
@@ -78,8 +79,9 @@ io.on('connection', function(client){
 	});
 });
 
-function sendMail(recipient, subject){
-  app.mailer.send('email/email', {
+function sendMail(recipient, subject, type){
+  var template = "email/email";
+  app.mailer.send(template, {
       to: recipient,
       subject: subject
     }, function(err){

@@ -16,7 +16,28 @@ $(document).ready(function(){
 	// 	data: '{ "name": "Jacob" }'
 	// });
 
-	// socket.emit('email');
+	$('#submit-contact-form').click(function() {
+		$('#error-message').addClass('hidden');
+		$('#sent-message').addClass('hidden');
+		var sender = $('#name-input').val();
+		var company = $('#company-input').val();
+		var email = $('#email-input').val();
+		var phone = $('#phone-input').val();
+		var message = $('#message-input').val();
+
+		if(sender == '' || company == '' || email == '' || message == ''){
+			$('#error-message').removeClass('hidden');
+		} else {
+			socket.emit('email', 'contact@jwpaisley.com', 'Message from ' + sender + ' at ' + company, 'email');
+			$('#sent-message').removeClass('hidden');
+			$(':input','#contact-form').not(':button, :submit, :reset, :hidden').val('').removeAttr('checked').removeAttr('selected');
+		}
+	});
+
+	$('#clear-contact-form').click(function() {
+		$(':input','#contact-form').not(':button, :submit, :reset, :hidden').val('').removeAttr('checked').removeAttr('selected');
+	});
+
 });
 
 // socket.on('createCookie', function(name, value){
