@@ -66,8 +66,8 @@ app.post('/saveData', function(req, res){
 io.on('connection', function(client){
 	lacewood.info('A user has connected to the site.');
 
-	client.on('email', function(recipient, subject, template){
-    sendMail(recipient, subject, template);
+	client.on('email', function(recipient, subject, template, content){
+    sendMail(recipient, subject, template, content);
 	});
 
 	client.on('log', function(msg){
@@ -79,11 +79,11 @@ io.on('connection', function(client){
 	});
 });
 
-function sendMail(recipient, subject, type){
-  var template = "email/email";
-  app.mailer.send(template, {
+function sendMail(recipient, subject, type, content){
+  app.mailer.send("email/" + type, {
       to: recipient,
-      subject: subject
+      subject: subject,
+      content: content
     }, function(err){
       if(err){ lacewood.err(err); return; }
       lacewood.info('Email with subject "' + subject + '" was sent to ' + recipient + '.');

@@ -1,6 +1,17 @@
 <div class='email-container'>
-  <h3>This is a test email</h3>
-  <p class='disclaimer'>
-    Do not reply.
+  <p class='email-body'>
+    Name: <%= content.name %>
+    Company: <%= content.company %>
+    Email: <%= content.email %>
+    <% if (content.phone) { %>
+      Phone: <%= content.phone %>
+    <% } %>
+    Message: <%= message %>
   </p>
 </div>
+<style>
+  .email-container {
+    background-color: green;
+    color: #cccccc;
+  }
+</style>

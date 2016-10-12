@@ -1,0 +1,95 @@
+2016-9-2 7:26:42 [INFO] The application for jwpaisley.com has restarted.
+2016-9-2 7:26:47 [INFO] A user has connected to the site.
+2016-9-2 7:44:33 [INFO] The application for jwpaisley.com has restarted.
+2016-9-2 7:44:33 [INFO] A user has connected to the site.
+2016-9-2 7:44:38 [INFO] A user has disconnected from the site.
+2016-9-2 7:44:38 [INFO] A user has connected to the site.
+2016-9-2 7:44:42 [INFO] A user has disconnected from the site.
+2016-9-2 7:44:42 [INFO] A user has connected to the site.
+2016-9-2 7:45:30 [INFO] Email with subject "Message from Jacob Paisley at The University of Alabama" was sent to contact@jwpaisley.com.
+2016-9-2 7:46:20 [ERR]  ReferenceError: C:\Users\Jacob Paisley\Desktop\Projects\jwpaisley.com\views\email\contact.ejs:9
+    7|       Phone: <%= content.phone %>
+    8|     <% } %>
+ >> 9|     Message: <%= message %>
+    10|   </p>
+    11| </div>
+    12| 
+
+message is not defined
+2016-9-2 7:46:43 [INFO] A user has disconnected from the site.
+2016-9-2 7:46:44 [INFO] A user has connected to the site.
+2016-9-2 7:46:48 [INFO] Email with subject "Message from k at k" was sent to contact@jwpaisley.com.
+2016-9-2 7:47:22 [INFO] Email with subject "Message from f at f" was sent to contact@jwpaisley.com.
+2016-9-2 7:48:07 [INFO] Email with subject "Message from Sam at Porkins" was sent to contact@jwpaisley.com.
+2016-9-2 7:48:53 [INFO] A user has disconnected from the site.
+2016-9-2 7:48:53 [INFO] A user has connected to the site.
+2016-9-2 7:49:29 [INFO] Email with subject "Message from James Cornielle at xCrate" was sent to contact@jwpaisley.com.
+2016-9-2 7:50:45 [INFO] A user has disconnected from the site.
+2016-9-2 7:50:45 [INFO] A user has connected to the site.
+2016-9-2 7:50:53 [INFO] Email with subject "Message from Test at test" was sent to contact@jwpaisley.com.
+2016-9-2 7:51:49 [INFO] A user has disconnected from the site.
+2016-9-2 7:51:49 [INFO] A user has connected to the site.
+2016-9-2 7:53:01 [INFO] A user has disconnected from the site.
+2016-9-2 7:53:02 [INFO] A user has connected to the site.
+2016-9-2 7:53:11 [INFO] A user has disconnected from the site.
+2016-9-2 7:53:11 [INFO] A user has connected to the site.
+2016-9-2 7:53:13 [INFO] A user has disconnected from the site.
+2016-9-2 7:53:13 [INFO] A user has connected to the site.
+2016-9-2 7:53:15 [INFO] A user has disconnected from the site.
+2016-9-2 7:53:15 [INFO] A user has connected to the site.
+2016-9-2 7:53:34 [INFO] A user has disconnected from the site.
+2016-9-2 7:53:34 [INFO] A user has connected to the site.
+2016-9-2 7:53:47 [INFO] A user has disconnected from the site.
+2016-9-2 7:53:47 [INFO] A user has connected to the site.
+2016-9-2 7:54:07 [INFO] A user has disconnected from the site.
+2016-9-2 7:54:07 [INFO] A user has connected to the site.
+2016-9-2 7:54:20 [INFO] A user has disconnected from the site.
+2016-9-2 7:54:20 [INFO] A user has connected to the site.
+2016-9-2 7:54:23 [INFO] A user has disconnected from the site.
+2016-9-2 7:54:23 [INFO] A user has connected to the site.
+2016-9-2 9:35:53 [INFO] A user has disconnected from the site.
+2016-9-2 12:02:11 [INFO] The application for jwpaisley.com has restarted.
+2016-9-2 12:02:36 [INFO] A user has connected to the site.
+2016-9-2 12:03:10 [INFO] A user has disconnected from the site.
+2016-9-2 12:03:10 [INFO] A user has connected to the site.
+2016-9-2 12:03:10 [INFO] A user has disconnected from the site.
+2016-9-2 12:03:11 [INFO] A user has connected to the site.
+2016-9-2 12:05:30 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:30 [INFO] A user has connected to the site.
+2016-9-2 12:05:31 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:31 [INFO] A user has connected to the site.
+2016-9-2 12:05:32 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:32 [INFO] A user has connected to the site.
+2016-9-2 12:05:33 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:33 [INFO] A user has connected to the site.
+2016-9-2 12:05:35 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:35 [INFO] A user has connected to the site.
+2016-9-2 12:05:38 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:38 [INFO] A user has connected to the site.
+2016-9-2 12:05:40 [INFO] A user has disconnected from the site.
+2016-9-2 12:05:40 [INFO] A user has connected to the site.
+2016-9-2 12:06:06 [INFO] A user has disconnected from the site.
+2016-9-2 12:06:06 [INFO] A user has connected to the site.
+2016-9-2 12:06:07 [INFO] A user has disconnected from the site.
+2016-9-2 12:06:07 [INFO] A user has connected to the site.
+2016-9-2 12:10:21 [INFO] A user has disconnected from the site.
+2016-9-2 12:10:21 [INFO] A user has connected to the site.
+2016-9-2 12:12:42 [INFO] A user has disconnected from the site.
+2016-9-2 12:12:43 [INFO] A user has connected to the site.
+2016-9-2 12:14:12 [INFO] A user has disconnected from the site.
+2016-9-2 12:14:12 [INFO] A user has connected to the site.
+2016-9-2 12:14:22 [INFO] Email with subject "Message from Test at Test" was sent to contact@jwpaisley.com.
+2016-9-2 12:15:16 [INFO] Email with subject "Message from test at test" was sent to contact@jwpaisley.com.
+2016-9-2 12:16:18 [INFO] A user has disconnected from the site.
+2016-9-2 12:16:18 [INFO] A user has connected to the site.
+2016-9-2 12:20:30 [INFO] A user has disconnected from the site.
+2016-9-2 12:20:31 [INFO] A user has connected to the site.
+2016-9-2 12:20:55 [INFO] A user has disconnected from the site.
+2016-9-2 12:20:55 [INFO] A user has connected to the site.
+2016-9-2 12:21:11 [INFO] A user has disconnected from the site.
+2016-9-2 12:21:11 [INFO] A user has connected to the site.
+2016-9-2 12:28:16 [INFO] A user has disconnected from the site.
+2016-9-2 12:28:17 [INFO] A user has connected to the site.
+2016-9-2 12:28:29 [INFO] A user has disconnected from the site.
+2016-9-2 12:28:30 [INFO] A user has connected to the site.
+2016-9-2 12:28:47 [INFO] A user has disconnected from the site.

@@ -3,6 +3,12 @@ var socket = io();
 $(document).ready(function(){
 	$('.fade-in').fadeIn(1000);
 	$('#construction-modal').modal('show');
+
+	$('.skillbar').each(function(){
+		$(this).find('.skillbar-bar').animate({
+			width:$(this).attr('data-percent')
+		},6000);
+	});
 	// var folder = 'jacobpaisley97@gmail.com';
 	// var key = 'userData';
 	// $.get('/readData?folder=' + folder + '&key=' + key, function(data){
@@ -19,16 +25,23 @@ $(document).ready(function(){
 	$('#submit-contact-form').click(function() {
 		$('#error-message').addClass('hidden');
 		$('#sent-message').addClass('hidden');
-		var sender = $('#name-input').val();
+		var name = $('#name-input').val();
 		var company = $('#company-input').val();
 		var email = $('#email-input').val();
 		var phone = $('#phone-input').val();
 		var message = $('#message-input').val();
 
-		if(sender == '' || company == '' || email == '' || message == ''){
+		if(name == '' || company == '' || email == '' || message == ''){
 			$('#error-message').removeClass('hidden');
 		} else {
-			socket.emit('email', 'contact@jwpaisley.com', 'Message from ' + sender + ' at ' + company, 'email');
+			var content = {
+				"name": name,
+				"company": company,
+				"email": email,
+				"phone": phone,
+				"message": message
+			};
+			socket.emit('email', 'contact@jwpaisley.com', "Message from " + name + " at " + company, 'contact', content);
 			$('#sent-message').removeClass('hidden');
 			$(':input','#contact-form').not(':button, :submit, :reset, :hidden').val('').removeAttr('checked').removeAttr('selected');
 		}
