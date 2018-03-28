@@ -1,22 +1,23 @@
 node-linkedin
 ==============
+[![Dependency Status](https://david-dm.org/ArkeologeN/node-linkedin/status.svg?style=flat)](https://david-dm.org/ArkeologeN/node-linkedin)[![Known Vulnerabilities](https://snyk.io/test/npm/node-linkedin/badge.svg)](https://snyk.io/test/npm/node-linkedin)
 
 Another Linkedin wrapper in Node.js
 
 [![NPM](https://nodei.co/npm/node-linkedin.png)](https://nodei.co/npm/node-linkedin/)
 
 ### Why?
-Good question! Because when I started to use LinkedIn API, I found couple of wrappers but they were not compatible with OAuth2.0, there contributors didn't made any recent commit from several months and I had to utilize the whole wrapper with nice helper functions as well.
+Good question! Because when I started to use LinkedIn API, I found couple of wrappers but they were not compatible with OAuth2.0, their contributors hadn't made any recent commits for several months and I had to utilize the whole wrapper with nice helper functions as well.
 
-So, I decided to write another wrapper. We need it! So we can also maintain it! However, pull request are always major and we'd love to see that!
+So, I decided to write another wrapper. We need it! So we can also maintain it! However, pull requests are always major and we'd love to see that!
 
 ### Getting Started
 
-Just like others, its simple and quick as per standard:
+Just like others, it's simple and quick as per standard:
 
 [![NPM](https://nodei.co/npm/node-linkedin.png?mini=true)](https://nodei.co/npm/node-linkedin/)
 
-this will install the module and add the entry in `package.json`. Lets start using it!
+this will install the module and add the entry in `package.json`. Let's start using it!
 
 ```javascript
 var Linkedin = require('node-linkedin')('app-id', 'secret', 'callback');
@@ -38,7 +39,10 @@ var linkedin = Linkedin.init('my_access_token');
 // Now, you're ready to use any endpoint
 ```
 
-Additionally, you can specify options. Currently, the only supported option is `timeout`, allowing you to specific a timeout (in ms) for the HTTP request. The default is 60 seconds (a value of 60000).
+Additionally, you can specify options. The following options are supported:
+- `timeout`: allows you to specific a timeout (in ms) for the HTTP request. The default is 60 seconds (a value of 60000).
+- `mobileToken`: set to true when using an access token received by the LinkedIn Mobile SDK.  The default is false.
+  - See **Using Access Tokens from Mobile SDK** below for more info
 
 ```javascript
 var linkedin = Linkedin.init('my_access_token', {
@@ -167,6 +171,14 @@ linkedin.companies.multiple('162479,universal-name=linkedin', function(err, comp
 linkedin.companies.asAdmin(function(err, companies) {
     // Here you go
 });
+
+linkedin.companies.updates('162479', function(err, company) {
+    // Gets all the updates(Posts) along with their details of a company
+});
+
+linkedin.companies.getUpdate('162479','UPDATE-c1337-998877665544332211',function(err, companies) {
+    // Gets the detail of a single update(Post) of a company
+});
 ```
 
 ## Profile
@@ -255,6 +267,15 @@ linkedin.group.feeds(3769732, ['field', 'field2', 'field3'], {order: 'popularity
     // data: variable is ready to use.
 });
 ```
+
+## Using Access Tokens from Mobile SDK (experimental)
+**NOTE**: This feature uses an undocumented workaround for accessing the LinkedIn API.  As such, this feature may not work in future releases.
+
+Per the [LinkedIn docs](https://developer.linkedin.com/docs/android-sdk-auth):
+
+> It is important to note that access tokens that are acquired via the Mobile SDK are only usable with the Mobile SDK, and cannot be used to make server-side REST API calls.  Similarly, access tokens that you already have stored from your users that authenticated using a server-side REST API call will not work with the Mobile SDK.
+
+As such, attempting to use a mobile access token with this library will cause the REST API calls to return the error **Unable to verify access token**.  It was discovered that there is a workaround for this issue by changing the way in which this library authenticates with the LinkedIn API.  This functionality is controlled via the `clientToken` option and must be enabled when using an access token received by the Mobile SDK.
 
 ## Author
 

@@ -1,26 +1,28 @@
 {
   "name": "jwpaisley",
   "engines": {
-    "node": "5.9.1"
+    "node": "^5.9.1"
+  },
+  "scripts": {
+    "test": "mocha test",
+    "start": "scripts/startup.sh"
   },
   "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.15.2",
     "colors": "^1.1.2",
     "cryptr": "^2.0.0",
     "ejs": "2.4.1",
     "express": "4.13.3",
     "express-mailer": "^0.3.1",
+    "iplocation": "^5.0.0",
     "jquery": "^3.0.0",
     "lacewood": "^1.0.2",
-    "node-linkedin": "^0.5.3",
+    "mocha": "^4.1.0",
     "nodemailer": "^0.7.1",
     "nstore": "^0.5.2",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "socket.io": "^1.4.8"
+    "socket.io": "^1.4.8",
+    "sqlite3": "^3.1.12"
   }
 }

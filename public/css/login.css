@@ -1,0 +1,27 @@
+#login-container-tab{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.login-btn{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.login-tab {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.login-input {
+  margin: 10px;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.login-btns {
+  width: 30%;
+  margin-left: 35%;
+}

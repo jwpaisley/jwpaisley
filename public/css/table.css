@@ -1,0 +1,23 @@
+th {
+  text-align: center;
+}
+
+thead {
+  background-color: #660000;
+  color: #ffffff;
+}
+
+.table-div {
+  height: 500px;
+  overflow: auto;
+  border: 1px #c4c4c4 solid;
+  text-align: center;
+}
+
+.table-filter-options {
+  height: 500px;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: #ffffff;
+  border: 1px #c4c4c4 solid;
+}
