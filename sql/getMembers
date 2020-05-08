@@ -1,2 +1,0 @@
-SELECT chapters.name, chapters.abbreviation, people.full_name, people.major, people.minor, people.hometown, people.roll_number, people.initiation_date, people.current_status
-FROM people INNER JOIN chapters ON people.initiated_chapter_id = chapters.id;
