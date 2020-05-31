@@ -1,0 +1,1 @@
+{"ast":null,"code":"import Button from \"./Button\";","map":{"version":3,"sources":["/mnt/c/Users/jacob/Documents/Projects/jwpaisley/components/primitives/index.js"],"names":["Button"],"mappings":"AAAA,OAAOA,MAAP,MAAmB,UAAnB","sourcesContent":["import Button from \"./Button\""]},"metadata":{},"sourceType":"module"}
