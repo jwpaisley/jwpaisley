@@ -1,0 +1,1 @@
+{"ast":null,"code":"import styled from 'styled-components';\nimport { Button } from '@blueprintjs/core';\n\nconst _ = styled(Button)`\n  && {\n    background-color: #333333;\n    color: red;\n  }\n`;\n\nexport default _;","map":null,"metadata":{},"sourceType":"module"}
