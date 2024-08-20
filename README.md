@@ -1,1 +1,0 @@
-### jwpaisley.github.io
