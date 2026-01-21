@@ -1,1 +1,33 @@
-<p>home works!</p>
+<div class="dashboard-container">
+    <header class="hero-section">
+        <h1>{{greeting}}</h1>
+    </header>
+
+    <div class="bento-grid" [style.grid-template-columns]="'repeat(' + (columns$ | async) + ', 1fr)'">
+        <jwpaisley-dashboard-card title="recipes" icon="restaurant"
+            description="my personal library of culinary alchemy. don't burn off your eyebrows." link="/recipes"
+            type="primary" class="tall-dashboard-card">
+        </jwpaisley-dashboard-card>
+        <jwpaisley-dashboard-card title="treat goose" icon="pets" description="he's been a good boy. he deserves it."
+            link="/treat-goose" type="secondary">
+        </jwpaisley-dashboard-card>
+        <jwpaisley-dashboard-card title="photography" icon="camera_alt"
+            description="sometimes i take pictures of things, check them out here." link="/photos" type="tertiary">
+        </jwpaisley-dashboard-card>
+        <jwpaisley-dashboard-card title="would you rather" icon="question_mark"
+            description="make tough choices between two equally enticing (or horrifying) scenarios. poll results included."
+            link="/would-you-rather" type="primary">
+        </jwpaisley-dashboard-card>
+        <jwpaisley-dashboard-card title="meal planning + prep" icon="bento"
+            description="tool for planning out meals and nutrition for a week" link="/meal-planning" type="secondary"
+            class="tall-dashboard-card">
+        </jwpaisley-dashboard-card>
+        <jwpaisley-dashboard-card title="what i'm reading" icon="library_books"
+            description="my personal library of...well, it's just a library. includes a timeline of books read and ratings."
+            link="/library" type="tertiary">
+        </jwpaisley-dashboard-card>
+        <jwpaisley-dashboard-card title="chameleon" icon="sports_esports"
+            description="a game where you try to blend in... or spot the imposter" link="/chameleon" type="primary">
+        </jwpaisley-dashboard-card>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+@use '../../../styles/variables' as v;
+
+.dashboard-card {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.mat-mdc-card-title {
+    font-size: 1.5rem !important;
+    /* Adjust this value as needed */
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    /* Gives it a modern, tighter feel */
+}
+
+.primary-card {
+    background: v.$accent-variant-1;
+    backdrop-filter: blur(10px);
+}
+
+.secondary-card {
+    background: v.$accent-variant-2;
+    color: white !important;
+
+    mat-icon,
+    p,
+    mat-card-title {
+        color: v.$light-text !important;
+    }
+}
+
+.tertiary-card {
+    background: v.$accent-variant-3;
+    color: white !important;
+
+    mat-icon,
+    p,
+    mat-card-title {
+        color: v.$light-text !important;
+    }
+}
