@@ -4,6 +4,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
+export declare interface DashboardItem {
+  title: string;
+  icon: string;
+  description: string;
+  link: string;
+  type?: 'primary' | 'secondary' | 'tertiary';
+  isTall?: boolean;
+}
+
 @Component({
   selector: 'jwpaisley-dashboard-card',
   standalone: true,
