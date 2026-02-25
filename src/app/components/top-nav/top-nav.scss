@@ -1,0 +1,27 @@
+@use '../../../styles/variables' as style-variables;
+
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  height: 64px;
+  background-color: style-variables.$accent-variant-1;
+  border-bottom: 1px solid style-variables.$light-text;
+  color: style-variables.$light-text;
+}
+
+.home-link {
+  color: style-variables.$light-text;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.home-link:hover {
+  color: style-variables.$secondary-bg;
+}
+
+.material-icons {
+  font-size: 28px;
+  vertical-align: middle;
+}

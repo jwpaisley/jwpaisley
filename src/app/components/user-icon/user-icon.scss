@@ -1,0 +1,30 @@
+@use '../../../styles/variables' as style-variables;
+
+.user-icon-link {
+  text-decoration: none;
+}
+
+.user-icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: style-variables.$accent-variant-2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid style-variables.$light-text;
+  cursor: pointer;
+}
+
+.initials {
+  color: style-variables.$light-text;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

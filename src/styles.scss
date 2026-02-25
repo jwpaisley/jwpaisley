@@ -1,4 +1,4 @@
-@use 'styles/variables' as v;
+@use 'styles/variables' as style-variables;
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
 
 html,
@@ -6,6 +6,6 @@ body {
     height: 100%;
     margin: 0;
     font-family: "Google Sans", sans-serif;
-    background-color: v.$primary-bg;
-    color: v.$primary-text;
+    background-color: style-variables.$primary-bg;
+    color: style-variables.$primary-text;
 }

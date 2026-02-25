@@ -1,4 +1,4 @@
-@use '../../../styles/variables' as v;
+@use '../../../styles/variables' as style-variables;
 
 .dashboard-card {
     cursor: pointer;
@@ -22,28 +22,28 @@
 }
 
 .primary-card {
-    background: v.$accent-variant-1;
+    background: style-variables.$accent-variant-1;
     backdrop-filter: blur(10px);
 }
 
 .secondary-card {
-    background: v.$accent-variant-2;
+    background: style-variables.$accent-variant-2;
     color: white !important;
 
     mat-icon,
     p,
     mat-card-title {
-        color: v.$light-text !important;
+        color: style-variables.$light-text !important;
     }
 }
 
 .tertiary-card {
-    background: v.$accent-variant-3;
+    background: style-variables.$accent-variant-3;
     color: white !important;
 
     mat-icon,
     p,
     mat-card-title {
-        color: v.$light-text !important;
+        color: style-variables.$light-text !important;
     }
 }

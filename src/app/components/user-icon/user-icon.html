@@ -1,0 +1,9 @@
+<a routerLink="/profile" class="user-icon-link">
+  <div class="user-icon-container">
+    @if (imageUrl) {
+      <img [src]="imageUrl" alt="User profile pic" class="profile-img">
+    } @else {
+      <span class="initials">{{ initials }}</span>
+    }
+  </div>
+</a>
