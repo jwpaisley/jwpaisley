@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserIcon } from '../user-icon/user-icon';
 
@@ -9,5 +9,5 @@ import { UserIcon } from '../user-icon/user-icon';
   styleUrl: './top-nav.scss',
 })
 export class TopNav {
-
+  @Input() showUserIcon = true;
 }

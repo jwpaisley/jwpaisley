@@ -12,7 +12,7 @@ import { shuffle } from '../../../utils/shuffle';
 const NG_COMPONENT_IMPORTS = [
   CommonModule, 
   DashboardCard,
-]
+];
 
 const GREETINGS = [
   "welcome to Paisley's whimsy den.",
@@ -66,7 +66,7 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
 ];
 
 @Component({
-  selector: 'app-home',
+  selector: 'jwpaisley-home',
   imports: NG_COMPONENT_IMPORTS,
   templateUrl: './home.html',
   styleUrl: './home.scss',

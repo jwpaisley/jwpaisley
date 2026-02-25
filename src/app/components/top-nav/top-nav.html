@@ -5,7 +5,9 @@
     </a>
   </div>
 
-  <div class="nav-right">
-    <jwpaisley-user-icon [initials]="'JP'"></jwpaisley-user-icon>
-  </div>
+  @if (showUserIcon) {
+    <div class="nav-right">
+      <jwpaisley-user-icon [initials]="'JP'"></jwpaisley-user-icon>
+    </div>
+  }
 </nav>
