@@ -1,4 +1,13 @@
-import { Component, AfterViewInit, NgZone, Inject, PLATFORM_ID, EventEmitter, Output} from '@angular/core';
+import { 
+  Component, 
+  NgZone, 
+  Inject, 
+  PLATFORM_ID, 
+  EventEmitter, 
+  Output, 
+  ViewChild, 
+  ElementRef 
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { UserService, User } from '../../services/user-service/user-service';
 
@@ -9,8 +18,19 @@ import { UserService, User } from '../../services/user-service/user-service';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login implements AfterViewInit {
+export class Login {
   @Output() loginSuccess = new EventEmitter<void>();
+
+  /**
+   * This setter executes as soon as the #googleAuthButton element 
+   * is rendered in the DOM. This effectively replaces ngAfterViewInit 
+   * and eliminates the need for timeouts.
+   */
+  @ViewChild('googleAuthButton') set googleAuthButton(element: ElementRef) {
+    if (element && isPlatformBrowser(this.platformId)) {
+      this.initGoogleAuth(element.nativeElement);
+    }
+  }
 
   constructor(
     private ngZone: NgZone,
@@ -18,28 +38,24 @@ export class Login implements AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initGoogleAuth();
+  private initGoogleAuth(element: HTMLElement): void {
+    // Verify the global 'google' object is available
+    // @ts-ignore
+    if (typeof google !== 'undefined' && google.accounts) {
+      // @ts-ignore
+      google.accounts.id.initialize({
+        client_id: '199559159303-u510108r3dv3oilmm8019bfihv8kp8lc.apps.googleusercontent.com',
+        callback: this.handleCredentialResponse.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+
+      // @ts-ignore
+      google.accounts.id.renderButton(
+        element, // Use the element reference directly
+        { theme: "outline", size: "large" }
+      );
     }
-  }
-
-  private initGoogleAuth(): void {
-    // Google Identity Services initialization happens in the global scope,
-    // so we need to ignore TypeScript errors about the 'google' object.
-    // @ts-ignore
-    google.accounts.id.initialize({
-      client_id: '199559159303-u510108r3dv3oilmm8019bfihv8kp8lc.apps.googleusercontent.com',
-      callback: this.handleCredentialResponse.bind(this),
-      auto_select: false,
-      cancel_on_tap_outside: true
-    });
-
-    // @ts-ignore
-    google.accounts.id.renderButton(
-      document.getElementById("google-auth-button"),
-      { theme: "outline", size: "large" }
-    );
   }
 
   private handleCredentialResponse(response: any): void {
