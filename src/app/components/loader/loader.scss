@@ -14,7 +14,7 @@
   padding: 3rem;
   animation: fadeIn 0.3s ease-in;
 
-  .mystic-orb {
+  .loader {
     position: relative;
     width: 80px;
     height: 80px;
@@ -23,7 +23,7 @@
     align-items: center;
     justify-content: center;
 
-    .core-stone {
+    .loader-stone {
       position: absolute;
       top: 20px;
       left: 20px;
@@ -34,7 +34,7 @@
       animation: pulse 2s ease-in-out infinite;
     }
 
-    .vine-ring {
+    .loader-ring {
       position: absolute;
       width: 100%;
       height: 100%;
