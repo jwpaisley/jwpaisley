@@ -1,0 +1,37 @@
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subject, takeUntil } from 'rxjs';
+import { UserIcon } from '../user-icon/user-icon';
+import { User } from '../../services/user-service/user-service';
+
+@Component({
+  selector: 'jwpaisley-user-card',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, UserIcon],
+  templateUrl: './user-card.html',
+  styleUrl: './user-card.scss'
+})
+export class UserCard implements OnInit, OnDestroy {
+  @Input({required: true}) user!: User;
+  
+  protected isHandheld = false;
+  private destroyed = new Subject<void>();
+
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+        this.isHandheld = result.matches;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+}
