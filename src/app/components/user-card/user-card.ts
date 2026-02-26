@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -16,6 +16,7 @@ import { Button } from '../button/button';
 })
 export class UserCard implements OnInit, OnDestroy {
   @Input({required: true}) user!: User;
+  @Output() performLogout = new EventEmitter<void>();
   
   protected isHandheld = false;
   private destroyed = new Subject<void>();
@@ -45,6 +46,6 @@ export class UserCard implements OnInit, OnDestroy {
   }
 
   protected logout(): void {
-    this.userService.performLogout();
+    this.performLogout.emit();
   }
 }

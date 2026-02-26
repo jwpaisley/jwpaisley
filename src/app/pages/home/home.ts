@@ -15,8 +15,8 @@ const NG_COMPONENT_IMPORTS = [
 ];
 
 const GREETINGS = [
-  "welcome to Paisley's whimsy den.",
-  "Goose says hello 🐶"
+  "welcome to paisley's whimsy den.",
+  "goose says hello 🐶"
 ];
 
 const DASHBOARD_ITEMS: DashboardItem[] = [

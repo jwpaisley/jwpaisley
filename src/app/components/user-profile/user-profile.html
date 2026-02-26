@@ -1,1 +1,12 @@
-<jwpaisley-user-card [user]="user"></jwpaisley-user-card>
+<jwpaisley-user-card [user]="user" (performLogout)="showLogoutConfirmationDialog()"></jwpaisley-user-card>
+@if (showLogoutConfirmation) {
+  <jwpaisley-confirmation-dialog
+    icon="logout"
+    title="Leaving so soon?"
+    text="You will need to sign back in to access your profile and site features again."
+    confirmLabel="log out"
+    cancelLabel="cancel"
+    (confirm)="handleLogout()"
+    (cancel)="cancelLogout()">
+  </jwpaisley-confirmation-dialog>
+}
