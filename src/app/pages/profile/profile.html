@@ -1,5 +1,9 @@
-@if (loggedIn) {
-    <jwpaisley-user-profile></jwpaisley-user-profile>
-} @else {
-    <jwpaisley-login (loginSuccess)="onLoginSuccess()"></jwpaisley-login>
-}
+<jwpaisley-loader [isLoading]="isLoading">
+  <ng-container>
+    @if (loggedIn === true) {
+      <jwpaisley-user-profile></jwpaisley-user-profile>
+    } @else {
+      <jwpaisley-login (loginSuccess)="onLoginSuccess()"></jwpaisley-login>
+    }
+  </ng-container>
+</jwpaisley-loader>
