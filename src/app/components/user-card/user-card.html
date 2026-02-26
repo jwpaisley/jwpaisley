@@ -6,5 +6,8 @@
   <mat-card-content class="card-body">
     <h2 class="user-name">{{ user.firstName }} {{ user.lastName }}</h2>
     <p class="user-email">{{ user.email }}</p>
+    @if (isCurrentUser()) {
+        <jwpaisley-button text="log out" (click)="logout()"></jwpaisley-button>
+    }
   </mat-card-content>
 </mat-card>

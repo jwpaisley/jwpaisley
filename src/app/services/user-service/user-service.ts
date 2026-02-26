@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { log } from 'console';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export declare interface User {
   firstName: string;
@@ -15,6 +15,9 @@ export declare interface User {
 export class UserService {
   private readonly USER_STORAGE_KEY = 'jwpaisley.user_info';
   private readonly USER_STORAGE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  private userSubject = new BehaviorSubject<User | undefined>(this.getUserInfoFromLocalStorage());
+  public user$: Observable<User | undefined> = this.userSubject.asObservable();
   
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -55,6 +58,8 @@ export class UserService {
       };
 
       localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(sessionData));
+
+      this.userSubject.next(user);
     }
   }
 
@@ -99,6 +104,16 @@ export class UserService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  /**
+   * Logs the user out by removing their information from local storage.
+   */
+  performLogout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.USER_STORAGE_KEY);
+      this.userSubject.next(undefined);
     }
   }
 }

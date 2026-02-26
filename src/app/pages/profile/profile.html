@@ -3,7 +3,7 @@
     @if (loggedIn === true && user) {
       <jwpaisley-user-profile [user]="user"></jwpaisley-user-profile>
     } @else {
-      <jwpaisley-login (loginSuccess)="onLoginSuccess()"></jwpaisley-login>
+      <jwpaisley-login></jwpaisley-login>
     }
   </ng-container>
 </jwpaisley-loader>

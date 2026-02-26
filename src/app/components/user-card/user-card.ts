@@ -4,12 +4,13 @@ import { MatCardModule } from '@angular/material/card';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
 import { UserIcon } from '../user-icon/user-icon';
-import { User } from '../../services/user-service/user-service';
+import { User, UserService } from '../../services/user-service/user-service';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'jwpaisley-user-card',
   standalone: true,
-  imports: [CommonModule, MatCardModule, UserIcon],
+  imports: [CommonModule, MatCardModule, UserIcon, Button],
   templateUrl: './user-card.html',
   styleUrl: './user-card.scss'
 })
@@ -19,7 +20,10 @@ export class UserCard implements OnInit, OnDestroy {
   protected isHandheld = false;
   private destroyed = new Subject<void>();
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.breakpointObserver
@@ -33,5 +37,14 @@ export class UserCard implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  protected isCurrentUser(): boolean {
+    const loggedInUser = this.userService.getUserInfoFromLocalStorage();
+    return loggedInUser ? loggedInUser.email === this.user.email : false;
+  }
+
+  protected logout(): void {
+    this.userService.performLogout();
   }
 }

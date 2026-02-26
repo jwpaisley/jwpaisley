@@ -4,6 +4,8 @@ import { Login } from '../../components/login/login';
 import { User, UserService } from '../../services/user-service/user-service';
 import { isPlatformBrowser } from '@angular/common';
 import { Loader } from '../../components/loader/loader';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'jwpaisley-profile',
@@ -15,7 +17,8 @@ export class Profile implements OnInit {
   protected isLoading: boolean = true;
   protected loggedIn: boolean = false;
   protected user: User | undefined = undefined;
-
+  private destroy$ = new Subject<void>();
+  
   constructor(
     private cdr: ChangeDetectorRef, 
     private userService: UserService, 
@@ -23,23 +26,24 @@ export class Profile implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getLoggedInUser();
-  }
-
-  protected onLoginSuccess(): void {
-    this.getLoggedInUser();
-  }
-
-  protected getLoggedInUser(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.loggedIn = this.userService.isUserLoggedIn();
-      
-      if (this.loggedIn) {
-        this.user = this.userService.getUserInfoFromLocalStorage();
-      }
+      this.subscribeToUserChanges();
+    }  
+  }
 
-      this.isLoading = false;
-      this.cdr.detectChanges();
-    }
+  private subscribeToUserChanges(): void {
+    this.userService.user$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        this.user = user;
+        this.loggedIn = !!user;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
