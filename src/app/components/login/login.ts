@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, NgZone, Inject, PLATFORM_ID} from '@angular/core';
+import { Component, AfterViewInit, NgZone, Inject, PLATFORM_ID, EventEmitter, Output} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { UserService, User } from '../../services/user-service/user-service';
 
 @Component({
   standalone: true,
@@ -9,8 +10,11 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './login.scss',
 })
 export class Login implements AfterViewInit {
+  @Output() loginSuccess = new EventEmitter<void>();
+
   constructor(
     private ngZone: NgZone,
+    private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -40,7 +44,12 @@ export class Login implements AfterViewInit {
 
   private handleCredentialResponse(response: any): void {
     this.ngZone.run(() => {
-      console.log("Encoded JWT ID token: " + response.credential);
+      this.userService.performLogin(response.credential);
+      const user: User | undefined = this.userService.getUserInfoFromLocalStorage();
+
+      if (user) {
+        this.loginSuccess.emit();
+      }
     });
   }
 }

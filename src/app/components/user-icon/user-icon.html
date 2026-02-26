@@ -1,7 +1,7 @@
 <a routerLink="/profile" class="user-icon-link">
   <div class="user-icon-container">
     @if (imageUrl) {
-      <img [src]="imageUrl" alt="User profile pic" class="profile-img">
+      <img [src]="imageUrl" alt="User profile pic" class="profile-img" referrerpolicy="no-referrer">
     } @else {
       <span class="initials">{{ initials }}</span>
     }
