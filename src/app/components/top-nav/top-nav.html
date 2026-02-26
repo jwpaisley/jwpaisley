@@ -7,7 +7,13 @@
 
   @if (showUserIcon) {
     <div class="nav-right">
-      <jwpaisley-user-icon></jwpaisley-user-icon>
+      @if (isUserLoggedIn) {
+        <jwpaisley-user-icon></jwpaisley-user-icon>
+      } @else {
+        <a routerLink="/profile">
+          <jwpaisley-button text="login" variant="secondary"></jwpaisley-button>
+        </a>
+      }
     </div>
   }
 </nav>
