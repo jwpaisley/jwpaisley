@@ -19,7 +19,14 @@ export class UserService {
   private userSubject = new BehaviorSubject<User | undefined>(this.getUserInfoFromLocalStorage());
   public user$: Observable<User | undefined> = this.userSubject.asObservable();
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      const user = this.getUserInfoFromLocalStorage();
+      if (user) {
+        this.userSubject.next(user);
+      }
+    }
+  }
 
   /**
    * Decode a Google OAuth token to extract user information.

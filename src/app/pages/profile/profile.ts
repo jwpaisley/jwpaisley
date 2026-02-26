@@ -6,6 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Loader } from '../../components/loader/loader';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'jwpaisley-profile',
@@ -28,12 +29,14 @@ export class Profile implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.subscribeToUserChanges();
-    }  
+    }
   }
 
   private subscribeToUserChanges(): void {
     this.userService.user$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+      )
       .subscribe((user) => {
         this.user = user;
         this.loggedIn = !!user;
