@@ -7,3 +7,18 @@
     padding: 1rem;
   }
 }
+
+.recipe-sidebar {
+    @media (min-width: 900px) {
+        width: 350px;
+        position: sticky;
+        float: left;
+    }
+}
+
+.recipe-content {
+    @media (min-width: 900px) {
+        width: calc(100% - 350px);
+        margin-left: calc(350px + 2rem);
+    }
+}

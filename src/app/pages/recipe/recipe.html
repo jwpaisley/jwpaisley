@@ -1,8 +1,12 @@
 <div class="recipe-page-container">
     <jwpaisley-loader [isLoading]="isLoading">
         @if (recipe) {
-            <jwpaisley-recipe-summary [recipe]="recipe"></jwpaisley-recipe-summary>
-            <jwpaisley-recipe-details [recipe]="recipe"></jwpaisley-recipe-details>
+            <div class="recipe-sidebar">
+                <jwpaisley-recipe-summary [recipe]="recipe"></jwpaisley-recipe-summary>
+            </div>
+            <div class="recipe-content">
+                <jwpaisley-recipe-details [recipe]="recipe"></jwpaisley-recipe-details>
+            </div>
         }
     </jwpaisley-loader>
 </div>
