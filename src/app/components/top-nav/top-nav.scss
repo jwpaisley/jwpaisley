@@ -17,6 +17,13 @@
   transition: color 0.2s ease;
 }
 
+.admin-panel-link {
+  color: style-variables.$light-text;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-left: 1rem;
+}
+
 .home-link:hover {
   color: style-variables.$secondary-bg;
 }

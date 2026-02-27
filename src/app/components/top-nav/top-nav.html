@@ -3,6 +3,11 @@
     <a routerLink="/" class="home-link">
       <span class="material-icons">home</span>
     </a>
+    @if (isUserAdmin) {
+      <a routerLink="/admin" class="admin-panel-link">
+        <span class="material-icons">admin_panel_settings</span>
+      </a>
+    }
   </div>
 
   @if (showUserIcon) {

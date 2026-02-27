@@ -7,6 +7,10 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/home/home-module').then(m => m.HomeModule),
     },
     {
+        path: 'admin', 
+        loadChildren: () => import('./pages/admin/admin-module').then(m => m.AdminModule),
+    },
+    {
         path: 'profile', 
         loadChildren: () => import('./pages/profile/profile-module').then(m => m.ProfileModule),
     },

@@ -16,6 +16,9 @@ export declare interface User {
 export class UserService {
   private readonly USER_STORAGE_KEY = 'jwpaisley.user_info';
   private readonly USER_STORAGE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  private readonly ADMIN_EMAILS = new Set<string>([
+    "jacobpaisley97@gmail.com",
+  ]);
 
   private userSubject = new BehaviorSubject<User | undefined>(this.getUserInfoFromLocalStorage());
   public user$: Observable<User | undefined> = this.userSubject.asObservable();
@@ -99,6 +102,15 @@ export class UserService {
   isUserLoggedIn(): boolean {
     return this.getUserInfoFromLocalStorage() !== undefined;
   }
+
+  /**
+   * Check whether the current user is an admin by verifying if the user's email is contained
+   * in the admin email set.
+   */
+  isUserAdmin(): boolean {
+    const user: User | undefined = this.getUserInfoFromLocalStorage();
+    return user ? this.ADMIN_EMAILS.has(user.email) : false;
+  }   
 
   /**
    * Accepts a Google OAuth token, decodes it to extract user information, and saves it to local storage.

@@ -29,11 +29,13 @@ export declare interface Recipe {
 })
 export class RecipeService {
   private httpClient = inject(HttpClient);
-  private readonly apiUrl = 'https://api.jwpaisley.com/api/recipes';
+  private readonly localApiUrl = 'http://localhost:8080/api/recipes';
+  private readonly prodApiUrl = 'https://api.jwpaisley.com/api/recipes';
+  private readonly apiUrl = this.prodApiUrl;
 
-  // createRecipe(recipe: Recipe): Observable<Recipe> {
-  //   return this.httpClient.post<Recipe>(`${this.apiUrl}`, recipe);
-  // }
+  createRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.httpClient.post<Recipe>(`${this.apiUrl}`, recipe);
+  }
 
   getRecipes(): Observable<Recipe[]> {
     return this.httpClient.get<Recipe[]>(`${this.apiUrl}`);

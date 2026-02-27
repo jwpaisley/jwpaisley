@@ -16,6 +16,7 @@ export class TopNav implements OnInit, OnDestroy {
   @Input() showUserIcon = true;
 
   protected isUserLoggedIn = false;
+  protected isUserAdmin = false;
   private destroy$ = new Subject<void>();
   
   constructor(
@@ -30,6 +31,8 @@ export class TopNav implements OnInit, OnDestroy {
         this.isUserLoggedIn = !!user;
         this.cdr.detectChanges();
       });
+
+    this.isUserAdmin = this.userService.isUserAdmin();
   }
 
   
