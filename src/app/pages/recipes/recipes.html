@@ -1,4 +1,10 @@
 <div class="page-container">
-    <h1>recipes</h1>
-    <h2>all recipes ({{ recipes.length }})</h2>
+    <jwpaisley-loader [isLoading]="isLoading">
+        <h1>recipes</h1>
+        <h2>all recipes ({{ recipes.length }})</h2>
+        
+        @for (recipe of recipes; track recipe.id) {
+            <a [routerLink]="['/recipe', recipe.id]">{{ recipe.name }}</a>
+        }
+    </jwpaisley-loader>
 </div>

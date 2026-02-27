@@ -19,6 +19,7 @@ export declare interface Recipe {
   sodium: number;
 
   recipeCategories: string[];
+  ingredients: string[];
   miseEnPlaceSteps: string[];
   instructions: string[];
 }

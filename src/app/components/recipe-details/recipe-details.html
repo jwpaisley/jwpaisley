@@ -1,4 +1,13 @@
 <div class="recipe-details-container">
+    <section class="recipe-ingredients">
+        <h3>ingredients</h3>
+        <ul>
+        @for (ingredient of recipe.ingredients; track ingredient) {
+            <li>{{ ingredient }}</li>
+        }
+        </ul>
+    </section>
+
     <section class="recipe-mise-en-place">
         <h3>mise-en-place</h3>
         <ul>

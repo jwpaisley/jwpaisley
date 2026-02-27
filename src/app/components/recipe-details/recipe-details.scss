@@ -31,4 +31,42 @@
     list-style-type: decimal;
     padding-left: 0.5rem;
   }
+
+  .recipe-ingredients ul {
+    display: block;
+    column-count: 3;
+    column-gap: 3rem;
+    list-style-position: inside;
+    padding: 0;
+
+    @media (max-width: 768px) {
+      column-count: 1;
+    }
+
+    li {
+      break-inside: avoid;
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+      overflow-wrap: break-word;
+    }
+  }
+
+  .recipe-mise-en-place ul {
+    display: block;
+    column-count: 2;
+    column-gap: 3rem;
+    list-style-position: inside;
+    padding: 0;
+
+    @media (max-width: 768px) {
+      column-count: 1;
+    }
+
+    li {
+      break-inside: avoid;
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+      overflow-wrap: break-word;
+    }
+  }
 }
