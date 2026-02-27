@@ -1,0 +1,8 @@
+<div class="recipe-page-container">
+    <jwpaisley-loader [isLoading]="isLoading">
+        @if (recipe) {
+            <jwpaisley-recipe-summary [recipe]="recipe"></jwpaisley-recipe-summary>
+            <jwpaisley-recipe-details [recipe]="recipe"></jwpaisley-recipe-details>
+        }
+    </jwpaisley-loader>
+</div>

@@ -7,6 +7,7 @@ export declare interface User {
   lastName: string;
   email: string;
   imageUrl: string;
+  token: string;
 }
 
 @Injectable({
@@ -46,7 +47,8 @@ export class UserService {
         firstName: payload.given_name,
         lastName: payload.family_name,
         email: payload.email,
-        imageUrl: payload.picture
+        imageUrl: payload.picture,
+        token: token,
       }
     } catch (e) {
       return undefined;

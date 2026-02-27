@@ -74,7 +74,6 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
 export class Home {
   private breakpointObserver = inject(BreakpointObserver);
 
-  // Column count changes based on screen size
   columns$ = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Tablet])
     .pipe(
       map(({ matches }) => {

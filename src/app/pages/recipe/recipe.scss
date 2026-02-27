@@ -1,0 +1,9 @@
+.recipe-page-container {
+  display: block;
+  margin: 0 auto;
+  padding: 2rem;
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+  }
+}

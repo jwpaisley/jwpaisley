@@ -1,0 +1,19 @@
+<div class="recipe-details-container">
+    <section class="recipe-mise-en-place">
+        <h3>mise-en-place</h3>
+        <ul>
+        @for (step of recipe.miseEnPlaceSteps; track step) {
+            <li>{{ step }}</li>
+        }
+        </ul>
+    </section>
+
+    <section class="recipe-preparation">
+        <h3>preparation</h3>
+        <ol>
+        @for (step of recipe.instructions; track step) {
+            <li>{{ step }}</li>
+        }
+        </ol>
+    </section>
+</div>
