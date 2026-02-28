@@ -6,7 +6,7 @@ import { Loader } from '../../components/loader/loader';
 import { RecipeDetails } from '../../components/recipe-details/recipe-details';
 
 @Component({
-  selector: 'app-recipe',
+  selector: 'jwpaisley-recipe',
   imports: [Loader, RecipeSummary, RecipeDetails],
   templateUrl: './recipe.html',
   styleUrl: './recipe.scss',

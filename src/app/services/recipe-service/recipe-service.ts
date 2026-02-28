@@ -22,6 +22,9 @@ export declare interface Recipe {
   ingredients: string[];
   miseEnPlaceSteps: string[];
   instructions: string[];
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 @Injectable({

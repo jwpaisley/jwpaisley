@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Recipe, RecipeService } from '../../services/recipe-service/recipe-service';
 import { first } from 'rxjs';
-import { RouterLink } from '@angular/router';
 import { Loader } from '../../components/loader/loader';
+import { RecipesTable } from '../../components/recipes-table/recipes-table';
 
 @Component({
   selector: 'jwpaisley-recipes',
-  imports: [RouterLink, Loader],
+  imports: [Loader, RecipesTable],
   templateUrl: './recipes.html',
   styleUrl: './recipes.scss',
 })

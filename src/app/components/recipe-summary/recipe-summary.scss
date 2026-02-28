@@ -1,3 +1,5 @@
+@use '../../../styles/_variables' as style-variables;
+
 .recipe-summary-card {
   width: 100%;
   background: white;
@@ -37,7 +39,7 @@
   gap: 0.75rem;
   margin-top: 1.5rem;
   font-size: 0.95rem;
-  border-top: 1px solid #ecf0f1;
+  border-top: 1px solid style-variables.$cloud;
   padding-top: 1.5rem;
 
   span {

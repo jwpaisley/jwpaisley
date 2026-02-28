@@ -1,17 +1,17 @@
-<div class="recipe-summary-card" [class.mobile]="isMobile$ | async">
-  <div class="recipe-emoji-circle">{{ recipe.emoji }}</div>
-  
-  <h2 class="recipe-name">{{ recipe.name }}</h2>
-  <p class="recipe-description">{{ recipe.description }}</p>
+  <div class="recipe-summary-card" [class.mobile]="isMobile$ | async">
+    <div class="recipe-emoji-circle">{{ recipe.emoji }}</div>
+    
+    <h2 class="recipe-name">{{ recipe.name }}</h2>
+    <p class="recipe-description">{{ recipe.description }}</p>
 
-  <div class="recipe-nutritional-grid">
-    <span><strong>servings:</strong> {{ recipe.servings }}</span>
-    <span><strong>calories:</strong> {{ recipe.calories }}</span>
-    <span><strong>protein:</strong> {{ recipe.protein }}g</span>
-    <span><strong>fat:</strong> {{ recipe.fat }}g</span>
-    <span><strong>carbs:</strong> {{ recipe.carbohydrates }}g</span>
-    <span><strong>sugar:</strong> {{ recipe.sugar }}g</span>
-    <span><strong>fiber:</strong> {{ recipe.fiber }}g</span>
-    <span><strong>sodium:</strong> {{ recipe.sodium }}mg</span>
+    <div class="recipe-nutritional-grid">
+      <span><strong>servings:</strong> {{ recipe.servings }}</span>
+      <span><strong>calories:</strong> {{ recipe.calories }}</span>
+      <span><strong>protein:</strong> {{ recipe.protein }}g</span>
+      <span><strong>fat:</strong> {{ recipe.fat }}g</span>
+      <span><strong>carbs:</strong> {{ recipe.carbohydrates }}g</span>
+      <span><strong>sugar:</strong> {{ recipe.sugar }}g</span>
+      <span><strong>fiber:</strong> {{ recipe.fiber }}g</span>
+      <span><strong>sodium:</strong> {{ recipe.sodium }}mg</span>
+    </div>
   </div>
-</div>

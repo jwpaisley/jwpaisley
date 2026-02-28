@@ -1,0 +1,42 @@
+<div class="table-container">
+  <table class="jwpaisley-table">
+    <thead>
+      <tr>
+        @for (header of headers; track $index) {
+          <th [class.hide-mobile]="!mobileVisibleIndices.includes($index)">
+            {{ header }}
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows; track $index) {
+        <tr>
+          @for (cell of row.cells; track $index) {
+            <td [class.hide-mobile]="!mobileVisibleIndices.includes($index)">
+              
+              @if (cell.type === CellType.TEXT) {
+                {{ cell.data }}
+              }
+
+              @if (cell.type === CellType.IMAGE) {
+                <img [src]="cell.data" class="cell-img" alt="recipe preview">
+              }
+
+              @if (cell.type === CellType.BUTTON) {
+                <jwpaisley-button (click)="cell.action?.(cell.data)">
+                  {{ cell.data }}
+                </jwpaisley-button>
+              }
+
+              @if (cell.type === CellType.CURRENCY) {
+                ${{ cell.data }}
+              }
+
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
