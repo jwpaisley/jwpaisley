@@ -29,10 +29,9 @@ export class TopNav implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.isUserLoggedIn = !!user;
+        this.isUserAdmin = this.userService.isUserAdmin();
         this.cdr.detectChanges();
       });
-
-    this.isUserAdmin = this.userService.isUserAdmin();
   }
 
   

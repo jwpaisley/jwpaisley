@@ -1,6 +1,11 @@
 <div class="page-container">
     <jwpaisley-loader [isLoading]="isLoading">
-        <h1>recipes</h1>
+        <div class="page-header">
+            <h1>recipes</h1>
+            @if (isUserAdmin) {
+                <jwpaisley-button text="create new" (click)="redirectToCreateRecipePage()"></jwpaisley-button>
+            }
+        </div>
         <jwpaisley-recipes-table [recipes]="recipes"></jwpaisley-recipes-table>
     </jwpaisley-loader>
 </div>

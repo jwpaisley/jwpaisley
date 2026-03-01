@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { RenderMode } from '@angular/ssr';
+import { AdminPageGuard } from './guards/admin-page-guard';
 
 export const routes: Routes = [
     {
@@ -9,6 +9,7 @@ export const routes: Routes = [
     {
         path: 'admin', 
         loadChildren: () => import('./pages/admin/admin-module').then(m => m.AdminModule),
+        canActivate: [AdminPageGuard],
     },
     {
         path: 'profile', 
