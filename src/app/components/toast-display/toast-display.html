@@ -1,0 +1,8 @@
+<div class="toast-stack">
+    @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast-item" [attr.data-level]="toast.level">
+        <mat-icon mat-card-avatar>{{toast.icon}}</mat-icon>
+        <span>{{ toast.message }}</span>
+    </div>
+    }
+</div>

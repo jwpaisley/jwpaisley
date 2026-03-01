@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { UserService, User } from '../../services/user-service/user-service';
+import { ToastService } from '../../services/toast-service/toast-service';
 
 @Component({
   standalone: true,
@@ -34,6 +35,7 @@ export class Login {
 
   constructor(
     private ngZone: NgZone,
+    private toastService: ToastService,
     private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
@@ -64,6 +66,7 @@ export class Login {
       const user: User | undefined = this.userService.getUserInfoFromLocalStorage();
 
       if (user) {
+        this.toastService.addToast(`login successful! welcome, ${user.firstName}`, 'check_circle', 'success');
         this.loginSuccess.emit();
       }
     });

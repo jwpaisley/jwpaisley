@@ -1,0 +1,31 @@
+@use '../../../styles/_variables' as style-variables;
+
+.toast-stack {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  opacity: 95%;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  font-family: inherit;
+  text-transform: lowercase;
+
+  &[data-level='info'] { background-color: style-variables.$fog; color: style-variables.$primary-text; }
+  &[data-level='success'] { background-color: style-variables.$sprout; color: style-variables.$light-text; }
+  &[data-level='warning'] { background-color: style-variables.$sunflower; color: style-variables.$primary-text; }
+  &[data-level='danger'] { background-color: style-variables.$wine; color: style-variables.$light-text; }
+
+  .material-symbols-outlined { font-size: 1.25rem; }
+}

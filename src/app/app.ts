@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { TopNav } from './components/top-nav/top-nav';
+import { ToastDisplay } from './components/toast-display/toast-display';
 
 const NG_COMPONENT_IMPORTS = [
   CommonModule,
@@ -19,6 +20,7 @@ const NG_COMPONENT_IMPORTS = [
   MatSidenavModule,
   MatListModule,
   MatIconModule,
+  ToastDisplay,
   TopNav,
 ];
 

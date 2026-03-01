@@ -23,7 +23,7 @@ export class UserCard implements OnInit, OnDestroy {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {

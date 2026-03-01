@@ -7,6 +7,7 @@ import { Loader } from '../../components/loader/loader';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
 import { startWith } from 'rxjs';
+import { ToastService } from '../../services/toast-service/toast-service';
 
 @Component({
   selector: 'jwpaisley-profile',
