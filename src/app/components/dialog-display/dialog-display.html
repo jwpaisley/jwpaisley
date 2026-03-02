@@ -15,6 +15,12 @@
           />
         }
 
+        @case ('emoji') {
+          <jwpaisley-emoji-picker-dialog 
+            (select)="handleConfirm($event)" 
+          />
+        }
+
         @default {
           <p>Unknown dialog type: {{ config()?.type }}</p>
         }

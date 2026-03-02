@@ -1,0 +1,21 @@
+@use '../../../styles/_variables' as style-variables;
+
+.emoji-dialog-content {
+  padding: 2rem;
+  background: white;
+  border: 3px solid style-variables.$cloud;
+}
+
+.emoji-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 3rem;
+  text-align: center;
+  border: 2px solid style-variables.$cloud;
+  outline: none;
+
+  &:focus {
+    border-color: style-variables.$fog;
+    background: style-variables.$cloud;
+  }
+}

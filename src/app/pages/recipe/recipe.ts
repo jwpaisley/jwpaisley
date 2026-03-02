@@ -153,8 +153,16 @@ export class RecipePage implements OnInit {
     this.editMode = false;
   }
 
-  openEmojiPicker(): void {
+  async openEmojiPicker(): Promise<void> {
+    const result = await this.dialogService.openEmojiPickerDialog({
+      title: 'change recipe emoji',
+      text: 'paste or type one emoji to set as the recipe emoji',
+      defaultValue: this.formGroup.get('emoji')?.value || '🍲',
+      confirmLabel: 'set emoji',
+      cancelLabel: 'cancel',
+    });
 
+    console.log(result);
   }
 
   deleteRecipe(): void {}

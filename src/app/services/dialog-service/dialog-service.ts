@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-export type DialogType = 'confirm' | 'info' | 'input';
+export type DialogType = 'confirm' | 'info' | 'input' | 'emoji';
 
 export interface DialogConfig {
   type: DialogType;
@@ -32,6 +32,10 @@ export class DialogService {
 
   openConfirmDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
     return this.open({ ...config, type: 'confirm' });
+  }
+
+  openEmojiPickerDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
+    return this.open({ ...config, type: 'emoji' });
   }
 
   close(confirmed: boolean, value?: any) {

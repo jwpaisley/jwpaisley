@@ -1,1 +1,9 @@
-<p>emoji-picker-dialog works!</p>
+<div class="emoji-dialog-content">
+    <input 
+        type="text" 
+        [placeholder]="'paste or type one emoji'"
+        (input)="onInput($event)"
+        class="emoji-input"
+        autofocus
+    />
+</div>
