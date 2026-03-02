@@ -19,8 +19,10 @@ export class RecipeSummary {
   @Input({ required: true }) recipe!: Recipe;
   @Input() editMode = false;
   @Input() isUserAdmin = false;
+  @Input() isNewRecipe = false;
   @Input() formGroup!: FormGroup;
   @Output() editButtonClicked = new EventEmitter<void>();
+  @Output() changeEmojiButtonClicked = new EventEmitter<void>();
   @Output() saveButtonClicked = new EventEmitter<void>();
   @Output() cancelButtonClicked = new EventEmitter<void>();
   @Output() deleteButtonClicked = new EventEmitter<void>();

@@ -1,8 +1,13 @@
   <div class="recipe-summary-card" [class.mobile]="isMobile$ | async">
     <form [formGroup]="formGroup">
       <div class="recipe-emoji-circle">{{ recipe.emoji }}</div>
+      @if (editMode) {
+        <div class="recipe-change-emoji-button">
+          <jwpaisley-button text="change emoji" (click)="changeEmojiButtonClicked.emit()" />
+        </div>
+      }
       
-      <h2 class="recipe-name">
+      <div class="recipe-name">
         @if (editMode) {
           <jwpaisley-form-input 
             formControlName="name" 
@@ -13,8 +18,8 @@
         } @else {
           {{ recipe.name }}
         }
-      </h2>
-      <p class="recipe-description">
+      </div>
+      <div class="recipe-description">
         @if (editMode) {
           <jwpaisley-form-text-area 
             formControlName="description" 
@@ -24,7 +29,7 @@
         } @else {
           {{ recipe.description }}
         }
-      </p>
+      </div>
 
       <div class="recipe-nutritional-grid">
         <span>
@@ -131,7 +136,9 @@
           @if (editMode) {
             <jwpaisley-button text="save" (click)="saveButtonClicked.emit()" />
             <jwpaisley-button text="cancel" (click)="cancelButtonClicked.emit()" variant="secondary" />
-            <jwpaisley-button text="delete" (click)="deleteButtonClicked.emit()" variant="danger" />
+            @if (!isNewRecipe) {
+              <jwpaisley-button text="delete" (click)="deleteButtonClicked.emit()" variant="danger" />
+            }
           } @else {
             <jwpaisley-button text="edit" (click)="editButtonClicked.emit()" />
           }

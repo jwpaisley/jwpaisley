@@ -13,7 +13,7 @@ import { DialogService } from '../../services/dialog-service/dialog-service';
 const RECIPE_TEMPLATE: Recipe = {
   id: '',
   name: '',
-  emoji: '',
+  emoji: '🍲',
   description: '',
 
   servings: 0,
@@ -61,7 +61,7 @@ export class RecipePage implements OnInit {
   buildFormGroup(recipe: Recipe): FormGroup {
     return this.formBuilder.group({
       name: [recipe.name, [Validators.required, Validators.minLength(1)]],
-      emoji: [recipe.emoji, Validators.required],
+      emoji: [recipe.emoji, [Validators.required, Validators.minLength(1), Validators.maxLength(1)]],
       description: [recipe.description, Validators.required],
 
       servings: [recipe.servings, [Validators.required, Validators.min(0)]],
@@ -88,7 +88,7 @@ export class RecipePage implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.id === 'new') {
+    if (this.isNewRecipe) {
       this.editMode = true;
       this.isLoading = false;
     } else {
@@ -129,10 +129,22 @@ export class RecipePage implements OnInit {
     });
 
     if (result.confirmed) {
-      alert('Recipe saved! (not really, this is a demo)');
       this.editMode = false;
-    } else {
-      alert('Save cancelled');
+      this.isLoading = true;
+      
+      const recipeToSave = this.recipeFromForm();
+      console.log('Saving recipe:', recipeToSave);
+
+      if (this.isNewRecipe) {
+        this.recipeService.createRecipe(recipeToSave)
+          .subscribe((savedRecipe: Recipe) => {
+            this.recipe = savedRecipe;
+            this.syncForm(this.recipe);
+            this.isLoading = false;
+          });
+      } else {
+        // TODO: update existing recipe
+      }
     }
   }
 
@@ -141,7 +153,15 @@ export class RecipePage implements OnInit {
     this.editMode = false;
   }
 
+  openEmojiPicker(): void {
+
+  }
+
   deleteRecipe(): void {}
+
+  get isNewRecipe(): boolean {
+    return this.id === 'new';
+  }
 
   private syncForm(recipe: Recipe) {
     this.formGroup.reset(recipe);
@@ -156,5 +176,21 @@ export class RecipePage implements OnInit {
     data.forEach(item => {
       formArray.push(this.formBuilder.control(item, Validators.required));
     });
+  }
+
+  private recipeFromForm(): Recipe {
+    const formValue = this.formGroup.value;
+    return {
+      ...this.recipe,
+      ...formValue,
+      ingredients: this.getFormArrayValues('ingredients'),
+      miseEnPlaceSteps: this.getFormArrayValues('miseEnPlaceSteps'),
+      instructions: this.getFormArrayValues('instructions'),
+    };
+  }
+
+  private getFormArrayValues(controlName: string): any[] {
+    const formArray = this.formGroup.get(controlName) as FormArray;
+    return formArray.controls.map(control => control.value);
   }
 }
