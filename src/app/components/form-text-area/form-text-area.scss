@@ -17,8 +17,8 @@
   &.size-large .input { font-size: 1.25rem; padding: 1rem; }
   
   &.size-large .input {
-    font-size: 2.25rem;
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: 600;
     padding: 0.5rem 0;
     border-top: none;
     border-left: none;
@@ -27,6 +27,7 @@
     
     &:focus {
       border-bottom-color: style-variables.$fog;
+      background: transparent;
     }
   }
 }
@@ -38,15 +39,28 @@
   border: 2px solid style-variables.$cloud;
   border-radius: 0;
   font-family: inherit;
+  line-height: 1.6;
   transition: all 0.2s ease-in-out;
+  resize: vertical;
+  min-height: calc(1.6em * 3 + 1.5rem);
 
   &:focus {
     outline: none;
     border-color: style-variables.$fog;
     background: style-variables.$cloud;
   }
+
+  &:disabled {
+    border-color: transparent;
+    background: transparent;
+    resize: none;
+    padding-left: 0;
+    color: style-variables.$slate;
+  }
 }
 
 .input-label {
   text-transform: lowercase;
+  font-weight: 500;
+  color: style-variables.$slate;
 }

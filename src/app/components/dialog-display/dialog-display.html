@@ -1,0 +1,25 @@
+@if (config()) {
+  <div class="dialog-backdrop" (click)="handleCancel()">
+    <div class="dialog-wrapper" (click)="$event.stopPropagation()">
+      
+      @switch (config()?.type) {
+        @case ('confirm') {
+          <jwpaisley-confirmation-dialog
+            [icon]="config()?.icon || 'help_outline'"
+            [title]="config()?.title || 'title'"
+            [text]="config()?.text || 'text'"
+            [confirmLabel]="config()?.confirmLabel || 'confirm'"
+            [cancelLabel]="config()?.cancelLabel || 'cancel'"
+            (confirm)="handleConfirm()"
+            (cancel)="handleCancel()"
+          />
+        }
+
+        @default {
+          <p>Unknown dialog type: {{ config()?.type }}</p>
+        }
+      }
+
+    </div>
+  </div>
+}

@@ -1,12 +1,16 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { RecipeService, Recipe } from '../../services/recipe-service/recipe-service';
 import { first } from 'rxjs/internal/operators/first';
 import { RecipeSummary } from '../../components/recipe-summary/recipe-summary';
 import { Loader } from '../../components/loader/loader';
 import { RecipeDetails } from '../../components/recipe-details/recipe-details';
-import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup, FormArray } from '@angular/forms';
+import { UserService } from '../../services/user-service/user-service';
+import { Subject, takeUntil } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { DialogService } from '../../services/dialog-service/dialog-service';
 
-const STARTER_RECIPE: Recipe = {
+const RECIPE_TEMPLATE: Recipe = {
   id: '',
   name: '',
   emoji: '',
@@ -38,44 +42,119 @@ const STARTER_RECIPE: Recipe = {
 })
 export class RecipePage implements OnInit {
   @Input({required: true}) id!: string;
+  private platformId = inject(PLATFORM_ID);
   private formBuilder = inject(FormBuilder);
   protected isLoading = true;
-  protected recipe!: Recipe;
-  protected formGroup: FormGroup = this.buildFormGroup();
- 
-  constructor(private recipeService: RecipeService) {}
+  protected editMode = false;
+  protected isBrowser = isPlatformBrowser(this.platformId);
+  protected isUserAdmin = signal(false);
+  protected recipe: Recipe = RECIPE_TEMPLATE;
+  protected formGroup: FormGroup = this.buildFormGroup(RECIPE_TEMPLATE);
+  private destroy$ = new Subject<void>();
+  
+  constructor(
+    private dialogService: DialogService,
+    private recipeService: RecipeService,
+    private userService: UserService,
+  ) {}
 
-  buildFormGroup() {
+  buildFormGroup(recipe: Recipe): FormGroup {
     return this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      emoji: ['🍲', Validators.required],
+      name: [recipe.name, [Validators.required, Validators.minLength(1)]],
+      emoji: [recipe.emoji, Validators.required],
+      description: [recipe.description, Validators.required],
 
-      calories: [0, [Validators.required, Validators.min(0)]],
-      protein: [0, [Validators.required, Validators.min(0)]],
-      fat: [0, [Validators.required, Validators.min(0)]],
-      carbs: [0, [Validators.required, Validators.min(0)]],
-      fiber: [0, [Validators.required, Validators.min(0)]],
-      sugar: [0, [Validators.required, Validators.min(0)]],
-      sodium: [0, [Validators.required, Validators.min(0)]],
+      servings: [recipe.servings, [Validators.required, Validators.min(0)]],
+      calories: [recipe.calories, [Validators.required, Validators.min(0)]],
+      protein: [recipe.protein, [Validators.required, Validators.min(0)]],
+      fat: [recipe.fat, [Validators.required, Validators.min(0)]],
+      carbohydrates: [recipe.carbohydrates, [Validators.required, Validators.min(0)]],
+      fiber: [recipe.fiber, [Validators.required, Validators.min(0)]],
+      sugar: [recipe.sugar, [Validators.required, Validators.min(0)]],
+      sodium: [recipe.sodium, [Validators.required, Validators.min(0)]],
 
-      ingredients: this.formBuilder.array([this.formBuilder.control('')]),
-      miseEnPlaceSteps: this.formBuilder.array([this.formBuilder.control('')]),
-      instructions: this.formBuilder.array([this.formBuilder.control('')]),
+      ingredients: this.formBuilder.array(
+        recipe.ingredients.map(ingredient => 
+          this.formBuilder.control(ingredient, Validators.required)
+        )
+      ),
+      miseEnPlaceSteps: this.formBuilder.array(
+        recipe.miseEnPlaceSteps.map(step => this.formBuilder.control(step, Validators.required))
+      ),
+      instructions: this.formBuilder.array(
+        recipe.instructions.map(step => this.formBuilder.control(step, Validators.required))
+      )
     });
   }
 
   ngOnInit(): void {
     if (this.id === 'new') {
+      this.editMode = true;
       this.isLoading = false;
-      this.recipe = STARTER_RECIPE;
-      return;
     } else {
       this.recipeService.getRecipe(this.id)
         .pipe(first())
         .subscribe((recipe: Recipe) => {
           this.recipe = recipe;
+          this.syncForm(this.recipe);
           this.isLoading = false;
         });
     }
+
+    if (this.isBrowser) {
+      this.userService.user$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(user => {
+          this.isUserAdmin.set(this.userService.isUserAdmin());
+        });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  protected enterEditMode = () => {
+    this.editMode = true;
+  };
+
+  async saveRecipe(): Promise<void> {
+    console.log(this.formGroup?.value);
+    const result = await this.dialogService.openConfirmDialog({
+      title: 'save recipe',
+      text: 'are you sure you want to save this recipe?',
+      confirmLabel: 'save',
+      cancelLabel: 'cancel',
+    });
+
+    if (result.confirmed) {
+      alert('Recipe saved! (not really, this is a demo)');
+      this.editMode = false;
+    } else {
+      alert('Save cancelled');
+    }
+  }
+
+  cancelEdit(): void {
+    this.syncForm(this.recipe);
+    this.editMode = false;
+  }
+
+  deleteRecipe(): void {}
+
+  private syncForm(recipe: Recipe) {
+    this.formGroup.reset(recipe);
+    this.syncFormArray('ingredients', recipe.ingredients);
+    this.syncFormArray('miseEnPlaceSteps', recipe.miseEnPlaceSteps);
+    this.syncFormArray('instructions', recipe.instructions);
+  }
+
+  private syncFormArray(controlName: string, data: any[]) {
+    const formArray = this.formGroup.get(controlName) as FormArray;
+    formArray.clear();
+    data.forEach(item => {
+      formArray.push(this.formBuilder.control(item, Validators.required));
+    });
   }
 }

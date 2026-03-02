@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { TopNav } from './components/top-nav/top-nav';
 import { ToastDisplay } from './components/toast-display/toast-display';
+import { DialogDisplay } from './components/dialog-display/dialog-display';
 
 const NG_COMPONENT_IMPORTS = [
   CommonModule,
@@ -22,6 +23,7 @@ const NG_COMPONENT_IMPORTS = [
   MatIconModule,
   ToastDisplay,
   TopNav,
+  DialogDisplay,
 ];
 
 
@@ -32,7 +34,6 @@ const NG_COMPONENT_IMPORTS = [
   imports: NG_COMPONENT_IMPORTS
 })
 export class App {
-  // This checks if the screen is "Handset" size
   isHandset$: Observable<boolean>;
 
   constructor(private breakpointObserver: BreakpointObserver) {

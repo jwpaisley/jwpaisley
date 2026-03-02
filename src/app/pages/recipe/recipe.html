@@ -2,10 +2,23 @@
     <jwpaisley-loader [isLoading]="isLoading">
         @if (recipe) {
             <div class="recipe-sidebar">
-                <jwpaisley-recipe-summary [recipe]="recipe"></jwpaisley-recipe-summary>
+                <jwpaisley-recipe-summary
+                    [recipe]="recipe" 
+                    [editMode]="editMode" 
+                    [formGroup]="formGroup"
+                    [isUserAdmin]="isUserAdmin()"
+                    (editButtonClicked)="enterEditMode()"
+                    (saveButtonClicked)="saveRecipe()"
+                    (cancelButtonClicked)="cancelEdit()"
+                    (deleteButtonClicked)="deleteRecipe()"
+                />
             </div>
             <div class="recipe-content">
-                <jwpaisley-recipe-details [recipe]="recipe"></jwpaisley-recipe-details>
+                <jwpaisley-recipe-details
+                    [recipe]="recipe" 
+                    [editMode]="editMode" 
+                    [formGroup]="formGroup" 
+                />
             </div>
         }
     </jwpaisley-loader>

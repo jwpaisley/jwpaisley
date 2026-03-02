@@ -1,17 +1,141 @@
   <div class="recipe-summary-card" [class.mobile]="isMobile$ | async">
-    <div class="recipe-emoji-circle">{{ recipe.emoji }}</div>
-    
-    <h2 class="recipe-name">{{ recipe.name }}</h2>
-    <p class="recipe-description">{{ recipe.description }}</p>
+    <form [formGroup]="formGroup">
+      <div class="recipe-emoji-circle">{{ recipe.emoji }}</div>
+      
+      <h2 class="recipe-name">
+        @if (editMode) {
+          <jwpaisley-form-input 
+            formControlName="name" 
+            type="text" 
+            placeholder="recipe name"
+            size="medium"
+          />
+        } @else {
+          {{ recipe.name }}
+        }
+      </h2>
+      <p class="recipe-description">
+        @if (editMode) {
+          <jwpaisley-form-text-area 
+            formControlName="description" 
+            placeholder="short description of the recipe"
+            size="medium"
+          />
+        } @else {
+          {{ recipe.description }}
+        }
+      </p>
 
-    <div class="recipe-nutritional-grid">
-      <span><strong>servings:</strong> {{ recipe.servings }}</span>
-      <span><strong>calories:</strong> {{ recipe.calories }}</span>
-      <span><strong>protein:</strong> {{ recipe.protein }}g</span>
-      <span><strong>fat:</strong> {{ recipe.fat }}g</span>
-      <span><strong>carbs:</strong> {{ recipe.carbohydrates }}g</span>
-      <span><strong>sugar:</strong> {{ recipe.sugar }}g</span>
-      <span><strong>fiber:</strong> {{ recipe.fiber }}g</span>
-      <span><strong>sodium:</strong> {{ recipe.sodium }}mg</span>
-    </div>
-  </div>
+      <div class="recipe-nutritional-grid">
+        <span>
+          <strong>servings:</strong>
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="servings" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.servings }}
+          }
+        </span>
+        <span>
+          <strong>calories:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="calories" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.calories }}
+          }
+        </span>
+        <span>
+          <strong>protein:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="protein" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.protein }}g
+          }
+        </span>
+        <span>
+          <strong>fat:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="fat" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.fat }}g
+          }
+        </span>
+        
+        <span>
+          <strong>carbs:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="carbohydrates" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.carbohydrates }}g
+          }
+        </span>
+        <span>
+          <strong>sugar:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="sugar" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.sugar }}g
+          }
+        </span>
+        <span>
+          <strong>fiber:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="fiber" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.fiber }}g
+          }
+        </span>
+        <span>
+          <strong>sodium:</strong> 
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="sodium" 
+              type="number" 
+              size="small"
+            />
+          } @else {
+            {{ recipe.sodium }}mg
+          }
+        </span>
+      </div>
+
+      @if (isUserAdmin) {
+        <div class="recipe-actions">
+          @if (editMode) {
+            <jwpaisley-button text="save" (click)="saveButtonClicked.emit()" />
+            <jwpaisley-button text="cancel" (click)="cancelButtonClicked.emit()" variant="secondary" />
+            <jwpaisley-button text="delete" (click)="deleteButtonClicked.emit()" variant="danger" />
+          } @else {
+            <jwpaisley-button text="edit" (click)="editButtonClicked.emit()" />
+          }
+        </div>
+      }
+  </form>
+</div>

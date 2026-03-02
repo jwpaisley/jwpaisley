@@ -1,28 +1,51 @@
 <div class="recipe-details-container">
-    <section class="recipe-ingredients">
-        <h3>ingredients</h3>
-        <ul>
-        @for (ingredient of recipe.ingredients; track ingredient) {
-            <li>{{ ingredient }}</li>
-        }
-        </ul>
-    </section>
+    <form [formGroup]="formGroup">
+        <section class="recipe-ingredients">
+            <h3>ingredients</h3>
+            @if (editMode) {
+                <jwpaisley-form-list
+                    formListName="ingredients" 
+                    type="text"
+                ></jwpaisley-form-list>
+            } @else {
+                <ul>
+                    @for (ingredient of recipe.ingredients; track ingredient) {
+                        <li>{{ ingredient }}</li>
+                    }
+                </ul>
+            }
+        </section>
 
-    <section class="recipe-mise-en-place">
-        <h3>mise-en-place</h3>
-        <ul>
-        @for (step of recipe.miseEnPlaceSteps; track step) {
-            <li>{{ step }}</li>
-        }
-        </ul>
-    </section>
+        <section class="recipe-mise-en-place">
+            <h3>mise-en-place</h3>
+            @if (editMode) {
+                <jwpaisley-form-list
+                    formListName="miseEnPlaceSteps" 
+                    type="text"
+                ></jwpaisley-form-list>
+            } @else {
+                <ul>
+                    @for (step of recipe.miseEnPlaceSteps; track step) {
+                        <li>{{ step }}</li>
+                    }
+                </ul>
+            }
+        </section>
 
-    <section class="recipe-preparation">
-        <h3>preparation</h3>
-        <ol>
-        @for (step of recipe.instructions; track step) {
-            <li>{{ step }}</li>
-        }
-        </ol>
-    </section>
+        <section class="recipe-preparation">
+            <h3>preparation</h3>
+            @if (editMode) {
+                <jwpaisley-form-list
+                    formListName="instructions" 
+                    type="text"
+                ></jwpaisley-form-list>
+            } @else {
+                <ol>
+                    @for (step of recipe.instructions; track step) {
+                        <li>{{ step }}</li>
+                    }
+                </ol>
+            }
+        </section>
+    </form>
 </div>

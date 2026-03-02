@@ -1,0 +1,58 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.form-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.list-label {
+  text-transform: lowercase;
+  font-weight: 600;
+  color: style-variables.$slate;
+}
+
+.list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid style-variables.$cloud;
+  background: white;
+
+  .row-actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .row-input {
+    flex: 1;
+  }
+
+  ::ng-deep .mat-mdc-icon-button {
+    --mdc-icon-button-icon-size: 20px;
+    
+    &:disabled {
+      opacity: 0.3;
+    }
+  }
+}
+
+.list-footer {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+}

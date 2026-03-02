@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 // toast-container.component.ts
 @Component({
-  selector: 'jwpaisley-toast-container',
+  selector: 'jwpaisley-toast-display',
   imports: [MatIconModule],
   templateUrl: './toast-display.html',
   styleUrl: './toast-display.scss',

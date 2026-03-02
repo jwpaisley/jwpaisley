@@ -4,17 +4,14 @@
   }
   
   <div class="input-container">
-    <input
-      [type]="type"
+    <textarea
+      rows="3"
       [value]="value"
       [placeholder]="placeholder"
       [disabled]="disabled"
       (input)="handleInput($event)"
       (blur)="onTouched()"
-      class="input"
-    />
-    @if (suffix) {
-      <span class="input-suffix">{{ suffix }}</span>
-    }
+      class="input text-area"
+    ></textarea>
   </div>
 </div>

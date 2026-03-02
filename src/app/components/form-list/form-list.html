@@ -1,1 +1,37 @@
-<p>form-list works!</p>
+<div class="form-list-container" [class.disabled]="disabled">
+  @if (label) {
+    <label class="list-label">{{ label | lowercase }}</label>
+  }
+
+  <div class="list-items">
+    @for (control of controls; track control; let i = $index; let last = $last) {
+      <div class="list-row">
+        <div class="row-actions">
+          <button type="button" mat-icon-button (click)="moveUp(i)" [disabled]="i === 0 || disabled">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button type="button" mat-icon-button (click)="moveDown(i)" [disabled]="last || disabled">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+        </div>
+
+        <jwpaisley-form-input
+          [formControl]="control"
+          [type]="type"
+          size="medium"
+          class="row-input"
+        ></jwpaisley-form-input>
+
+        <button type="button" mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="disabled">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+
+  @if (!disabled) {
+    <div class="list-footer">
+      <jwpaisley-button text="add item" (click)="addItem()" variant="secondary" />
+    </div>
+  }
+</div>
