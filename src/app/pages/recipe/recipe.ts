@@ -10,6 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { DialogService } from '../../services/dialog-service/dialog-service';
 import { Router } from '@angular/router';
+import { ToastService, ToastLevel } from '../../services/toast-service/toast-service';
 
 const RECIPE_TEMPLATE: Recipe = {
   id: '',
@@ -53,6 +54,7 @@ export class RecipePage implements OnInit {
   constructor(
     private dialogService: DialogService,
     private recipeService: RecipeService,
+    private toastService: ToastService,
     private userService: UserService,
   ) {}
 
@@ -92,10 +94,17 @@ export class RecipePage implements OnInit {
     } else {
       this.recipeService.getRecipe(this.id)
         .pipe(first())
-        .subscribe((recipe: Recipe) => {
-          this.recipe = recipe;
-          this.syncForm(this.recipe);
-          this.isLoading = false;
+        .subscribe({
+          next: (recipe: Recipe) => {
+            this.recipe = recipe;
+            this.syncForm(this.recipe);
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+            this.toastService.addToast('failed to load recipe', 'error', 'danger');
+            this.router.navigate(['/recipes']);
+          }
         });
     }
 
@@ -133,17 +142,30 @@ export class RecipePage implements OnInit {
 
       if (this.isNewRecipe) {
         this.recipeService.createRecipe(recipeToSave)
-          .subscribe((savedRecipe: Recipe) => {
-            this.recipe = savedRecipe;
-            this.isLoading = false;
-            this.router.navigate(['/recipe', savedRecipe.id]);
+          .subscribe({
+            next: (createdRecipe: Recipe) => {
+              this.recipe = createdRecipe;
+              this.isLoading = false;
+              this.toastService.addToast('recipe created successfully', 'check', 'success');
+              this.router.navigate(['/recipe', createdRecipe.id]);
+            }, 
+            error: () => {
+              this.isLoading = false;
+              this.toastService.addToast('failed to create recipe', 'error', 'danger');
+            }
           });
       } else {
         this.recipeService.updateRecipe(recipeToSave)
-          .subscribe((updatedRecipe: Recipe) => {
-            this.recipe = updatedRecipe;
-            this.syncForm(this.recipe);
-            this.isLoading = false;
+          .subscribe({
+            next: (updatedRecipe: Recipe) => {
+              this.recipe = updatedRecipe;
+              this.isLoading = false;
+              this.toastService.addToast('recipe updated successfully', 'check', 'success');
+            },
+            error: () => {
+              this.isLoading = false;
+              this.toastService.addToast('failed to update recipe', 'error', 'danger');
+            }
           });
       }
     }
@@ -178,8 +200,15 @@ export class RecipePage implements OnInit {
       this.isLoading = true;
 
       this.recipeService.deleteRecipe(this.id)
-        .subscribe(() => {
-          this.router.navigate(['/recipes']);
+        .subscribe({
+          next: () => {
+            this.toastService.addToast('recipe deleted successfully', 'check', 'success');
+            this.router.navigate(['/recipes']);
+          },
+          error: () => {
+            this.isLoading = false;
+            this.toastService.addToast('failed to delete recipe', 'error', 'danger');
+          }
         });
     }
   }
