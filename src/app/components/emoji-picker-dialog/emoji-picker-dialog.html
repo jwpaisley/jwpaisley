@@ -1,9 +1,39 @@
-<div class="emoji-dialog-content">
-    <input 
-        type="text" 
-        [placeholder]="'paste or type one emoji'"
-        (input)="onInput($event)"
-        class="emoji-input"
-        autofocus
-    />
+<div class="dialog-backdrop" (click)="onCancel()">
+  <div class="dialog-card" (click)="$event.stopPropagation()">
+    <form [formGroup]="formGroup">
+        <button class="close-x" (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+        </button>
+        <div class="icon-header">
+        <div class="icon-circle">
+            <mat-icon>{{ icon }}</mat-icon>
+        </div>
+        </div>
+        <div class="content">
+        <h1>{{ title }}</h1>
+        <p>{{ text }}</p>
+        </div>
+        <div class="input-section">
+            <jwpaisley-form-input 
+                formControlName="emoji" 
+                type="text" 
+                placeholder="emoji"
+                size="large"
+            />
+        </div>
+        <div class="actions">
+            <jwpaisley-button 
+                variant="primary" 
+                (click)="onConfirm()"
+            >
+                {{ confirmLabel }}
+            </jwpaisley-button>
+            <jwpaisley-button 
+                variant="secondary" 
+                (click)="onCancel()">
+                {{ cancelLabel }}
+            </jwpaisley-button>
+        </div>
+    </form>
+  </div>
 </div>

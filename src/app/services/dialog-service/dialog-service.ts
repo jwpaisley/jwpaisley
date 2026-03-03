@@ -9,7 +9,7 @@ export interface DialogConfig {
   icon?: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  defaultValue?: string;
+  value?: string;
 }
 
 export interface DialogResult<T = any> {

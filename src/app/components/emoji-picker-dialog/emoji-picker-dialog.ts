@@ -1,23 +1,42 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Button } from '../button/button';
 import { FormInput } from '../form-input/form-input';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'jwpaisley-emoji-picker-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormInput],
+  imports: [CommonModule, MatIconModule, Button, FormInput, ReactiveFormsModule],
   templateUrl: './emoji-picker-dialog.html',
   styleUrl: './emoji-picker-dialog.scss'
 })
 export class EmojiPickerDialog {
-  @Output() select = new EventEmitter<string>();
+  @Input() icon: string = 'mood';
+  @Input() title: string = 'select an emoji';
+  @Input() text: string = 'choose an emoji to represent your recipe';
+  @Input() confirmLabel: string = 'use emoji';
+  @Input() cancelLabel: string = 'cancel';
+  @Input() value: string = '🍲';
 
-  onInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const value = input.value;
-    if (value.length > 0) {
-      this.select.emit(value[0]);
-    }
+  @Output() confirm = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
+
+  protected formGroup: FormGroup = new FormGroup({
+    emoji: new FormControl(this.value, [Validators.required, Validators.minLength(1)])
+  });
+
+  get enableConfirmButton(): boolean {
+    return this.formGroup.valid;
+  }
+
+  onConfirm() {
+    const value = this.formGroup.get('emoji')?.value;
+    this.confirm.emit(value);
+  }
+
+  onCancel() {
+    this.cancel.emit();
   }
 }

@@ -1,6 +1,12 @@
   <div class="recipe-summary-card" [class.mobile]="isMobile$ | async">
     <form [formGroup]="formGroup">
-      <div class="recipe-emoji-circle">{{ recipe.emoji }}</div>
+      <div class="recipe-emoji-circle">
+        @if (editMode) {
+          {{ formEmoji }}
+        } @else {
+          {{ recipe.emoji }}
+        }
+      </div>
       @if (editMode) {
         <div class="recipe-change-emoji-button">
           <jwpaisley-button text="change emoji" (click)="changeEmojiButtonClicked.emit()" />

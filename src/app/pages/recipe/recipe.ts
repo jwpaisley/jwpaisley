@@ -9,6 +9,7 @@ import { UserService } from '../../services/user-service/user-service';
 import { Subject, takeUntil } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { DialogService } from '../../services/dialog-service/dialog-service';
+import { Router } from '@angular/router';
 
 const RECIPE_TEMPLATE: Recipe = {
   id: '',
@@ -25,13 +26,9 @@ const RECIPE_TEMPLATE: Recipe = {
   sugar: 0,
   sodium: 0,
 
-  recipeCategories: [],
   ingredients: [],
   miseEnPlaceSteps: [],
   instructions: [],
-
-  createdAt: new Date(),
-  updatedAt: new Date(),
 };
 
 @Component({
@@ -44,12 +41,13 @@ export class RecipePage implements OnInit {
   @Input({required: true}) id!: string;
   private platformId = inject(PLATFORM_ID);
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
   protected isLoading = true;
   protected editMode = false;
   protected isBrowser = isPlatformBrowser(this.platformId);
   protected isUserAdmin = signal(false);
   protected recipe: Recipe = RECIPE_TEMPLATE;
-  protected formGroup: FormGroup = this.buildFormGroup(RECIPE_TEMPLATE);
+  protected formGroup: FormGroup = this.buildFormGroup(this.recipe);
   private destroy$ = new Subject<void>();
   
   constructor(
@@ -120,7 +118,6 @@ export class RecipePage implements OnInit {
   };
 
   async saveRecipe(): Promise<void> {
-    console.log(this.formGroup?.value);
     const result = await this.dialogService.openConfirmDialog({
       title: 'save recipe',
       text: 'are you sure you want to save this recipe?',
@@ -133,17 +130,21 @@ export class RecipePage implements OnInit {
       this.isLoading = true;
       
       const recipeToSave = this.recipeFromForm();
-      console.log('Saving recipe:', recipeToSave);
 
       if (this.isNewRecipe) {
         this.recipeService.createRecipe(recipeToSave)
           .subscribe((savedRecipe: Recipe) => {
             this.recipe = savedRecipe;
+            this.isLoading = false;
+            this.router.navigate(['/recipe', savedRecipe.id]);
+          });
+      } else {
+        this.recipeService.updateRecipe(recipeToSave)
+          .subscribe((updatedRecipe: Recipe) => {
+            this.recipe = updatedRecipe;
             this.syncForm(this.recipe);
             this.isLoading = false;
           });
-      } else {
-        // TODO: update existing recipe
       }
     }
   }
@@ -157,15 +158,31 @@ export class RecipePage implements OnInit {
     const result = await this.dialogService.openEmojiPickerDialog({
       title: 'change recipe emoji',
       text: 'paste or type one emoji to set as the recipe emoji',
-      defaultValue: this.formGroup.get('emoji')?.value || '🍲',
-      confirmLabel: 'set emoji',
+      value: this.formGroup.get('emoji')?.value || '🍲'
+    });
+
+    if (result.confirmed && result.value) {
+      this.formGroup.get('emoji')?.setValue(result.value);
+    }
+  }
+
+  async deleteRecipe(): Promise<void> {
+    const result = await this.dialogService.openConfirmDialog({
+      title: 'delete recipe',
+      text: 'are you sure you want to delete this recipe?',
+      confirmLabel: 'delete',
       cancelLabel: 'cancel',
     });
 
-    console.log(result);
-  }
+    if (result.confirmed) {
+      this.isLoading = true;
 
-  deleteRecipe(): void {}
+      this.recipeService.deleteRecipe(this.id)
+        .subscribe(() => {
+          this.router.navigate(['/recipes']);
+        });
+    }
+  }
 
   get isNewRecipe(): boolean {
     return this.id === 'new';

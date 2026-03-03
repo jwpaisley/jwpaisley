@@ -16,8 +16,12 @@
         }
 
         @case ('emoji') {
-          <jwpaisley-emoji-picker-dialog 
-            (select)="handleConfirm($event)" 
+          <jwpaisley-emoji-picker-dialog
+            [icon]="config()?.icon || 'mood'"
+            [title]="config()?.title || 'use emoji'"
+            [value]="config()?.value || '🍲'"
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
           />
         }
 

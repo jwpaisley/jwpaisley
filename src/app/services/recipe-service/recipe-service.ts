@@ -17,13 +17,9 @@ export declare interface Recipe {
   sugar: number;
   sodium: number;
 
-  recipeCategories: string[];
   ingredients: string[];
   miseEnPlaceSteps: string[];
   instructions: string[];
-
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 @Injectable({
@@ -47,11 +43,11 @@ export class RecipeService {
     return this.httpClient.get<Recipe>(`${this.apiUrl}/${recipeId}`);
   }
 
-  // updateRecipe(recipe: Recipe): Observable<Recipe> {
-  //   return this.httpClient.put<Recipe>(`${this.apiUrl}/${recipe.id}`, recipe);
-  // }
+  updateRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.httpClient.put<Recipe>(`${this.apiUrl}/${recipe.id}`, recipe);
+  }
 
-  // deleteRecipe(recipeId: string): Observable<void> {
-  //   return this.httpClient.delete<void>(`${this.apiUrl}/${recipeId}`);
-  // }
+  deleteRecipe(recipeId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/${recipeId}`);
+  }
 }

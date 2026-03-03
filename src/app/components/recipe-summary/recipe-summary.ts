@@ -27,6 +27,10 @@ export class RecipeSummary {
   @Output() cancelButtonClicked = new EventEmitter<void>();
   @Output() deleteButtonClicked = new EventEmitter<void>();
 
+  protected get formEmoji(): string {
+    return this.formGroup.get('emoji')?.value || '🍲';
+  }
+
   private breakpointObserver = inject(BreakpointObserver);
 
   isMobile$ = this.breakpointObserver
