@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/profile/profile-module').then(m => m.ProfileModule),
     },
     {
+        path: 'library', 
+        loadChildren: () => import('./pages/books/books-module').then(m => m.BooksModule),
+    },
+    {
         path: 'recipes', 
         loadChildren: () => import('./pages/recipes/recipes-module').then(m => m.RecipesModule),
     },
