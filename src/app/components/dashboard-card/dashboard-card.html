@@ -1,4 +1,11 @@
-<mat-card class="dashboard-card" [ngClass]="[type + '-card', isTall ? 'tall-dashboard-card' : '']" [routerLink]="link">
+<mat-card 
+    class="dashboard-card" 
+    [ngClass]="[type + '-card', isTall ? 'tall-dashboard-card' : '', isWorkInProgress ? 'work-in-progress-container' : '']" 
+    [routerLink]="link"
+>
+    @if (!!isWorkInProgress) {
+        <div class="work-in-progress-banner">work in progress</div>
+    }
     <mat-card-header>
         <mat-icon mat-card-avatar>{{ icon }}</mat-icon>
         <mat-card-title>{{ title }}</mat-card-title>

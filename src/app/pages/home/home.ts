@@ -31,36 +31,42 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     icon: 'pets', 
     description: "he's been a good boy. he deserves it.", 
     link: '/treat-goose', 
+    isWorkInProgress: true,
   },
   { 
     title: 'photography', 
     icon: 'camera_alt', 
     description: "sometimes i take pictures of things, check them out here.", 
     link: '/photos', 
+    isWorkInProgress: true,
   },
   { 
     title: 'euchre', 
     icon: 'casino', 
     description: "you're not a dubuquer if you can't play euchre.", 
     link: '/euchre', 
+    isWorkInProgress: true,
   },
   { 
     title: 'meal planning + prep', 
     icon: 'bento', 
     description: "tool for planning out meals and nutrition for a week.", 
     link: '/meal-planning', 
+    isWorkInProgress: true,
   },
   { 
     title: "what i'm reading", 
     icon: 'library_books', 
     description: "my personal library... includes a timeline and ratings.", 
     link: '/library', 
+    isWorkInProgress: true,
   },
   { 
     title: 'chameleon', 
     icon: 'sports_esports', 
     description: "a game where you try to blend in... or spot the imposter.", 
     link: '/chameleon',
+    isWorkInProgress: true,
   },
   
 ];

@@ -1,6 +1,8 @@
-@use '../../../styles/variables' as style-variables;
+@use '../../../styles/_variables' as style-variables;
 
 .dashboard-card {
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
@@ -13,12 +15,32 @@
     }
 }
 
+.work-in-progress-container {}
+
+.work-in-progress-banner {
+    color: style-variables.$primary-text;
+    position: absolute;
+    top: 24px;
+    padding: 0 80px 0 80px;
+    right: -32px;
+    background-color: style-variables.$sunflower;
+    transform: rotate(20deg);
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-transform: lowercase;
+    white-space: nowrap;
+
+    @media (max-width: 800px) {
+        top: 16px;
+        right: -64px;
+        transform: rotate(15deg);
+    }
+}
+
 .mat-mdc-card-title {
     font-size: 1.5rem !important;
-    /* Adjust this value as needed */
     font-weight: 600;
     letter-spacing: -0.025em;
-    /* Gives it a modern, tighter feel */
 }
 
 .primary-card {

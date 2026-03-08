@@ -11,6 +11,7 @@ export declare interface DashboardItem {
   link: string;
   type?: 'primary' | 'secondary' | 'tertiary';
   isTall?: boolean;
+  isWorkInProgress?: boolean;
 }
 
 @Component({
@@ -27,4 +28,5 @@ export class DashboardCard {
   @Input() link?: string;
   @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
   @Input() isTall: boolean = false;
+  @Input() isWorkInProgress: boolean = false;
 }

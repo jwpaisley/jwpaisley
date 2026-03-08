@@ -5,10 +5,15 @@
 
     <div class="bento-grid" [style.grid-template-columns]="'repeat(' + (columns$ | async) + ', 1fr)'">
         @for (item of dashboardItems; track item.title; let i = $index) {
-        <jwpaisley-dashboard-card [title]="item.title" [icon]="item.icon" [description]="item.description"
-            [link]="item.link" [type]="getDashboardCardTypeByIndex(i)"
-            [class]="getDashboardCardIsTallByIndex(i) ? 'tall-dashboard-card' : ''">
-        </jwpaisley-dashboard-card>
+            <jwpaisley-dashboard-card 
+                [title]="item.title" 
+                [icon]="item.icon" 
+                [description]="item.description"
+                [link]="item.link" 
+                [type]="getDashboardCardTypeByIndex(i)"
+                [class]="getDashboardCardIsTallByIndex(i) ? 'tall-dashboard-card' : ''"
+                [isWorkInProgress]="item.isWorkInProgress || false" 
+            />
         }
     </div>
 </div>

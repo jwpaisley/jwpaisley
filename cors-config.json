@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["http://localhost:4200", "https://jwpaisley.com", "https://www.jwpaisley.com"],
+    "method": ["GET", "HEAD", "OPTIONS"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]

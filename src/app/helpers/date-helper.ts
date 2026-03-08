@@ -11,5 +11,5 @@ export const timestampToDateString = (timestamp: string | undefined): string => 
         month: 'short',
         day: 'numeric',
         year: 'numeric'
-    }).format(date);
+    }).format(date).toLowerCase();
 }
