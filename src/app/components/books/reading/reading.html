@@ -1,0 +1,5 @@
+<div class="reading-grid">
+  @for (book of readingBooks(); track book.id) {
+    <jwpaisley-book-card [book]="book" />
+  }
+</div>

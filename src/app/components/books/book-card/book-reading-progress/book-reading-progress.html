@@ -1,0 +1,28 @@
+<div class="progress-container">
+  <svg class="progress-ring" width="120" height="120" viewBox="0 0 120 120">
+    <circle
+      class="progress-ring__track"
+      fill="transparent"
+      r="54"
+      cx="60"
+      cy="60"
+    />
+    <circle
+      class="progress-ring__fill"
+      fill="transparent"
+      [attr.r]="radius"
+      [attr.cx]="60"
+      [attr.cy]="60"
+      [style.stroke-dasharray]="circumference"
+      [style.stroke-dashoffset]="strokeOffset()"
+      transform="rotate(-90 60 60)" 
+    />
+  </svg>
+  
+  <div class="progress-text">
+    <div class="percentage-wrapper">
+      <span class="number">{{ percentage() }}</span>
+    </div>
+    <span class="label">% read</span>
+  </div>
+</div>

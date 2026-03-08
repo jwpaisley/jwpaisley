@@ -39,10 +39,10 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     link: '/photos', 
   },
   { 
-    title: 'would you rather', 
-    icon: 'question_mark', 
-    description: "make tough choices between two equally enticing scenarios.", 
-    link: '/would-you-rather', 
+    title: 'euchre', 
+    icon: 'casino', 
+    description: "you're not a dubuquer if you can't play euchre.", 
+    link: '/euchre', 
   },
   { 
     title: 'meal planning + prep', 

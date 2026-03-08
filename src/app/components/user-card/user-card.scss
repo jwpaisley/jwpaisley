@@ -1,15 +1,12 @@
 @use '../../../styles/variables' as style-variables;
 
-$slate-blue: #8e9fb0;
-
 .user-card {
-  background-color: style-variables.$accent-variant-2;
+  background-color: style-variables.$sprout;
   padding: 1.5rem;
   margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid rgba($slate-blue, 0.2);
   max-width: 300px;
 
   &.full-width {
@@ -22,7 +19,6 @@ $slate-blue: #8e9fb0;
   justify-content: center;
   padding: 1rem 0;
 
-  // Scaling your custom icon for the large card view
   ::ng-deep .user-icon-container {
     width: 100px !important;
     height: 100px !important;

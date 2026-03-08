@@ -1,0 +1,33 @@
+@use '../../../styles/variables' as style-variables;
+
+.tab-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 64px;
+    padding: 0;
+    background-color: style-variables.$accent-variant-4;
+    border-bottom: 1px solid style-variables.$light-text;
+    color: style-variables.$light-text;
+
+    ::ng-deep jwpaisley-tab {
+        flex: 1; 
+        display: flex;
+        height: 100%;
+    }
+}
+
+.tabs-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+}
+
+.material-icons {
+    font-size: 28px;
+    vertical-align: middle;
+}

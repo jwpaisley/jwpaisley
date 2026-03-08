@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
-export declare enum BookReadState {
+export enum BookReadState {
   WANT_TO_READ = 'wantToRead',
   CURRENTLY_READING = 'currentlyReading',
   FINISHED_READING = 'finishedReading',
@@ -10,11 +10,14 @@ export declare enum BookReadState {
 
 export declare interface Book {
   id: string;
-  name: string;
-  coverUrl: string;
+  title: string;
+  author: string;
+  coverImage: string;
   description: string;
   state: BookReadState;
 
+  pageCount?: number;
+  currentPage?: number;
   rating?: number;
   review?: string;
   startDate?: string;
@@ -35,5 +38,16 @@ export class BooksService {
 
   getBooks(): Observable<Book[]> {
     return this.httpClient.get<Book[]>(`${this.apiUrl}`);
+  }
+
+  uploadCover(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    
+    formData.append('cover', file);
+
+    return this.httpClient.post<{ url: string }>(
+      'https://api.jwpaisley.com/api/book-covers', 
+      formData
+    );
   }
 }

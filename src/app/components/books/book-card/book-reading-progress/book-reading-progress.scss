@@ -1,0 +1,63 @@
+@use '../../../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 90px;
+  height: 90px;
+  margin: auto;
+}
+
+.progress-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring__track {
+  stroke: style-variables.$cloud; // Using your cloud variable for the background
+  stroke-width: 8;
+}
+
+.progress-ring__fill {
+  stroke: style-variables.$accent-variant-2; // Using your primary accent
+  stroke-width: 8;
+  transition: stroke-dashoffset 0.5s ease-in-out;
+  stroke-linecap: round;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); // Perfect centering trick
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.percentage-wrapper {
+  display: flex;
+  align-items: baseline; // Aligns the bottom of the % with the bottom of the number
+  justify-content: center;
+  color: style-variables.$primary-text;
+  
+  .number {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+}
+
+.label {
+  font-size: 0.5rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  color: style-variables.$slate;
+  margin-top: -2px; // Pulls "read" closer to the number
+}

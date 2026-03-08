@@ -1,1 +1,13 @@
-<p>books works!</p>
+<jwpaisley-tab-group>
+    <jwpaisley-tab link="reading">reading</jwpaisley-tab>
+    <jwpaisley-tab link="want-to-read">want to read</jwpaisley-tab>
+    <jwpaisley-tab link="timeline">timeline</jwpaisley-tab>
+</jwpaisley-tab-group>
+<div class="page-container">
+    <router-outlet></router-outlet>
+</div>
+@if (isUserAdmin) {
+    <jwpaisley-action-dock>
+        <jwpaisley-action-dock-button icon="add" variant="primary" (click)="onAddBook()" />
+    </jwpaisley-action-dock>
+}
