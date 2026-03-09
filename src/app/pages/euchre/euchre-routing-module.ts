@@ -4,7 +4,10 @@ import { Euchre } from './euchre';
 
 const routes: Routes = [
   {
-    path: '', component: Euchre
+    path: '', component: Euchre,
+  },
+  { 
+    path: ':id', component: Euchre 
   }
 ];
 

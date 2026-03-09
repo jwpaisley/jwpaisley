@@ -1,33 +1,42 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, PLATFORM_ID, Input} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Loader } from "../../loader/loader";
 
 @Component({
   selector: 'jwpaisley-euchre-canvas',
   standalone: true,
+  imports: [Loader],
   templateUrl: './euchre-game-canvas.html',
   styleUrl: './euchre-game-canvas.scss'
 })
 export class EuchreCanvas implements OnInit, OnDestroy {
+  @Input() id?: string;
   @ViewChild('euchreGameCanvas', { static: true }) gameContainer!: ElementRef;
   private game: any;
   private platformId = inject(PLATFORM_ID);
-
+  protected isLoading = true;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.initializeGame();
+      this.isLoading = false;
     }
   }
 
   ngOnDestroy() {
-    this.game?.destroy(true);
+    if (this.game) {
+      this.game.destroy(true);
+    }
   }
 
   private async initializeGame() {
-    const Phaser = await import('phaser');
-    const { EuchreGame } = await import('../euchre-game/euchre-game');
+    const phaserModule = await import('phaser');
+    const Phaser = (phaserModule as any).default || phaserModule;
+    
+    const { EuchreMenuScene } = await import('../euchre-game/scenes/euchre-menu-scene');
+    const { EuchreGameScene } = await import('../euchre-game/scenes/euchre-game-scene');
 
-    const config: Phaser.Types.Core.GameConfig = {
+    const config: any = {
       type: Phaser.AUTO,
       parent: this.gameContainer.nativeElement,
       scale: {
@@ -37,10 +46,19 @@ export class EuchreCanvas implements OnInit, OnDestroy {
         height: '100%',
       },
       transparent: true,
-      scene: [EuchreGame],
       physics: { default: 'arcade' }
     };
 
     this.game = new Phaser.Game(config);
+    this.game.events.once('ready', () => {
+      this.game.scene.add('EuchreMenuScene', EuchreMenuScene, false);
+      this.game.scene.add('EuchreGameScene', EuchreGameScene, false);
+
+      if (this.id) {
+        this.game.scene.start('EuchreGameScene', { gameId: this.id });
+      } else {
+        this.game.scene.start('EuchreMenuScene');
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EuchreCanvas } from '../../components/euchre/euchre-game-canvas/euchre-game-canvas';
 
 @Component({
@@ -8,5 +8,5 @@ import { EuchreCanvas } from '../../components/euchre/euchre-game-canvas/euchre-
   styleUrl: './euchre.scss',
 })
 export class Euchre {
-
+  @Input({required: true}) id!: string;
 }

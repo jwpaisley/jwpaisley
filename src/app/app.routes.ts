@@ -30,5 +30,5 @@ export const routes: Routes = [
     {
         path: 'euchre', 
         loadChildren: () => import('./pages/euchre/euchre-module').then(m => m.EuchreModule),
-    },
+    }
 ];
