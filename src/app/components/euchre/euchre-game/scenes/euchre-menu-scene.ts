@@ -156,6 +156,7 @@ export class EuchreMenuScene extends Phaser.Scene {
         this.addGameTitle();
         this.addMenuButtons();
         this.fadeInTitle();
+        this.startTitleAnimation();
         this.fadeInMenuButtons();
     }
 
@@ -176,6 +177,29 @@ export class EuchreMenuScene extends Phaser.Scene {
             duration: TITLE_FADE_IN_DURATION,
             delay: TITLE_FADE_IN_DELAY,
             ease: 'Power2'
+        });
+    }
+
+    startTitleAnimation() {
+        if (!this.title) return;
+
+        this.tweens.add({
+            targets: this.title,
+            y: this.titleY - (10 * (this.scale.height / 800)), // Scale the float distance
+            duration: 1000,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1 // Loop forever
+        });
+
+        // Optional: Subtle scale "pulse"
+        this.tweens.add({
+            targets: this.title,
+            scale: 1.02,
+            duration: 2000,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
         });
     }
 
@@ -231,7 +255,14 @@ export class EuchreMenuScene extends Phaser.Scene {
                     button.setText(text);
                 }         
             })
-            .on('pointerdown', () => click())
+            .on('pointerdown', () => {
+                if (!this.actionClicked) {
+                    button.setColor(BUTTON_CLICKED_COLOR);
+                    button.setScale(1.1);
+                    this.actionClicked = true;
+                    this.time.delayedCall(BUTTON_CLICK_DELAY, () => click(), [], this);
+                }
+            })
             .setAlpha(0);
 
         return button;
@@ -273,41 +304,18 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     createNewGame() {
-        if (!this.actionClicked){
-            this.newGameButton?.setColor(BUTTON_CLICKED_COLOR);
-            this.newGameButton?.setScale(1.1);
-            this.actionClicked = true;
-
-            this.time.delayedCall(BUTTON_CLICK_DELAY, () => {
-                const newId = Math.random().toString(36).substring(7);
-                this.game.events.emit('CREATE_NEW_GAME', newId);
-                this.scene.start('EuchreGameScene', { gameId: newId });
-            }, [], this);
-        }
+        const newId = Math.random().toString(36).substring(7);
+        this.game.events.emit('CREATE_NEW_GAME', newId);
+        this.scene.start('EuchreGameScene', { gameId: newId });
     }
 
     joinGame() {
-        if (!this.actionClicked) {
-            this.joinGameButton?.setColor(BUTTON_CLICKED_COLOR);
-            this.joinGameButton?.setScale(1.1);
-            this.actionClicked = true;
-        }
     }
 
     openTutorial() {
-        if (!this.actionClicked) {
-            this.tutorialButton?.setColor(BUTTON_CLICKED_COLOR);
-            this.tutorialButton?.setScale(1.1);
-            this.actionClicked = true;
-        }
     }
 
     openSettings() {
-        if (!this.actionClicked) {
-            this.settingsButton?.setColor(BUTTON_CLICKED_COLOR);
-            this.settingsButton?.setScale(1.1);
-            this.actionClicked = true;
-        }
     }
 
     private createFlipSequence() {
