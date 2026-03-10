@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, PLATFORM_ID, Input} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, Location} from '@angular/common';
 import { Loader } from "../../loader/loader";
 
 @Component({
@@ -14,6 +14,7 @@ export class EuchreCanvas implements OnInit, OnDestroy {
   @ViewChild('euchreGameCanvas', { static: true }) gameContainer!: ElementRef;
   private game: any;
   private platformId = inject(PLATFORM_ID);
+  private location = inject(Location);
   protected isLoading = true;
 
   ngOnInit() {
@@ -50,6 +51,7 @@ export class EuchreCanvas implements OnInit, OnDestroy {
     };
 
     this.game = new Phaser.Game(config);
+
     this.game.events.once('ready', () => {
       this.game.scene.add('EuchreMenuScene', EuchreMenuScene, false);
       this.game.scene.add('EuchreGameScene', EuchreGameScene, false);
@@ -59,6 +61,10 @@ export class EuchreCanvas implements OnInit, OnDestroy {
       } else {
         this.game.scene.start('EuchreMenuScene');
       }
+    });
+
+    this.game.events.on('CREATE_NEW_GAME', (newId: string) => {
+      this.location.go(`/euchre/${newId}`);
     });
   }
 }

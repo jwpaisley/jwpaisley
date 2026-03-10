@@ -46,4 +46,17 @@ export class CardUtility {
 
         return (suitIndex * 13) + rankIndex;
     }
+
+    /**
+     * Scales the card sprite to the dimensions of the screen
+     * @param width The screen width in pixels
+     * @param percentage The screen height in pixels
+     * @returns 
+     */
+    static getCardScaleFromWidth(width: number, percentage: number): number {
+        const targetWidth = width * percentage;
+        const originalWidth = 80; 
+    
+        return targetWidth / originalWidth;
+    }
 }
