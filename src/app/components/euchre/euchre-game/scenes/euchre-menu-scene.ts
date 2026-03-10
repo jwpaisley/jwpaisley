@@ -218,9 +218,11 @@ export class EuchreMenuScene extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true })
             .on('pointerover', () => {
-                button.setColor(HOVER_BUTTON_COLOR);
-                button.setScale(HOVER_BUTTON_SCALE);
-                button.setText(`> ${text} <`);
+                if (!this.actionClicked) {
+                    button.setColor(HOVER_BUTTON_COLOR);
+                    button.setScale(HOVER_BUTTON_SCALE);
+                    button.setText(`> ${text} <`);
+                }
             })
             .on('pointerout', () => {
                 if (!this.actionClicked) {
@@ -271,33 +273,41 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     createNewGame() {
-        this.newGameButton?.setColor(BUTTON_CLICKED_COLOR);
-        this.newGameButton?.setScale(1.1);
-        this.actionClicked = true;
+        if (!this.actionClicked){
+            this.newGameButton?.setColor(BUTTON_CLICKED_COLOR);
+            this.newGameButton?.setScale(1.1);
+            this.actionClicked = true;
 
-        this.time.delayedCall(BUTTON_CLICK_DELAY, () => {
-            const newId = Math.random().toString(36).substring(7);
-            this.game.events.emit('CREATE_NEW_GAME', newId);
-            this.scene.start('EuchreGameScene', { gameId: newId });
-        }, [], this);
+            this.time.delayedCall(BUTTON_CLICK_DELAY, () => {
+                const newId = Math.random().toString(36).substring(7);
+                this.game.events.emit('CREATE_NEW_GAME', newId);
+                this.scene.start('EuchreGameScene', { gameId: newId });
+            }, [], this);
+        }
     }
 
     joinGame() {
-        this.joinGameButton?.setColor(BUTTON_CLICKED_COLOR);
-        this.joinGameButton?.setScale(1.1);
-        this.actionClicked = true;
+        if (!this.actionClicked) {
+            this.joinGameButton?.setColor(BUTTON_CLICKED_COLOR);
+            this.joinGameButton?.setScale(1.1);
+            this.actionClicked = true;
+        }
     }
 
     openTutorial() {
-        this.tutorialButton?.setColor(BUTTON_CLICKED_COLOR);
-        this.tutorialButton?.setScale(1.1);
-        this.actionClicked = true;
+        if (!this.actionClicked) {
+            this.tutorialButton?.setColor(BUTTON_CLICKED_COLOR);
+            this.tutorialButton?.setScale(1.1);
+            this.actionClicked = true;
+        }
     }
 
     openSettings() {
-        this.settingsButton?.setColor(BUTTON_CLICKED_COLOR);
-        this.settingsButton?.setScale(1.1);
-        this.actionClicked = true;
+        if (!this.actionClicked) {
+            this.settingsButton?.setColor(BUTTON_CLICKED_COLOR);
+            this.settingsButton?.setScale(1.1);
+            this.actionClicked = true;
+        }
     }
 
     private createFlipSequence() {
