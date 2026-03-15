@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ActionsService, ActionType } from '../../services/actions-service/actions-service';
 
 const BUTTON_VARIANTS = [
   'primary', 
@@ -20,10 +21,15 @@ type ButtonVariant = typeof BUTTON_VARIANTS[number];
 export class ActionDockButton {
   @Input() icon: string = 'add';
   @Input() variant: ButtonVariant = 'primary';
-  @Output() click = new EventEmitter<void>();
+  @Input() action: ActionType = 'add';
+
+  constructor(
+    private actionsService: ActionsService
+  ) {}
   
-  onClick(event: Event) {
-    event.stopPropagation();
-    this.click.emit();
+  onClick() {
+    this.actionsService.emitAction({
+      type: this.action
+    })
   }
 }

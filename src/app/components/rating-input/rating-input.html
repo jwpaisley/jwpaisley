@@ -1,0 +1,24 @@
+<div class="rating-wrapper" [class.disabled]="disabled">
+  <jwpaisley-rating-state [value]="value" />
+  <div class="rating-header">
+    @if (label) {
+      <label class="rating-label">{{ label | lowercase }}</label>
+    }
+    <span class="rating-value">{{ value }}%</span>
+  </div>
+
+  <div class="slider-container">
+    <input 
+      type="range" 
+      [min]="min" 
+      [max]="max" 
+      [step]="step"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="handleInput($event)"
+      (blur)="onTouched()"
+      class="slider"
+    />
+    <div class="slider-track-fill" [style.width.%]="value"></div>
+  </div>
+</div>

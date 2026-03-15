@@ -91,12 +91,13 @@ export class RecipePage implements OnInit {
     if (this.isNewRecipe) {
       this.editMode = true;
       this.isLoading = false;
-    } else {
+    } else {      
       this.recipeService.getRecipe(this.id)
         .pipe(first())
         .subscribe({
           next: (recipe: Recipe) => {
             this.recipe = recipe;
+            console.log('fetched recipe:', recipe);
             this.syncForm(this.recipe);
             this.isLoading = false;
           },

@@ -1,1 +1,5 @@
-<p>want-to-read works!</p>
+<div class="want-to-read-grid">
+  @for (book of wantToReadBooks; track book.id) {
+    <jwpaisley-book-card [book]="book" />
+  }
+</div>

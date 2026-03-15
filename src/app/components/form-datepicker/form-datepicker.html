@@ -4,11 +4,8 @@
   }
   
   <div class="input-container">
-     @if (prefix) {
-      <span class="input-prefix">{{ prefix }}</span>
-    }
     <input
-      [type]="type"
+      type="date"
       [value]="value"
       [placeholder]="placeholder"
       [disabled]="disabled"
@@ -16,8 +13,5 @@
       (blur)="onTouched()"
       class="input"
     />
-    @if (suffix) {
-      <span class="input-suffix">{{ suffix }}</span>
-    }
   </div>
 </div>

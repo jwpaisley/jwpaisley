@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TabGroup } from '../../components/tab-group/tab-group';
 import { Tab } from '../../components/tab/tab';
 import { RouterOutlet } from '@angular/router';
@@ -6,6 +6,9 @@ import { ActionDockButton } from '../../components/action-dock-button/action-doc
 import { ActionDock } from '../../components/action-dock/action-dock';
 import { Subject } from 'rxjs/internal/Subject';
 import { UserService } from '../../services/user-service/user-service';
+import { Reading } from '../../components/books/reading/reading';
+import { WantToRead } from '../../components/books/want-to-read/want-to-read';
+import { Timeline } from '../../components/books/timeline/timeline';
 
 @Component({
   selector: 'jwpaisley-books',
@@ -16,6 +19,8 @@ import { UserService } from '../../services/user-service/user-service';
 export class BooksPage implements OnInit, OnDestroy {
   protected isUserAdmin = false;
   protected destroy$ = new Subject<void>();
+
+  protected addingBook = false;
     
   constructor(
     private userService: UserService,
@@ -32,9 +37,5 @@ export class BooksPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  onAddBook() {
-    console.log('Add book clicked');
   }
 }

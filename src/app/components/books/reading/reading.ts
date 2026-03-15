@@ -1,40 +1,80 @@
-import { Component } from '@angular/core';
-import { Book, BookReadState } from '../../../services/books-service/books-service';
+import { Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Book, BookReadState, BooksService } from '../../../services/books-service/books-service';
 import { BookCard } from '../book-card/book-card';
+import { ActionsService, Action } from '../../../services/actions-service/actions-service';
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil } from 'rxjs';
+
+const BOOK_TEMPLATE: Book = {
+  id: 'new',
+  title: '',
+  author: '',
+  coverImage: 'https://storage.googleapis.com/jwpaisley-book-covers/generic_book_cover.png',
+  description: '',
+
+  pageCount: 1,
+  currentPage: 0,
+  rating: 0,
+  review: '',
+  startDate: undefined,
+  finishDate: undefined,
+
+  state: BookReadState.CURRENTLY_READING,
+}
 
 @Component({
-  selector: 'app-reading',
+  selector: 'jwpaisley-reading',
   imports: [BookCard],
   templateUrl: './reading.html',
   styleUrl: './reading.scss',
 })
-export class Reading {
-  protected readingBooks(): Book[] {
-    return [
-      {
-        id: '1',
-        title: 'the thousand autumns of jacob de zoet',
-        author: 'david mitchell',
-        description: 'a novel about a dutch merchant in 18th-century japan',
-        coverImage: 'https://m.media-amazon.com/images/I/814QgHATIsL._AC_UF1000,1000_QL80_.jpg',
-        state: BookReadState.CURRENTLY_READING,
-        pageCount: 479,
-        currentPage: 192,
-        rating: 5,
-        review: 'an engaging story with rich historical detail'
-      }, 
-      {
-        id: '2',
-        title: 'the troop',
-        author: 'nick cutter',
-        description: 'a visceral body-horror novel about scoutmaster tim riggs and five boy scouts on a remote canadian island. their camping trip turns into a fight for survival against a bioengineered, ravenously hungry, tapeworm-like parasite that causes grotesque physical transformations',
-        coverImage: 'https://m.media-amazon.com/images/I/81PG4oLQDhL._UF1000,1000_QL80_.jpg',
-        state: BookReadState.FINISHED_READING,
-        pageCount: 479,
-        currentPage: 192,
-        rating: 5,
-        review: 'an engaging story with rich historical detail'
-      }
-    ];
+export class Reading implements OnInit, OnDestroy {
+  @Input() addingBook: boolean = false;
+
+  protected destroy$ = new Subject<void>();
+  protected books: Book[] = [];
+
+  constructor(
+    private actionsService: ActionsService,
+    private booksService: BooksService,
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  protected get readingBooks(): Book[] {
+    return this.books;
+  }
+
+  protected getReadingBooks() {
+    this.booksService.getBooks()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((books: Book[]) => {
+        this.books = books.filter(book => book.state === BookReadState.CURRENTLY_READING);
+        this.cdr.detectChanges();
+      });
+  }
+
+  ngOnInit(): void {
+    this.getReadingBooks();
+    
+    this.actionsService.actionEmitted$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((action: Action) => {
+        if (action.type === 'add') {
+          this.addBook();
+        } else {
+          alert('woops!')
+          console.log(action.type)
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  addBook() {
+    this.books.push(BOOK_TEMPLATE);
+    this.cdr.detectChanges();
   }
 }

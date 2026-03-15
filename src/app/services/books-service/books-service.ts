@@ -36,8 +36,24 @@ export class BooksService {
   private readonly prodApiUrl = 'https://api.jwpaisley.com/api/books';
   private readonly apiUrl = this.prodApiUrl;
 
+  createBook(book: Book): Observable<Book> {
+    return this.httpClient.post<Book>(`${this.apiUrl}`, book);
+  }
+
   getBooks(): Observable<Book[]> {
     return this.httpClient.get<Book[]>(`${this.apiUrl}`);
+  }
+
+  getBook(bookId: string): Observable<Book> {
+    return this.httpClient.get<Book>(`${this.apiUrl}/${bookId}`);
+  }
+
+  updateBook(book: Book): Observable<Book> {
+    return this.httpClient.put<Book>(`${this.apiUrl}/${book.id}`, book);
+  }
+
+  deleteBook(bookId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/${bookId}`);
   }
 
   uploadCover(file: File): Observable<{ url: string }> {

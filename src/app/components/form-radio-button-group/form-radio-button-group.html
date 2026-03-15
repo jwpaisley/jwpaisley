@@ -1,0 +1,8 @@
+<div class="radio-group-wrapper" [class]="'layout-' + layout">
+    @if (label) {
+        <label class="group-label">{{ label | lowercase }}</label>
+    }
+    <div class="options-container">
+        <ng-content></ng-content>
+    </div>
+</div>

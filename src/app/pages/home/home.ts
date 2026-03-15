@@ -68,7 +68,20 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     link: '/chameleon',
     isWorkInProgress: true,
   },
-  
+  { 
+    title: 'workshop', 
+    icon: 'carpenter', 
+    description: "i make stuff and things out of wood, sometimes. check out my work here.", 
+    link: '/workshop',
+    isWorkInProgress: true,
+  },
+  { 
+    title: 'cocktails', 
+    icon: 'local_bar', 
+    description: "a collection of my favorite cocktail recipes, some of my own invention. sláinte.", 
+    link: '/cocktails',
+    isWorkInProgress: true,
+  },
 ];
 
 @Component({

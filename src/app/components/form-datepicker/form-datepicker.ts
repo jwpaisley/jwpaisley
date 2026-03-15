@@ -3,45 +3,58 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'jwpaisley-form-input',
+  selector: 'jwpaisley-form-datepicker',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './form-input.html',
-  styleUrl: './form-input.scss',
+  templateUrl: './form-datepicker.html',
+  styleUrl: './form-datepicker.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormInput),
+      useExisting: forwardRef(() => FormDatepicker),
       multi: true
     }
   ]
 })
-export class FormInput implements ControlValueAccessor {
+export class FormDatepicker implements ControlValueAccessor {
   @Input() label: string = '';
-  @Input() type: 'text' | 'number' = 'text';
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() placeholder: string = '';
   @Input() prefix: string = '';
   @Input() suffix: string = '';
 
-  value: any = '';
+  value: string = '';
   disabled = false;
+  private timeSuffix: string = '00:00:00.000000';
 
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  writeValue(value: any): void { this.value = value; }
+  writeValue(value: any): void {
+    if (value && typeof value === 'string' && value.includes(' ')) {
+      const parts = value.split(' ');
+      this.value = parts[0];
+      this.timeSuffix = parts[1];
+    } else {
+      this.value = value || '';
+    }
+  }
+
   registerOnChange(fn: any): void { this.onChange = fn; }
   registerOnTouched(fn: any): void { this.onTouched = fn; }
   setDisabledState(isDisabled: boolean): void { this.disabled = isDisabled; }
 
   handleInput(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const val = this.type === 'number' ? 
-      (target.value === '' ? null : parseFloat(target.value)) : 
-      target.value;
-    
-    this.value = val;
-    this.onChange(val);
+    const datePart = target.value;
+    this.value = datePart;
+
+    if (!datePart) {
+      this.onChange(null);
+      return;
+    }
+
+    const fullTimestamp = `${datePart} ${this.timeSuffix}`;
+    this.onChange(fullTimestamp);
   }
 }

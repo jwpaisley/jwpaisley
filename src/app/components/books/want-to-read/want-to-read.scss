@@ -1,0 +1,9 @@
+.want-to-read-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}

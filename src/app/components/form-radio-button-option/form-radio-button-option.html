@@ -1,0 +1,16 @@
+<div class="option-wrapper" 
+     [class.selected]="isSelected" 
+     [class.disabled]="parent.disabled || disabled"
+     (click)="onSelect()"
+>
+  <input type="radio" 
+         [checked]="isSelected" 
+         [disabled]="parent.disabled || disabled" 
+         class="native-radio">
+  <div class="radio-indicator">
+    <div class="inner-dot"></div>
+  </div>
+  <span class="option-label">
+    <ng-content></ng-content>
+  </span>
+</div>

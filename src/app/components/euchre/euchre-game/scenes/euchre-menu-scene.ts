@@ -1,6 +1,7 @@
-import { CardUtility, CardData } from "../utils/card-util";
+import { EuchreCardUtility, EuchreCardData } from "../utils/euchre-card-util";
+import { EuchreGameUtility } from "../utils/euchre-game-util";
 
-const JACKS: CardData[] = [
+const JACKS: EuchreCardData[] = [
     { rank: 'J', suit: 'clubs' },
     { rank: 'J', suit: 'hearts' },
     { rank: 'J', suit: 'spades' },
@@ -42,10 +43,6 @@ export class EuchreMenuScene extends Phaser.Scene {
         super('EuchreMenuScene');
     }
 
-    get screenIsPortrait(): boolean {
-        return this.scale.width < this.scale.height;
-    }
-
     get centerX(): number {
         return this.scale.width / 2;
     }
@@ -59,7 +56,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get buttonsY(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.height * 0.5;
         } else {
             return this.scale.height * 0.575; 
@@ -67,7 +64,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get buttonMarginY(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.height * 0.075;
         } else {
             return this.scale.height * 0.075;
@@ -75,7 +72,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get titleFontSize(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.width * 0.25;
         } else {
             return this.scale.width * 0.1;
@@ -83,7 +80,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get defaultButtonFontSize(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.width * 0.075;
         } else {
             return this.scale.width * 0.025;
@@ -91,7 +88,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get cardRowX(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.width * 0.04;
         } else {
             return this.scale.width * 0.25;
@@ -99,7 +96,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get cardMargin(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.width * 0.04;
         } else {
             const sideMargins = this.scale.width * 0.25;
@@ -111,7 +108,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get cardRowY(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.height * 0.35;
         } else {
             return this.scale.height * 0.4;  
@@ -119,7 +116,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get scaledCardWidth(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scale.width * 0.2;
         } else {
             return this.scaledCardHeight * CARD_ASPECT_RATIO;
@@ -127,7 +124,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get scaledCardHeight(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scaledCardWidth / CARD_ASPECT_RATIO;
         } else {
             return this.scale.height * 0.2;
@@ -135,7 +132,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     }
 
     get cardScaleFactor(): number {
-        if (this.screenIsPortrait) {
+        if (EuchreGameUtility.screenIsPortrait(this)) {
             return this.scaledCardWidth / CARD_SPRITE_WIDTH;
         } else {
             return this.scaledCardHeight / CARD_SPRITE_HEIGHT;
@@ -185,14 +182,13 @@ export class EuchreMenuScene extends Phaser.Scene {
 
         this.tweens.add({
             targets: this.title,
-            y: this.titleY - (10 * (this.scale.height / 800)), // Scale the float distance
+            y: this.titleY - (10 * (this.scale.height / 800)),
             duration: 1000,
             ease: 'Sine.easeInOut',
             yoyo: true,
-            repeat: -1 // Loop forever
+            repeat: -1
         });
 
-        // Optional: Subtle scale "pulse"
         this.tweens.add({
             targets: this.title,
             scale: 1.02,
@@ -259,6 +255,7 @@ export class EuchreMenuScene extends Phaser.Scene {
                 if (!this.actionClicked) {
                     button.setColor(BUTTON_CLICKED_COLOR);
                     button.setScale(1.1);
+                    button.setText(`> ${text} <`);
                     this.actionClicked = true;
                     this.time.delayedCall(BUTTON_CLICK_DELAY, () => click(), [], this);
                 }
@@ -295,7 +292,7 @@ export class EuchreMenuScene extends Phaser.Scene {
             const card = this.add.sprite(cardXPosition, this.cardRowY, 'card-back');
             card.setInteractive({ useHandCursor: true });
             card.setScale(this.cardScaleFactor);
-            card.setData('cardFace', CardUtility.getFrame(jackData));
+            card.setData('cardFace', EuchreCardUtility.getFrame(jackData));
             card.on('pointerover', () => card.setScale(1.1 * this.cardScaleFactor));
             card.on('pointerout', () => card.setScale(this.cardScaleFactor));
 
@@ -318,7 +315,7 @@ export class EuchreMenuScene extends Phaser.Scene {
     openSettings() {
     }
 
-    private createFlipSequence() {
+    createFlipSequence() {
         this.cardSprites.forEach((card, index) => {
             const timeline = this.add.timeline([
                 {

@@ -1,42 +1,176 @@
 <div class="book-card" [class.mobile]="isMobile$ | async">
-  <div class="book-cover-container">
-    <img [src]="book.coverImage" [alt]="book.title + ' cover'" class="book-cover">
-  </div>
+  @if (formGroup) {
+    <form [formGroup]="formGroup">
+      <div class="book-cover-container" 
+          [class.editable]="editMode" 
+          (click)="editMode ? fileInput.click() : null">
+        
+        <img [src]="book.coverImage" [alt]="book.title + ' cover'" class="book-cover">
+        
+        @if (editMode) {
+          <div class="edit-overlay">
+            <span class="upload-icon">📸</span>
+          </div>
+        }
 
-  <div class="book-details">
-    <h2 class="book-title">{{ book.title }}</h2>
-    <h3 class="book-author">by {{ book.author }}</h3>
-    
-    <p class="book-description">
-      {{ book.description }}
-    </p>
+        <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none">
+      </div>
 
-    <div class="book-metadata-grid">
-      <span>
-        <strong>current page:</strong> {{ book.currentPage }}
-      </span>
-      <span>
-        <strong>pages:</strong> {{ book.pageCount }}
-      </span>
-      @if (currentlyReading || finished) {
-        <span>
-          <strong>started:</strong> {{ formatDate(book.startDate) }}
-        </span>
-        <span>
-          <strong>finished:</strong> {{ formatDate(book.finishDate) }}
-        </span>
-      }
-    </div>
+      <div class="book-details">
+        <h2 class="book-title">
+          @if (editMode) {
+              <jwpaisley-form-input 
+                formControlName="title" 
+                type="text" 
+                placeholder="book title"
+                size="medium"
+              />
+            } @else {
+              {{ book.title }}
+            }
+        </h2>
+        <h3 class="book-author">
+          @if (editMode) {
+            <jwpaisley-form-input 
+              formControlName="author" 
+              type="text" 
+              placeholder="author"
+              size="medium"
+            />
+          } @else {
+            by {{ book.author }}
+          }
+        </h3>
+        
+        <p class="book-description">
+          @if (editMode) {
+            <jwpaisley-form-text-area 
+              formControlName="description" 
+              placeholder="short description of the book"
+              size="medium"
+            />
+          } @else {
+            {{ book.description }}
+          }
+        </p>
+        @if (editMode) {
+          <div>
+            <jwpaisley-form-radio-button-group
+              formControlName="state" 
+              label="reading status"
+              layout="horizontal"
+            >
+              <jwpaisley-form-radio-button-option value="wantToRead">
+                want to read
+              </jwpaisley-form-radio-button-option>
+              <jwpaisley-form-radio-button-option value="currentlyReading">
+                currently reading
+              </jwpaisley-form-radio-button-option>
+              <jwpaisley-form-radio-button-option value="finishedReading">
+                finished
+              </jwpaisley-form-radio-button-option>
+            </jwpaisley-form-radio-button-group>
+          </div>
+        }
 
-    <div class="book-progress-grid">
-      @if (currentlyReading) {
-        <span>
-          <jwpaisley-book-reading-progress 
-            [totalPages]="book.pageCount || 1" 
-            [currentPage]="book.currentPage || 0"
-          />
-        </span>
-      }
-    </div>
-  </div>
+        <div class="book-metadata-grid">
+          @if (currentlyReading) {
+            <span>
+              <strong>current page:</strong>
+              @if (editMode) {
+                <jwpaisley-form-input 
+                  formControlName="currentPage" 
+                  type="number" 
+                  size="medium"
+                />
+              } @else {
+                {{ book.currentPage }}
+              }
+            </span>
+            <span>
+              <strong>pages:</strong>
+              @if (editMode) {
+                <jwpaisley-form-input 
+                  formControlName="pageCount" 
+                  type="number" 
+                  size="medium"
+                />
+              } @else {
+                {{ book.pageCount }}
+              }
+            </span>
+          }
+          @if (currentlyReading || finished) {
+            <span>
+              <strong>started:</strong> 
+              @if (editMode) {
+                <jwpaisley-form-datepicker formControlName="startDate" size="small" />
+              } @else {
+                {{ formatDate(book.startDate) }}
+              }
+            </span>
+          }
+          @if (finished) {
+            <span>
+              <strong>finished:</strong>
+              @if (editMode) {
+                <jwpaisley-form-datepicker formControlName="finishDate" size="small" />
+              } @else {
+                {{ formatDate(book.finishDate) }}
+              }
+            </span>
+          }
+        </div>
+
+        @if (currentlyReading) {
+          <div class="book-progress-grid">
+            <span>
+              @if (editMode) {
+                <jwpaisley-book-reading-progress 
+                  [totalPages]="formGroup.controls['pageCount'].value || 1" 
+                  [currentPage]="formGroup.controls['currentPage'].value || 0"
+                />
+              } @else {
+                <jwpaisley-book-reading-progress 
+                  [totalPages]="book.pageCount || 1" 
+                  [currentPage]="book.currentPage || 0"
+                />
+              }
+            </span>
+          </div>
+        }
+
+        @if (finished) {
+          <div class="book-review-section">
+            <p class="book-review">
+              @if (editMode) {
+                <jwpaisley-rating-input />
+                <jwpaisley-form-text-area 
+                  formControlName="review" 
+                  placeholder="a review of the book"
+                  size="medium"
+                />
+              } @else {
+                {{ book.review }}
+              }
+            </p>
+          </div>
+        }
+
+        @if (isUserAdmin) {
+          <div class="book-actions">
+            @if (editMode) {
+              <jwpaisley-button text="save" (click)="saveButtonClicked()" />
+              <jwpaisley-button text="cancel" variant="secondary" (click)="cancelButtonClicked()" />
+              @if (!isNewBook) {
+                <jwpaisley-button text="delete" variant="danger" (click)="deleteButtonClicked()"/>
+              }
+            } @else {
+              <jwpaisley-button text="edit" (click)="editButtonClicked()" />
+            }
+          </div>
+        }
+      </div>
+    </form>
+  }
 </div>

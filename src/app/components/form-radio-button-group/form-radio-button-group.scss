@@ -1,0 +1,27 @@
+@use '../../../styles/_variables' as style-variables;
+
+.radio-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+
+  .options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  &.layout-horizontal .options-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.group-label {
+  font-size: 0.85rem;
+  color: style-variables.$slate;
+  font-weight: 600;
+  text-transform: lowercase;
+}

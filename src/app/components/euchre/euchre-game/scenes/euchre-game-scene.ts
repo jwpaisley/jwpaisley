@@ -1,4 +1,5 @@
-import { CardUtility, CardData } from "../utils/card-util";
+import { EuchreAnimationUtility } from "../utils/euchre-animation-util";
+import { EuchreCardUtility, EuchreCardData } from "../utils/euchre-card-util";
 
 export interface EuchreGameSceneData {
   gameId: string;
@@ -13,8 +14,6 @@ export class EuchreGameScene extends Phaser.Scene {
 
   init(data: EuchreGameSceneData) {
     this.gameId = data.gameId;
-
-    console.log(this.gameId);
   }
 
   preload() {
@@ -25,10 +24,11 @@ export class EuchreGameScene extends Phaser.Scene {
     });
   }
 
-  create() {
-    const { width, height } = this.scale;
-
-    const deck: CardData[] = CardUtility.getShuffledDeck();
+  async create() {
+    const deck: EuchreCardData[] = EuchreCardUtility.getShuffledDeck();
     console.log(deck);
+
+    await EuchreAnimationUtility.showDeckShuffleAnimation(this);
+    await EuchreAnimationUtility.showDealAnimation(this);
   }
 }

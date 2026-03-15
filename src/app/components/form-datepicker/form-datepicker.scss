@@ -1,0 +1,53 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  &.size-small .input { font-size: 0.875rem; padding: 0.5rem; }
+  &.size-medium .input { font-size: 1rem; padding: 0.75rem 1rem; }
+  &.size-large .input { font-size: 1.25rem; padding: 1rem; }
+  
+  &.size-large .input {
+    font-size: 2.25rem;
+    font-weight: 800;
+    padding: 0.5rem 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid style-variables.$cloud;
+    
+    &:focus {
+      border-bottom-color: style-variables.$fog;
+    }
+  }
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: 2px solid style-variables.$cloud;
+  border-radius: 0;
+  font-family: inherit;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-color: style-variables.$fog;
+    background: style-variables.$cloud;
+  }
+}
+
+.input-label {
+  text-transform: lowercase;
+}

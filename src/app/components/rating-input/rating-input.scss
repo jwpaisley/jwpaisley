@@ -1,0 +1,76 @@
+@use '../../../styles/_variables' as style-variables;
+
+.rating-wrapper {
+  width: 100%;
+  margin-bottom: 1.5rem;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.rating-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+
+  .rating-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: style-variables.$slate;
+    text-transform: lowercase;
+  }
+
+  .rating-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: style-variables.$primary-text;
+  }
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: style-variables.$cloud;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  outline: none;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: style-variables.$sprout;
+    border: 3px solid style-variables.$fog;
+    border-radius: 50%;
+    transition: transform 0.1s ease;
+  }
+
+  &:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    background: style-variables.$fog;
+  }
+}
+
+.slider-track-fill {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background: style-variables.$sprout;
+  border-radius: 4px;
+  z-index: 1;
+}

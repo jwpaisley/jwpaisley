@@ -1,0 +1,73 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%; // Ensures the component itself spans the full width of the vertical group
+}
+
+.option-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem 0.5rem; // Increased padding slightly for better tap targets on newlines
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+
+  .radio-circle {
+    flex-shrink: 0; // Prevents the circle from squashing if the label text is long
+    width: 20px;
+    height: 20px;
+    border: 2px solid style-variables.$cloud;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    .inner-dot {
+      width: 10px;
+      height: 10px;
+      background: style-variables.$primary-text;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+  }
+
+  .option-label {
+    font-size: 0.95rem;
+    color: style-variables.$slate;
+    text-transform: lowercase;
+    user-select: none;
+  }
+
+  &:hover:not(.disabled) {
+    background-color: style-variables.$cloud;
+    border-radius: 4px;
+
+    .radio-circle {
+      border-color: style-variables.$fog;
+    }
+  }
+
+  &.selected {
+    .radio-circle {
+      border-color: style-variables.$fog;
+      .inner-dot { 
+        transform: scale(1); 
+      }
+    }
+    
+    .option-label {
+      color: style-variables.$primary-text;
+      font-weight: 600;
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
