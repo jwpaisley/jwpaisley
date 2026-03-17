@@ -1,5 +1,7 @@
-<div class="reading-grid">
-  @for (book of readingBooks; track book.id) {
-    <jwpaisley-book-card [book]="book" />
-  }
-</div>
+<jwpaisley-loader [isLoading]="isLoading">
+  <div class="reading-grid">
+      @for (book of readingBooks; track book.id) {
+        <jwpaisley-book-card [book]="book" />
+      }
+  </div>
+</jwpaisley-loader>

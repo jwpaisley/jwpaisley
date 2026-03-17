@@ -4,6 +4,8 @@ import { BookCard } from '../book-card/book-card';
 import { ActionsService, Action } from '../../../services/actions-service/actions-service';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs';
+import { Loader } from '../../loader/loader';
+import { ToastService } from '../../../services/toast-service/toast-service';
 
 const BOOK_TEMPLATE: Book = {
   id: 'new',
@@ -24,19 +26,21 @@ const BOOK_TEMPLATE: Book = {
 
 @Component({
   selector: 'app-want-to-read',
-  imports: [BookCard],
+  imports: [BookCard, Loader],
   templateUrl: './want-to-read.html',
   styleUrl: './want-to-read.scss',
 })
 export class WantToRead implements OnInit, OnDestroy {
   @Input() addingBook: boolean = false;
 
+  protected isLoading = false;
   protected destroy$ = new Subject<void>();
   protected books: Book[] = [];
 
   constructor(
     private actionsService: ActionsService,
     private booksService: BooksService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -45,11 +49,21 @@ export class WantToRead implements OnInit, OnDestroy {
   }
 
   protected getWantToReadBooks() {
+    this.isLoading = true;
     this.booksService.getBooks()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((books: Book[]) => {
-        this.books = books.filter(book => book.state === BookReadState.WANT_TO_READ);
-        this.cdr.detectChanges();
+      .subscribe({
+        next: (books: Book[]) => {
+          this.books = books.filter(book => book.state === BookReadState.WANT_TO_READ);
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          this.toastService.addToast('failed to load books. please try again later.', 'error', 'danger');
+          console.error(error);
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
       });
   }
 
