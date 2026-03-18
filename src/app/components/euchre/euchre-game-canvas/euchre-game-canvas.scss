@@ -11,6 +11,7 @@
 .euchre-game-canvas {
   flex: 1;
   width: 100%;
+  max-height: calc(100vh - 4rem) !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +22,7 @@
   
   canvas {
     max-width: 100% !important;
-    max-height: 100% !important;
+    max-height: calc(100vh - 4rem) !important;
     object-fit: contain;
     display: block;
   }
@@ -34,5 +35,6 @@
   
   .euchre-game-canvas {
     width: 100%;
+    max-height: calc(100vh - 4rem) !important;
   }
 }

@@ -2,8 +2,16 @@ import { shuffle } from '../../../../../utils/shuffle';
 import { EuchreGameUtility } from './euchre-game-util';
 
 export interface EuchreCardData {
-  rank: string;
-  suit: string;
+    rank: string;
+    suit: string;
+}
+
+export interface EuchreRoundDeal {
+    topPlayerHand: EuchreCardData[];
+    rightPlayerHand: EuchreCardData[];
+    bottomPlayerHand: EuchreCardData[];
+    leftPlayerHand: EuchreCardData[];
+    blind: EuchreCardData[];
 }
 
 export class EuchreCardUtility {
@@ -29,6 +37,22 @@ export class EuchreCardUtility {
         }
 
         return shuffle(deck);
+    }
+
+    /**
+     * Gets the player hands and blind based on the dealer position
+     * @param deck The shuffled deck of cards to deal from
+     * @param dealer The position of the dealer ('top', 'right', 'bottom', 'left')
+     * @returns An object containing the player hands and blind
+     */
+    static dealCards(deck: EuchreCardData[]): EuchreRoundDeal {
+        return {
+            topPlayerHand: deck.slice(0, 5),
+            rightPlayerHand: deck.slice(5, 10),
+            bottomPlayerHand: deck.slice(10, 15),
+            leftPlayerHand: deck.slice(15, 20),
+            blind: deck.slice(20, 24)
+        }
     }
 
     /**
