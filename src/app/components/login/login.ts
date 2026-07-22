@@ -60,14 +60,16 @@ export class Login {
     }
   }
 
-  private handleCredentialResponse(response: any): void {
-    this.ngZone.run(() => {
-      this.userService.performLogin(response.credential);
+  private async handleCredentialResponse(response: any): Promise<void> {
+    await this.ngZone.run(async () => {
+      const loginSucceeded = await this.userService.performLogin(response.credential);
       const user: User | undefined = this.userService.getUserInfoFromLocalStorage();
 
-      if (user) {
+      if (loginSucceeded && user) {
         this.toastService.addToast(`login successful! welcome, ${user.firstName}`, 'check_circle', 'success');
         this.loginSuccess.emit();
+      } else {
+        this.toastService.addToast('login failed. please try again.', 'error', 'danger');
       }
     });
   }

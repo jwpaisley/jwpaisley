@@ -5,7 +5,7 @@
   width: 100%;
 }
 
-.rating-state-container {
+.status-circle-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,6 +37,39 @@
     
     animation: emoji-pop 0.3s ease-out;
   }
+}
+
+.rating-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.rating-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+}
+
+.rating-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.2rem;
+  color: style-variables.$primary-text;
+}
+
+.rating-percent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.7rem;
+  color: style-variables.$primary-text;
 }
 
 @keyframes emoji-pop {

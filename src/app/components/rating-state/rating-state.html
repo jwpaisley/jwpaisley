@@ -1,7 +1,17 @@
 <div class="rating-state-container">
-  <div class="status-circle">
-    <span class="rating-emoji" [attr.aria-label]="'rating: ' + value + '%'">
-      {{ ratingEmoji }}
-    </span>
+  <div class="status-circle-container">
+    <div class="status-circle">
+      <span class="rating-emoji" [attr.aria-label]="'rating: ' + value + '%'">
+        {{ ratingEmoji }}
+      </span>
+    </div>
   </div>
+  @if (!editMode) {
+    <div class="rating-value-row">
+      <span class="rating-value">
+        {{ value }}
+      </span>
+      <span class="rating-percent">%</span>
+    </div>
+  }
 </div>

@@ -142,18 +142,23 @@
 
         @if (finished) {
           <div class="book-review-section">
-            <p class="book-review">
-              @if (editMode) {
-                <jwpaisley-rating-input />
-                <jwpaisley-form-text-area 
-                  formControlName="review" 
-                  placeholder="a review of the book"
-                  size="medium"
-                />
-              } @else {
-                {{ book.review }}
-              }
-            </p>
+            @if (editMode) {
+              <jwpaisley-rating-input formControlName="rating" />
+              <jwpaisley-form-text-area 
+                formControlName="review" 
+                placeholder="a review of the book"
+                size="medium"
+              />
+            } @else {
+              <div class="review-display">
+                @if (book.rating && book.rating > 0) {
+                  <jwpaisley-rating-state [value]="book.rating" [editMode]="editMode" />
+                }
+                @if (book.review) {
+                  <p class="book-review">{{ book.review }}</p>
+                }
+              </div>
+            }
           </div>
         }
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, inject } from '@angular/core';
 
 export declare interface RatingStateGrade {
   emoji: string;
@@ -22,8 +22,15 @@ const RATING_STATE_GRADES: RatingStateGrade[] = [
   templateUrl: './rating-state.html',
   styleUrl: './rating-state.scss',
 })
-export class RatingState {
+export class RatingState implements OnChanges {
   @Input() value: number = 0;
+  @Input() editMode: boolean = false;
+
+  private cdr = inject(ChangeDetectorRef);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.cdr.detectChanges();
+  }
 
   protected get ratingEmoji(): string {
     for (const grade of RATING_STATE_GRADES) {

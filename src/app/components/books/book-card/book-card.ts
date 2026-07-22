@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
 import { BreakpointObserver, Breakpoints, LayoutModule } from '@angular/cdk/layout';
 import { map, Subject, takeUntil } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ import { FormDatepicker } from '../../form-datepicker/form-datepicker';
 import { FormRadioButtonGroup } from '../../form-radio-button-group/form-radio-button-group';
 import { FormRadioButtonOption } from '../../form-radio-button-option/form-radio-button-option';
 import { RatingInput } from '../../rating-input/rating-input';
+import { RatingState } from '../../rating-state/rating-state';
 
 const NG_COMPONENT_IMPORTS = [
   AsyncPipe, 
@@ -29,6 +30,7 @@ const NG_COMPONENT_IMPORTS = [
   FormRadioButtonGroup,
   FormRadioButtonOption,
   RatingInput,
+  RatingState,
   ReactiveFormsModule
 ];
 
@@ -39,7 +41,7 @@ const NG_COMPONENT_IMPORTS = [
   templateUrl: './book-card.html',
   styleUrl: './book-card.scss',
 })
-export class BookCard implements OnInit, OnDestroy {
+export class BookCard implements OnInit, OnDestroy, OnChanges {
   @Input({ required: true }) book!: Book;
   @Input() editMode = false;
   
@@ -79,8 +81,43 @@ export class BookCard implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       });
 
+    // auto-populate finishDate when a book is marked finished
+    this.formGroup.get('state')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((stateValue: string) => {
+        if (stateValue === BookReadState.FINISHED_READING) {
+          const finishCtrl = this.formGroup?.get('finishDate');
+          if (finishCtrl && !finishCtrl.value) {
+            const now = new Date();
+            const pad = (n: number) => n.toString().padStart(2, '0');
+            const datePart = now.toISOString().split('T')[0];
+            const timePart = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}.000000`;
+            const fullTimestamp = `${datePart} ${timePart}`;
+            finishCtrl.setValue(fullTimestamp);
+            this.cdr.detectChanges();
+          }
+        }
+      });
+
     if (this.isNewBook) {
       this.editMode = true;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['editMode'] && !changes['editMode'].isFirstChange()) {
+      const newVal = changes['editMode'].currentValue as boolean;
+      if (newVal) {
+        // entering edit mode from parent
+        this.editMode = true;
+        // ensure form reflects latest book values
+        if (this.formGroup) this.syncForm(this.book);
+      } else {
+        // exiting edit mode from parent: discard unsaved changes
+        this.editMode = false;
+        if (this.formGroup) this.syncForm(this.book);
+      }
+      this.cdr.detectChanges();
     }
   }
 

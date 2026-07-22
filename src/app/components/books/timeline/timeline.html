@@ -1,1 +1,12 @@
-<p>timeline works!</p>
+<jwpaisley-loader [isLoading]="isLoading">
+  @for (group of groupedFinishedBooks; track group.label) {
+    <section class="timeline-month-section">
+      <h3 class="timeline-month-header">{{ group.label }}</h3>
+      <div class="timeline-grid">
+        @for (book of group.books; track book.id) {
+          <jwpaisley-book-card [book]="book" />
+        }
+      </div>
+    </section>
+  }
+</jwpaisley-loader>
