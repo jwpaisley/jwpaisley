@@ -1,0 +1,34 @@
+<div class="input-wrapper">
+  @if (label) {
+    <label class="input-label">{{ label | lowercase }}</label>
+  }
+
+  <div class="image-grid" role="list">
+    @for (image of value; track image.name) {
+      <div class="image-tile" role="listitem">
+        <img [src]="image.url" [alt]="image.name" />
+        <button type="button" class="remove-button" (click)="removeImage($index)">
+          ×
+        </button>
+      </div>
+    }
+
+    <button
+      type="button"
+      class="image-tile add-tile"
+      [disabled]="disabled"
+      (click)="triggerPicker()"
+    >
+      <span class="plus">+</span>
+    </button>
+  </div>
+
+  <input
+    [id]="fileInputId"
+    type="file"
+    accept="image/*"
+    multiple
+    hidden
+    (change)="handleFileSelection($event)"
+  />
+</div>

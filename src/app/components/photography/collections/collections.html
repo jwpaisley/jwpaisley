@@ -7,3 +7,10 @@
     ></jwpaisley-empty-state>
   }
 </jwpaisley-loader>
+
+@if (showAddCollectionDialog) {
+  <jwpaisley-add-collection-dialog
+    (confirm)="handleAddCollectionConfirm($event)"
+    (cancel)="closeAddCollectionDialog()"
+  ></jwpaisley-add-collection-dialog>
+}

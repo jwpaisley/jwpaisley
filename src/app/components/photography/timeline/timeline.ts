@@ -5,10 +5,13 @@ import { ToastService } from '../../../services/toast-service/toast-service';
 import { Loader } from '../../loader/loader';
 import { CommonModule } from '@angular/common';
 import { PhotoCollection, PhotoService } from '../../../services/photo-service/photo-service';
+import { EmptyState } from '../../empty-state/empty-state';
+import { Action, ActionsService } from '../../../services/actions-service/actions-service';
+import { AddCollectionDialog, AddCollectionDialogData } from '../add-collection-dialog/add-collection-dialog';
 
 @Component({
   selector: 'jwpaisley-photography-timeline',
-  imports: [Loader, CommonModule],
+  imports: [Loader, CommonModule, EmptyState, AddCollectionDialog],
   templateUrl: './timeline.html',
   styleUrl: './timeline.scss',
 })
@@ -16,12 +19,18 @@ export class Timeline implements OnInit, OnDestroy {
   protected isLoading = false;
   protected destroy$ = new Subject<void>();
   protected photoCollections: PhotoCollection[] = [];
+  protected showAddCollectionDialog = false;
 
   constructor(
+    private actionsService: ActionsService,
     private photoService: PhotoService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
   ) {}
+
+  protected get collections(): PhotoCollection[] {
+    return this.photoCollections;
+  }
 
   private getPhotoCollections(): void {
     this.isLoading = true;
@@ -43,8 +52,31 @@ export class Timeline implements OnInit, OnDestroy {
       });
   }
 
+  protected openAddCollectionDialog(): void {
+    this.showAddCollectionDialog = true;
+    this.cdr.detectChanges();
+  }
+
+  protected closeAddCollectionDialog(): void {
+    this.showAddCollectionDialog = false;
+    this.cdr.detectChanges();
+  }
+
+  protected handleAddCollectionConfirm(data: AddCollectionDialogData): void {
+    console.log('create collection', data);
+    this.closeAddCollectionDialog();
+  }
+
   ngOnInit(): void {
     this.getPhotoCollections();
+
+     this.actionsService.actionEmitted$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((action: Action) => {
+          if (action.type === 'add') {
+            this.openAddCollectionDialog();
+          }
+        });
   }
 
   ngOnDestroy(): void {

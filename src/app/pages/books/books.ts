@@ -6,9 +6,6 @@ import { ActionDockButton } from '../../components/action-dock-button/action-doc
 import { ActionDock } from '../../components/action-dock/action-dock';
 import { Subject } from 'rxjs/internal/Subject';
 import { UserService } from '../../services/user-service/user-service';
-import { Reading } from '../../components/books/reading/reading';
-import { WantToRead } from '../../components/books/want-to-read/want-to-read';
-import { Timeline } from '../../components/books/timeline/timeline';
 
 @Component({
   selector: 'jwpaisley-books',
