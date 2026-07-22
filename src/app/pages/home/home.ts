@@ -37,7 +37,7 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     title: 'photography', 
     icon: 'camera_alt', 
     description: "sometimes i take pictures of things, check them out here.", 
-    link: '/photos', 
+    link: '/photography', 
     isWorkInProgress: true,
   },
   { 
@@ -59,7 +59,7 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     icon: 'library_books', 
     description: "my personal library... includes a timeline and ratings.", 
     link: '/library', 
-    isWorkInProgress: true,
+    isWorkInProgress: false,
   },
   { 
     title: 'chameleon', 

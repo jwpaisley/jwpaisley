@@ -1,0 +1,9 @@
+<jwpaisley-loader [isLoading]="isLoading">
+  @if (photoCollections.length === 0) {
+    <jwpaisley-empty-state
+      emoji="📷"
+      title="no collections yet"
+      subtitle="photos will appear here once photo collections have been added"
+    ></jwpaisley-empty-state>
+  }
+</jwpaisley-loader>

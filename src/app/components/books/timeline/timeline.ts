@@ -5,11 +5,11 @@ import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs';
 import { ToastService } from '../../../services/toast-service/toast-service';
 import { Loader } from '../../loader/loader';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'jwpaisley-timeline',
-  imports: [BookCard, Loader, CommonModule, AsyncPipe],
+  imports: [BookCard, Loader, CommonModule],
   templateUrl: './timeline.html',
   styleUrl: './timeline.scss',
 })
