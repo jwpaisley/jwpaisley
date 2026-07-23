@@ -1,7 +1,9 @@
-<jwpaisley-tab-group>
-    <jwpaisley-tab link="timeline">timeline</jwpaisley-tab>
-    <jwpaisley-tab link="collections">collections</jwpaisley-tab>
-</jwpaisley-tab-group>
+@if (showTabs) {
+    <jwpaisley-tab-group>
+        <jwpaisley-tab link="timeline">timeline</jwpaisley-tab>
+        <jwpaisley-tab link="collections">collections</jwpaisley-tab>
+    </jwpaisley-tab-group>
+}
 <div class="page-container">
     <router-outlet></router-outlet>
 </div>

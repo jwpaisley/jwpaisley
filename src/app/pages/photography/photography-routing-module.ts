@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Timeline } from '../../components/photography/timeline/timeline';
 import { Collections } from '../../components/photography/collections/collections';
+import { CollectionDetails } from '../../components/photography/collection-details/collection-details';
 import { PhotographyPage } from './photography';
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
         {
             path: 'collections',
             component: Collections
+        },
+        {
+            path: 'collections/:id',
+            component: CollectionDetails
         }
     ]
   }

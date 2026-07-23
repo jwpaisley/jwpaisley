@@ -1,0 +1,30 @@
+<jwpaisley-loader [isLoading]="isLoading">
+  <div class="collection-details" *ngIf="collection; else notFound">
+    <div class="back-link-row">
+      <a class="back-link" [routerLink]="['/photography', 'collections']">
+        <span class="back-arrow" aria-hidden="true">←</span>
+        <span>back to collections</span>
+      </a>
+    </div>
+
+    <div class="hero">
+      <h2>{{ collection.title || 'untitled collection' }}</h2>
+      <p *ngIf="collection.caption">{{ collection.caption }}</p>
+      <p *ngIf="collection.location">{{ collection.location }}</p>
+    </div>
+
+    <div class="photo-grid" *ngIf="photos.length > 0; else noPhotos">
+      <div class="photo-card" *ngFor="let photo of photos">
+        <img [src]="photo.image" [alt]="photo.caption || 'collection photo'" />
+      </div>
+    </div>
+
+    <ng-template #noPhotos>
+      <div class="empty-state">no photos in this collection</div>
+    </ng-template>
+  </div>
+
+  <ng-template #notFound>
+    <div class="empty-state">collection not found</div>
+  </ng-template>
+</jwpaisley-loader>

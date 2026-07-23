@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { Photo, PhotoCollection } from '../../../services/photo-service/photo-service';
 
 @Component({
   selector: 'jwpaisley-collection-card',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, RouterModule],
   templateUrl: './collection-card.html',
   styleUrl: './collection-card.scss',
 })

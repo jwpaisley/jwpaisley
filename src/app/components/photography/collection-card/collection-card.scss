@@ -11,7 +11,12 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  transition: width 180ms ease;
+  transition: width 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.collection-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
 }
 
 .preview-grid {
