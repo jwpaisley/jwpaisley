@@ -19,9 +19,15 @@ type ButtonVariant = typeof BUTTON_VARIANTS[number];
 export class Button {
   @Input() text: string = 'button';
   @Input() variant: ButtonVariant = 'primary';
+  @Input() disabled: boolean = false;
   @Output() click = new EventEmitter<void>();
   
   onClick(event: Event) {
+    if (this.disabled) {
+      event.stopPropagation();
+      return;
+    }
+
     event.stopPropagation();
     this.click.emit();
   }

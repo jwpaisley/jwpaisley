@@ -10,6 +10,7 @@ import { FormImageUpload, FormImageUploadValue } from '../../form-image-upload/f
 export interface AddCollectionDialogData {
   title: string;
   description: string;
+  location: string;
   images: FormImageUploadValue[];
 }
 
@@ -23,15 +24,41 @@ export interface AddCollectionDialogData {
 export class AddCollectionDialog {
   title = '';
   description = '';
+  location = '';
   images: FormImageUploadValue[] = [];
 
   @Output() confirm = new EventEmitter<AddCollectionDialogData>();
   @Output() cancel = new EventEmitter<void>();
 
+  get disableCreateButton(): boolean {
+    return !this.title.trim() || !this.description.trim() || !this.location.trim() || this.images.length === 0;
+  }
+
+  onTitleChange(value: string): void {
+    this.title = value;
+  }
+
+  onDescriptionChange(value: string): void {
+    this.description = value;
+  }
+
+  onLocationChange(value: string): void {
+    this.location = value;
+  }
+
+  onImagesChange(value: FormImageUploadValue[]): void {
+    this.images = value;
+  }
+
   onConfirm(): void {
+    if (this.disableCreateButton) {
+      return;
+    }
+
     this.confirm.emit({
       title: this.title,
       description: this.description,
+      location: this.location,
       images: this.images,
     });
   }

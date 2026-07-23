@@ -1,0 +1,39 @@
+<article class="collection-card">
+  <div
+    class="preview-grid"
+    [class.empty]="!hasImages"
+    [class.one-image]="previewImages.length === 1"
+    [class.two-images]="previewImages.length === 2"
+    [class.three-images]="previewImages.length === 3"
+  >
+    <ng-container *ngIf="isReady; else loadingState">
+      <ng-container *ngIf="hasImages; else noImages">
+        <ng-container *ngFor="let photo of previewImages">
+          <div class="preview-tile">
+            <img [src]="photo.image" [alt]="photo.caption || 'photo preview'" />
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #noImages>
+        <div class="placeholder">
+          <mat-icon>photo_camera</mat-icon>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loadingState>
+      <div class="placeholder">
+        <mat-icon>photo_camera</mat-icon>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="meta" *ngIf="isReady">
+    <h3>{{ collection.title || 'untitled collection' }}</h3>
+    <p class="caption">{{ collection.caption || 'no caption provided' }}</p>
+    <p class="details">
+      {{ getDetailsText() }}
+    </p>
+  </div>
+</article>

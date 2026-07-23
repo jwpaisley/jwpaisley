@@ -23,6 +23,15 @@
     transform: translateY(0);
   }
 
+  &:disabled,
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    filter: none;
+    box-shadow: none;
+  }
+
   &.primary {
     background-color: style-variables.$lake;
     color: style-variables.$cloud;

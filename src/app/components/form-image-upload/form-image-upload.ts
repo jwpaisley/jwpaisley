@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 export interface FormImageUploadValue {
   name: string;
   url: string;
+  file?: File;
 }
 
 @Component({
@@ -59,6 +60,7 @@ export class FormImageUpload implements ControlValueAccessor {
     const nextImages = files.map((file) => ({
       name: file.name,
       url: URL.createObjectURL(file),
+      file,
     }));
 
     this.value = [...this.value, ...nextImages];

@@ -20,4 +20,14 @@ describe('Button', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should not emit click when disabled', () => {
+    component.disabled = true;
+    const clickSpy = jasmine.createSpy('clickSpy');
+
+    component.click.subscribe(clickSpy);
+    component.onClick(new Event('click'));
+
+    expect(clickSpy).not.toHaveBeenCalled();
+  });
 });

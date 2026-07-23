@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs';
 import { ToastService } from '../../../services/toast-service/toast-service';
 import { Loader } from '../../loader/loader';
 import { CommonModule } from '@angular/common';
@@ -63,8 +63,32 @@ export class Timeline implements OnInit, OnDestroy {
   }
 
   protected handleAddCollectionConfirm(data: AddCollectionDialogData): void {
-    console.log('create collection', data);
-    this.closeAddCollectionDialog();
+    this.isLoading = true;
+
+    this.photoService.createPhotoCollectionWithPhotos({
+      title: data.title,
+      description: data.description,
+      location: data.location,
+      images: data.images,
+    })
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.toastService.addToast('photo collection created.', 'success');
+          this.closeAddCollectionDialog();
+          this.getPhotoCollections();
+        },
+        error: (error) => {
+          this.toastService.addToast('failed to create photo collection. please try again later.', 'error', 'danger');
+          console.error(error);
+        },
+      });
   }
 
   ngOnInit(): void {

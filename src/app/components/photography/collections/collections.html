@@ -1,16 +1,22 @@
 <jwpaisley-loader [isLoading]="isLoading">
-  @if (photoCollections.length === 0) {
-    <jwpaisley-empty-state
-      emoji="📷"
-      title="no collections yet"
-      subtitle="photos will appear here once photo collections have been added"
-    ></jwpaisley-empty-state>
-  }
-</jwpaisley-loader>
+  <div class="collections-grid" *ngIf="photoCollections.length > 0">
+    <jwpaisley-collection-card
+      *ngFor="let collection of photoCollections; trackBy: trackCollection"
+      [collection]="collection"
+      [photos]="collectionPhotos[collection.id ?? ''] || []"
+    ></jwpaisley-collection-card>
+  </div>
 
-@if (showAddCollectionDialog) {
+  <jwpaisley-empty-state
+    *ngIf="photoCollections.length === 0"
+    emoji="📷"
+    title="no collections yet"
+    subtitle="photos will appear here once photo collections have been added"
+  ></jwpaisley-empty-state>
+
   <jwpaisley-add-collection-dialog
+    *ngIf="showAddCollectionDialog"
     (confirm)="handleAddCollectionConfirm($event)"
     (cancel)="closeAddCollectionDialog()"
   ></jwpaisley-add-collection-dialog>
-}
+</jwpaisley-loader>

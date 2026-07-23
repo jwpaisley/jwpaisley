@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, concatMap, forkJoin, throwError } from 'rxjs';
 
 export declare interface Photo {
   id?: string;
@@ -17,8 +17,22 @@ export declare interface PhotoCollection {
   id?: string;
   title: string;
   caption?: string;
+  location?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface PhotoUploadValue {
+  name: string;
+  url: string;
+  file?: File;
+}
+
+export interface CreatePhotoCollectionPayload {
+  title: string;
+  description: string;
+  location: string;
+  images: PhotoUploadValue[];
 }
 
 export declare interface PhotoCollectionPage {
@@ -44,7 +58,7 @@ export class PhotoService {
   }
 
   getPhotosByCollection(collectionId: string): Observable<Photo[]> {
-    return this.httpClient.get<Photo[]>(`${this.apiUrl}/photos/collections/${collectionId}`);
+    return this.httpClient.get<Photo[]>(`${this.apiUrl}/photo-collections/${collectionId}/photos`);
   }
 
   getPhoto(photoId: string): Observable<Photo> {
@@ -64,6 +78,40 @@ export class PhotoService {
 
   createPhotoCollection(photoCollection: PhotoCollection): Observable<PhotoCollection> {
     return this.httpClient.post<PhotoCollection>(`${this.apiUrl}/photo-collections`, photoCollection);
+  }
+
+  createPhotoCollectionWithPhotos(payload: CreatePhotoCollectionPayload): Observable<Photo[]> {
+    return this.createPhotoCollection({
+      title: payload.title,
+      caption: payload.description,
+      location: payload.location,
+    }).pipe(
+      concatMap((collection) => {
+        const imageFiles = payload.images.filter((image) => image.file instanceof File);
+
+        if (imageFiles.length !== payload.images.length) {
+          return throwError(() => new Error('Each selected photo must include a file.'));
+        }
+
+        return forkJoin(
+          imageFiles.map((image) =>
+            this.uploadPhoto(image.file as File).pipe(
+              concatMap((uploadResult) =>
+                this.createPhoto({
+                  collection: collection.id,
+                  image: uploadResult.url,
+                  caption: image.name,
+                  location: payload.location,
+                  takenDate: image.file?.lastModified
+                    ? new Date(image.file.lastModified).toISOString().slice(0, 10)
+                    : undefined,
+                }),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
   getPhotoCollections(pageToken?: string): Observable<PhotoCollectionPage> {

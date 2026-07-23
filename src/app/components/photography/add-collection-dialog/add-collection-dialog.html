@@ -6,34 +6,48 @@
 
     <div class="content">
       <h1>create collection</h1>
-      <p>add a title and a short description for the new photo collection</p>
-
       <div class="field-group">
         <jwpaisley-form-input
           label="title"
-          placeholder="collection title"
-          [(ngModel)]="title"
+          placeholder="ex: sailing trip to angel island"
+          [ngModel]="title"
+          (ngModelChange)="onTitleChange($event)"
         ></jwpaisley-form-input>
       </div>
 
       <div class="field-group">
         <jwpaisley-form-text-area
           label="description"
-          placeholder="collection description"
-          [(ngModel)]="description"
+          placeholder="ex: photos from my recent sailing trip to angel island with some friends"
+          [ngModel]="description"
+          (ngModelChange)="onDescriptionChange($event)"
         ></jwpaisley-form-text-area>
+      </div>
+
+      <div class="field-group">
+        <jwpaisley-form-input
+          label="location"
+          placeholder="ex: san francisco, ca"
+          [ngModel]="location"
+          (ngModelChange)="onLocationChange($event)"
+        ></jwpaisley-form-input>
       </div>
 
       <div class="field-group">
         <jwpaisley-form-image-upload
           label="images"
-          [(ngModel)]="images"
+          [ngModel]="images"
+          (ngModelChange)="onImagesChange($event)"
         ></jwpaisley-form-image-upload>
       </div>
     </div>
 
     <div class="actions">
-      <jwpaisley-button variant="primary" (click)="onConfirm()">
+      <jwpaisley-button
+        variant="primary"
+        [disabled]="disableCreateButton"
+        (click)="onConfirm()"
+      >
         create
       </jwpaisley-button>
       <jwpaisley-button variant="secondary" (click)="onCancel()">
