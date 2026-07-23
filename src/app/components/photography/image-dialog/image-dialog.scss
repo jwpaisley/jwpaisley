@@ -1,0 +1,83 @@
+@use '../../../../styles/variables' as style-variables;
+
+:host {
+  display: contents;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.dialog-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.close-button,
+.nav-button {
+  position: absolute;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.72);
+  color: style-variables.$light-text;
+  cursor: pointer;
+}
+
+.close-button {
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.nav-button-left {
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-button-right {
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.image-frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.empty-state {
+  padding: 2rem;
+  color: style-variables.$accent-variant-4;
+}

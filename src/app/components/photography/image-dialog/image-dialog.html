@@ -1,0 +1,23 @@
+<div class="dialog-backdrop" *ngIf="isOpen" (click)="close()">
+  <div class="dialog-shell" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <button class="close-button" type="button" (click)="close()" aria-label="Close image preview">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <button *ngIf="showPrevious" class="nav-button nav-button-left" type="button" (click)="previous.emit()" aria-label="Previous image">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <button *ngIf="showNext" class="nav-button nav-button-right" type="button" (click)="next.emit()" aria-label="Next image">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <div class="image-frame" *ngIf="imageUrl; else noImage">
+      <img [src]="imageUrl" alt="image preview" />
+    </div>
+
+    <ng-template #noImage>
+      <div class="empty-state">No image available.</div>
+    </ng-template>
+  </div>
+</div>

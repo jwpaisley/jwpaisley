@@ -6,11 +6,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { Photo, PhotoCollection, PhotoService } from '../../../services/photo-service/photo-service';
 import { Loader } from '../../loader/loader';
 import { ToastService } from '../../../services/toast-service/toast-service';
+import { ImageDialog } from '../image-dialog/image-dialog';
 
 @Component({
   selector: 'jwpaisley-collection-details',
   standalone: true,
-  imports: [CommonModule, Loader, RouterModule, MatIconModule],
+  imports: [CommonModule, Loader, RouterModule, MatIconModule, ImageDialog],
   templateUrl: './collection-details.html',
   styleUrl: './collection-details.scss',
 })
@@ -19,6 +20,9 @@ export class CollectionDetails implements OnInit, OnDestroy {
   protected destroy$ = new Subject<void>();
   protected collection: PhotoCollection | null = null;
   protected photos: Photo[] = [];
+  protected selectedImageUrl: string | null = null;
+  protected selectedImageIndex = 0;
+  protected isImageDialogOpen = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -62,6 +66,41 @@ export class CollectionDetails implements OnInit, OnDestroy {
         },
       });
     });
+  }
+
+  openImageDialog(photo: Photo): void {
+    const index = this.photos.findIndex((item) => item.image === photo.image && item.caption === photo.caption);
+    this.selectedImageIndex = index >= 0 ? index : 0;
+    this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
+    this.isImageDialogOpen = true;
+    this.cdr.detectChanges();
+  }
+
+  showPreviousImage(): void {
+    if (this.selectedImageIndex <= 0) {
+      return;
+    }
+
+    this.selectedImageIndex -= 1;
+    this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
+    this.cdr.detectChanges();
+  }
+
+  showNextImage(): void {
+    if (this.selectedImageIndex >= this.photos.length - 1) {
+      return;
+    }
+
+    this.selectedImageIndex += 1;
+    this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
+    this.cdr.detectChanges();
+  }
+
+  closeImageDialog(): void {
+    this.isImageDialogOpen = false;
+    this.selectedImageUrl = null;
+    this.selectedImageIndex = 0;
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {

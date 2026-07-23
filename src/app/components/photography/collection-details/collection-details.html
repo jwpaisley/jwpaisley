@@ -14,9 +14,9 @@
     </div>
 
     <div class="photo-grid" *ngIf="photos.length > 0; else noPhotos">
-      <div class="photo-card" *ngFor="let photo of photos">
+      <button class="photo-card" type="button" *ngFor="let photo of photos" (click)="openImageDialog(photo)">
         <img [src]="photo.image" [alt]="photo.caption || 'collection photo'" />
-      </div>
+      </button>
     </div>
 
     <ng-template #noPhotos>
@@ -28,3 +28,13 @@
     <div class="empty-state">collection not found</div>
   </ng-template>
 </jwpaisley-loader>
+
+<jwpaisley-image-dialog
+  [imageUrl]="selectedImageUrl"
+  [isOpen]="isImageDialogOpen"
+  [showPrevious]="selectedImageIndex > 0"
+  [showNext]="selectedImageIndex < photos.length - 1"
+  (previous)="showPreviousImage()"
+  (next)="showNextImage()"
+  (closed)="closeImageDialog()"
+></jwpaisley-image-dialog>

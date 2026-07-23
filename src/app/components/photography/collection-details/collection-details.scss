@@ -52,12 +52,15 @@
 .photo-card {
   width: 100%;
   max-width: 100%;
+  padding: 0;
+  border: 0;
   border-radius: 12px;
   overflow: hidden;
   aspect-ratio: 1 / 1;
   background: style-variables.$cloud;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   transition: transform 180ms ease, box-shadow 180ms ease;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {
