@@ -21,8 +21,6 @@ export class CollectionCard {
   }
 
   get hasImages(): boolean {
-    console.log(this.collection);
-    console.log(this.photos);
     return this.previewImages.length > 0;
   }
 
