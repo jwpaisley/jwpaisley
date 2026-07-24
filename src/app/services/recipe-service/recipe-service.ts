@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export declare interface Recipe {
@@ -25,6 +25,11 @@ export declare interface Recipe {
   updatedAt?: string;
 }
 
+export interface RecipePage {
+  items: Recipe[];
+  nextPageToken: string | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,8 +43,14 @@ export class RecipeService {
     return this.httpClient.post<Recipe>(`${this.apiUrl}`, recipe);
   }
 
-  getRecipes(): Observable<Recipe[]> {
-    return this.httpClient.get<Recipe[]>(`${this.apiUrl}`);
+  getRecipes(pageToken?: string): Observable<RecipePage> {
+    let params = new HttpParams();
+
+    if (pageToken) {
+      params = params.set('pageToken', pageToken);
+    }
+
+    return this.httpClient.get<RecipePage>(`${this.apiUrl}`, { params });
   }
 
   getRecipe(recipeId: string): Observable<Recipe> {

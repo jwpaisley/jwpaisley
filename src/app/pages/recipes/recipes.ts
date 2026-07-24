@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { Recipe, RecipeService } from '../../services/recipe-service/recipe-service';
-import { first, Subject, takeUntil } from 'rxjs';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Recipe, RecipePage, RecipeService } from '../../services/recipe-service/recipe-service';
+import { Subject, takeUntil } from 'rxjs';
 import { Loader } from '../../components/loader/loader';
 import { RecipesTable } from '../../components/recipes-table/recipes-table';
 import { UserService } from '../../services/user-service/user-service';
@@ -17,6 +17,8 @@ export class Recipes implements OnInit, OnDestroy {
   protected isLoading = true;
   protected isUserAdmin = false;
   protected recipes: Recipe[] = [];
+  protected hasMoreRecipes = false;
+  protected nextPageToken: string | null = null;
   protected destroy$ = new Subject<void>();
   private router = inject(Router);
 
@@ -26,13 +28,36 @@ export class Recipes implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
-    this.recipeService.getRecipes()
-      .pipe(first())
-      .subscribe((recipes) => {
-        this.recipes = recipes;
-        this.isLoading = false;
+  private loadRecipes(pageToken?: string): void {
+    this.isLoading = true;
+
+    this.recipeService.getRecipes(pageToken)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (page: RecipePage) => {
+          this.recipes = pageToken ? [...this.recipes, ...page.items] : page.items;
+          this.nextPageToken = page.nextPageToken;
+          this.hasMoreRecipes = !!page.nextPageToken;
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
       });
+  }
+
+  protected loadMoreRecipes(): void {
+    if (!this.hasMoreRecipes || !this.nextPageToken) {
+      return;
+    }
+
+    this.loadRecipes(this.nextPageToken);
+  }
+
+  ngOnInit() {
+    this.loadRecipes();
 
     this.userService.user$
       .pipe(takeUntil(this.destroy$))
