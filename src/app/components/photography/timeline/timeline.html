@@ -1,10 +1,23 @@
 <jwpaisley-loader [isLoading]="isLoading">
-  @if (photoCollections.length === 0) {
+  @if (groupedPhotos.length === 0) {
     <jwpaisley-empty-state
       emoji="📷"
-      title="no collections yet"
-      subtitle="photos will appear here once photo collections have been added"
+      title="no photos yet"
+      subtitle="photos will appear here once they have been added"
     ></jwpaisley-empty-state>
+  } @else {
+    @for (group of groupedPhotos; track group.label) {
+      <section class="timeline-month-section">
+        <h3 class="timeline-month-header">{{ group.label }}</h3>
+        <div class="photo-grid">
+          @for (photo of group.photos; track photo.id || photo.image) {
+            <button class="photo-card" type="button" (click)="openImageDialog(photo)">
+              <img [src]="getPhotoPreviewUrl(photo)" [alt]="photo.caption || 'timeline photo'" loading="lazy" decoding="async" />
+            </button>
+          }
+        </div>
+      </section>
+    }
   }
 </jwpaisley-loader>
 
@@ -14,3 +27,13 @@
     (cancel)="closeAddCollectionDialog()"
   ></jwpaisley-add-collection-dialog>
 }
+
+<jwpaisley-image-dialog
+  [imageUrl]="selectedImageUrl"
+  [isOpen]="isImageDialogOpen"
+  [showPrevious]="selectedImageIndex > 0"
+  [showNext]="selectedImageIndex < photos.length - 1"
+  (previous)="showPreviousImage()"
+  (next)="showNextImage()"
+  (closed)="closeImageDialog()"
+></jwpaisley-image-dialog>

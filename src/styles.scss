@@ -8,6 +8,7 @@ body {
     font-family: "Google Sans", sans-serif;
     background-color: style-variables.$primary-bg;
     color: style-variables.$primary-text;
+    text-transform: lowercase;
 }
 
 .page-container {
