@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class Recipes implements OnInit, OnDestroy {
   protected isLoading = true;
+  protected isLoadingMore = false;
   protected isUserAdmin = false;
   protected recipes: Recipe[] = [];
   protected hasMoreRecipes = false;
@@ -29,7 +30,11 @@ export class Recipes implements OnInit, OnDestroy {
   ) {}
 
   private loadRecipes(pageToken?: string): void {
-    this.isLoading = true;
+    if (pageToken) {
+      this.isLoadingMore = true;
+    } else {
+      this.isLoading = true;
+    }
 
     this.recipeService.getRecipes(pageToken)
       .pipe(takeUntil(this.destroy$))
@@ -39,10 +44,12 @@ export class Recipes implements OnInit, OnDestroy {
           this.nextPageToken = page.nextPageToken;
           this.hasMoreRecipes = !!page.nextPageToken;
           this.isLoading = false;
+          this.isLoadingMore = false;
           this.cdr.detectChanges();
         },
         error: () => {
           this.isLoading = false;
+          this.isLoadingMore = false;
           this.cdr.detectChanges();
         },
       });

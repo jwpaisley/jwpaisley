@@ -1,9 +1,9 @@
-<div class="loader-wrapper">
+<div class="loader-wrapper" [class]="'loader-wrapper--' + size">
   @if (isLoading) {
     <div class="loader-overlay">
-      <div class="loader">
-        <div class="loader-stone"></div>
-        <div class="loader-ring"></div>
+      <div class="loader" [class]="'loader--' + size">
+        <div class="loader-stone" [class]="'loader-stone--' + size"></div>
+        <div class="loader-ring" [class]="'loader-ring--' + size"></div>
       </div>
     </div>
   } @else {

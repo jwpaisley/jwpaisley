@@ -10,7 +10,9 @@
 
         @if (hasMoreRecipes) {
             <div class="load-more-row">
-                <jwpaisley-button text="load more" (click)="loadMoreRecipes()"></jwpaisley-button>
+                <jwpaisley-loader [isLoading]="isLoadingMore" size="small">
+                    <jwpaisley-button text="load more" (click)="loadMoreRecipes()"></jwpaisley-button>
+                </jwpaisley-loader>
             </div>
         }
     </jwpaisley-loader>

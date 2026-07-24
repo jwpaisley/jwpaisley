@@ -10,4 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class Loader {
   @Input() isLoading: boolean = true;
+  @Input() size: 'large' | 'medium' | 'small' = 'large';
 }
