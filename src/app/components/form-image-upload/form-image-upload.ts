@@ -33,8 +33,31 @@ export class FormImageUpload implements ControlValueAccessor {
   onChange: any = () => {};
   onTouched: any = () => {};
 
+  private getImageKey(image: FormImageUploadValue): string {
+    if (image.file) {
+      return `${image.file.name}:${image.file.size}:${image.file.lastModified}`;
+    }
+
+    return `${image.url || ''}:${image.name || ''}`;
+  }
+
+  private deduplicateImages(images: FormImageUploadValue[]): FormImageUploadValue[] {
+    const seen = new Set<string>();
+
+    return images.filter((image) => {
+      const key = this.getImageKey(image);
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    });
+  }
+
   writeValue(value: any): void {
-    this.value = Array.isArray(value) ? value : [];
+    this.value = this.deduplicateImages(Array.isArray(value) ? value : []);
   }
 
   registerOnChange(fn: any): void {
@@ -57,13 +80,15 @@ export class FormImageUpload implements ControlValueAccessor {
       return;
     }
 
-    const nextImages = files.map((file) => ({
-      name: file.name,
-      url: URL.createObjectURL(file),
-      file,
-    }));
+    const nextImages = files
+      .map((file) => ({
+        name: file.name,
+        url: URL.createObjectURL(file),
+        file,
+      }))
+      .filter((image) => !this.value.some((existingImage) => this.getImageKey(existingImage) === this.getImageKey(image)));
 
-    this.value = [...this.value, ...nextImages];
+    this.value = this.deduplicateImages([...this.value, ...nextImages]);
     this.onChange(this.value);
     this.onTouched();
     input.value = '';

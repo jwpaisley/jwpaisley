@@ -11,6 +11,17 @@
       <h2>{{ collection.title || 'untitled collection' }}</h2>
       <p *ngIf="collection.caption">{{ collection.caption }}</p>
       <p *ngIf="collection.location">{{ collection.location }}</p>
+
+      @if (isAdmin) {
+        <div class="admin-actions">
+          <jwpaisley-button variant="primary" (click)="onEditCollectionClick()">
+            edit
+          </jwpaisley-button>
+          <jwpaisley-button variant="danger" (click)="onDeleteCollectionClick()">
+            delete
+          </jwpaisley-button>
+        </div>
+      }
     </div>
 
     <div class="photo-grid" *ngIf="photos.length > 0; else noPhotos">
@@ -20,7 +31,11 @@
     </div>
 
     <ng-template #noPhotos>
-      <div class="empty-state">no photos in this collection</div>
+      <jwpaisley-empty-state
+        emoji="📷"
+        title="no photos yet"
+        subtitle="this collection is waiting for its first photo"
+      ></jwpaisley-empty-state>
     </ng-template>
   </div>
 
@@ -28,6 +43,18 @@
     <div class="empty-state">collection not found</div>
   </ng-template>
 </jwpaisley-loader>
+
+@if (showDeleteConfirmation) {
+  <jwpaisley-confirmation-dialog
+    icon="delete"
+    title="delete this collection?"
+    text="this action cannot be undone."
+    confirmLabel="delete"
+    cancelLabel="cancel"
+    (confirm)="confirmDeleteCollection()"
+    (cancel)="cancelDeleteCollection()">
+  </jwpaisley-confirmation-dialog>
+}
 
 <jwpaisley-image-dialog
   [imageUrl]="selectedImageUrl"
@@ -38,3 +65,13 @@
   (next)="showNextImage()"
   (closed)="closeImageDialog()"
 ></jwpaisley-image-dialog>
+
+@if (showEditCollectionDialog) {
+  <jwpaisley-add-collection-dialog
+    mode="edit"
+    [collection]="collection"
+    [photos]="photos"
+    (confirm)="handleEditCollectionConfirm($event)"
+    (cancel)="closeEditCollectionDialog()"
+  ></jwpaisley-add-collection-dialog>
+}

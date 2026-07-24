@@ -5,7 +5,7 @@
     </button>
 
     <div class="content">
-      <h1>create collection</h1>
+      <h1>{{ dialogTitle }}</h1>
       <div class="field-group">
         <jwpaisley-form-input
           label="title"
@@ -48,7 +48,7 @@
         [disabled]="disableCreateButton"
         (click)="onConfirm()"
       >
-        create
+        {{ confirmLabel }}
       </jwpaisley-button>
       <jwpaisley-button variant="secondary" (click)="onCancel()">
         cancel

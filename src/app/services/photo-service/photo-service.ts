@@ -80,6 +80,14 @@ export class PhotoService {
     return this.httpClient.post<PhotoCollection>(`${this.apiUrl}/photo-collections`, photoCollection);
   }
 
+  updatePhotoCollection(photoCollection: PhotoCollection): Observable<PhotoCollection> {
+    if (!photoCollection.id) {
+      return throwError(() => new Error('Collection id is required to update a collection.'));
+    }
+
+    return this.httpClient.put<PhotoCollection>(`${this.apiUrl}/photo-collections/${photoCollection.id}`, photoCollection);
+  }
+
   createPhotoCollectionWithPhotos(payload: CreatePhotoCollectionPayload): Observable<Photo[]> {
     return this.createPhotoCollection({
       title: payload.title,
@@ -126,6 +134,44 @@ export class PhotoService {
 
   getPhotoCollection(photoCollectionId: string): Observable<PhotoCollection> {
     return this.httpClient.get<PhotoCollection>(`${this.apiUrl}/photo-collections/${photoCollectionId}`);
+  }
+
+  updatePhotoCollectionWithNewPhotos(collectionId: string, payload: CreatePhotoCollectionPayload): Observable<Photo[]> {
+    return this.updatePhotoCollection({
+      id: collectionId,
+      title: payload.title,
+      caption: payload.description,
+      location: payload.location,
+    }).pipe(
+      concatMap(() => {
+        const imageFiles = payload.images.filter((image) => image.file instanceof File);
+
+        if (imageFiles.length === 0) {
+          return new Observable<Photo[]>((observer) => {
+            observer.next([]);
+            observer.complete();
+          });
+        }
+
+        return forkJoin(
+          imageFiles.map((image) =>
+            this.uploadPhoto(image.file as File).pipe(
+              concatMap((uploadResult) =>
+                this.createPhoto({
+                  collection: collectionId,
+                  image: uploadResult.url,
+                  caption: image.name,
+                  location: payload.location,
+                  takenDate: image.file?.lastModified
+                    ? new Date(image.file.lastModified).toISOString().slice(0, 10)
+                    : undefined,
+                }),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
   deletePhotoCollection(photoCollectionId: string): Observable<void> {
