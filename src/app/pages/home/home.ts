@@ -173,7 +173,17 @@ export class Home {
     );
 
   greeting: string = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
-  dashboardItems: DashboardItem[] = shuffle(DASHBOARD_ITEMS);
+  dashboardItems: DashboardItem[] = this.getOrderedDashboardItems();
+
+  private getOrderedDashboardItems(): DashboardItem[] {
+    const completedItems = DASHBOARD_ITEMS.filter((item) => !item.isWorkInProgress);
+    const workInProgressItems = DASHBOARD_ITEMS.filter((item) => item.isWorkInProgress);
+
+    return [
+      ...shuffle([...completedItems]),
+      ...shuffle([...workInProgressItems]),
+    ];
+  }
 
   getDashboardCardTypeByIndex(index: number): 'primary' | 'secondary' | 'tertiary' {
     const types: ('primary' | 'secondary' | 'tertiary')[] = ['primary', 'secondary', 'tertiary'];
