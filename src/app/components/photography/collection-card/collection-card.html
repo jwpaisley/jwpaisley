@@ -10,7 +10,7 @@
       <ng-container *ngIf="hasImages; else noImages">
         <ng-container *ngFor="let photo of previewImages">
           <div class="preview-tile">
-            <img [src]="photo.image" [alt]="photo.caption || 'photo preview'" />
+            <img [src]="getPhotoPreviewUrl(photo)" [alt]="photo.caption || 'photo preview'" loading="lazy" decoding="async" />
           </div>
         </ng-container>
       </ng-container>

@@ -28,6 +28,11 @@ export interface PhotoUploadValue {
   file?: File;
 }
 
+export interface PhotoUploadResponse {
+  url: string;
+  thumbnailUrl?: string;
+}
+
 export interface CreatePhotoCollectionPayload {
   title: string;
   description: string;
@@ -69,11 +74,39 @@ export class PhotoService {
     return this.httpClient.delete<void>(`${this.apiUrl}/photos/${photoId}`);
   }
 
-  uploadPhoto(file: File): Observable<{ url: string }> {
+  uploadPhoto(file: File): Observable<PhotoUploadResponse> {
     const formData = new FormData();
     formData.append('photo', file);
 
-    return this.httpClient.post<{ url: string }>(`${this.apiUrl}/photos/upload`, formData);
+    return this.httpClient.post<PhotoUploadResponse>(`${this.apiUrl}/photos/upload`, formData);
+  }
+
+  getPreviewImageUrl(photo: Photo): string {
+    const imageUrl = photo?.image;
+    if (!imageUrl) {
+      return '';
+    }
+
+    const trimmedUrl = imageUrl.trim();
+    if (!trimmedUrl) {
+      return '';
+    }
+
+    const [baseUrl, queryString] = trimmedUrl.split('?');
+    const lastSlashIndex = baseUrl.lastIndexOf('/');
+    if (lastSlashIndex < 0) {
+      return trimmedUrl;
+    }
+
+    const fileName = baseUrl.slice(lastSlashIndex + 1);
+    if (fileName.startsWith('thumb-')) {
+      return trimmedUrl;
+    }
+
+    const thumbnailFileName = `thumb-${fileName}`;
+    const thumbnailUrl = `${baseUrl.slice(0, lastSlashIndex + 1)}${thumbnailFileName}`;
+
+    return queryString ? `${thumbnailUrl}?${queryString}` : thumbnailUrl;
   }
 
   createPhotoCollection(photoCollection: PhotoCollection): Observable<PhotoCollection> {

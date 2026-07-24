@@ -84,6 +84,10 @@ export class CollectionDetails implements OnInit, OnDestroy {
     });
   }
 
+  getPhotoPreviewUrl(photo: Photo): string {
+    return this.photoService.getPreviewImageUrl(photo) || photo.image;
+  }
+
   openImageDialog(photo: Photo): void {
     const index = this.photos.findIndex((item) => item.image === photo.image && item.caption === photo.caption);
     this.selectedImageIndex = index >= 0 ? index : 0;

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { Photo, PhotoCollection } from '../../../services/photo-service/photo-service';
+import { Photo, PhotoCollection, PhotoService } from '../../../services/photo-service/photo-service';
 
 @Component({
   selector: 'jwpaisley-collection-card',
@@ -15,6 +15,8 @@ export class CollectionCard {
   @Input() collection!: PhotoCollection;
   @Input() photos: Photo[] = [];
 
+  constructor(private photoService: PhotoService) {}
+
   get previewImages(): Photo[] {
     const safePhotos = Array.isArray(this.photos) ? this.photos : [];
     return safePhotos.slice(0, 4);
@@ -26,6 +28,10 @@ export class CollectionCard {
 
   get isReady(): boolean {
     return !!this.collection;
+  }
+
+  getPhotoPreviewUrl(photo: Photo): string {
+    return this.photoService.getPreviewImageUrl(photo) || photo.image;
   }
 
   get formattedDate(): string {

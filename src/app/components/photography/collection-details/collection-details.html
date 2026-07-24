@@ -26,7 +26,7 @@
 
     <div class="photo-grid" *ngIf="photos.length > 0; else noPhotos">
       <button class="photo-card" type="button" *ngFor="let photo of photos" (click)="openImageDialog(photo)">
-        <img [src]="photo.image" [alt]="photo.caption || 'collection photo'" />
+        <img [src]="getPhotoPreviewUrl(photo)" [alt]="photo.caption || 'collection photo'" loading="lazy" decoding="async" />
       </button>
     </div>
 
