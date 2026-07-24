@@ -38,7 +38,7 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     icon: 'camera_alt', 
     description: "sometimes i take pictures of things, check them out here.", 
     link: '/photography', 
-    isWorkInProgress: true,
+    isWorkInProgress: false,
   },
   { 
     title: 'euchre', 
