@@ -2,8 +2,8 @@
 
 :host {
   display: block;
-  width: 100%;
-  min-width: 100%;
+  max-width: 100%;
+  min-width: 0;
   box-sizing: border-box;
 }
 
@@ -13,12 +13,29 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   min-height: 100%;
   padding: 2rem 1.5rem;
   text-align: center;
   box-sizing: border-box;
   margin: 0 auto;
+}
+
+.empty-state-container.empty-state--large {
+  width: 100%;
+}
+
+.empty-state-container.empty-state--medium {
+    gap: 0.6rem;
+    padding: 1.5rem 1rem;
+    max-width: 32rem;
+}
+
+.empty-state-container.empty-state--small {
+  gap: 0.4rem;
+  padding: 1rem 0.75rem;
+  max-width: 24rem;
 }
 
 .empty-state-circle {
@@ -34,6 +51,20 @@
   flex-shrink: 0;
 }
 
+.empty-state-container.empty-state--medium .empty-state-circle {
+  width: 88px;
+  height: 88px;
+  min-width: 88px;
+  min-height: 88px;
+}
+
+.empty-state-container.empty-state--small .empty-state-circle {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+}
+
 .empty-state-emoji {
   display: inline-flex;
   align-items: center;
@@ -45,6 +76,14 @@
   height: 100%;
 }
 
+.empty-state-container.empty-state--medium .empty-state-emoji {
+  font-size: 2.4rem;
+}
+
+.empty-state-container.empty-state--small .empty-state-emoji {
+  font-size: 1.75rem;
+}
+
 .empty-state-title {
   margin: 0;
   font-size: 1.5rem;
@@ -52,6 +91,14 @@
   text-align: center;
   width: 100%;
   display: block;
+}
+
+.empty-state-container.empty-state--medium .empty-state-title {
+  font-size: 1.15rem;
+}
+
+.empty-state-container.empty-state--small .empty-state-title {
+  font-size: 0.95rem;
 }
 
 .empty-state-subtitle {
@@ -62,4 +109,12 @@
   text-align: center;
   width: 100%;
   display: block;
+}
+
+.empty-state-container.empty-state--medium .empty-state-subtitle {
+  font-size: 0.9rem;
+}
+
+.empty-state-container.empty-state--small .empty-state-subtitle {
+  font-size: 0.8rem;
 }

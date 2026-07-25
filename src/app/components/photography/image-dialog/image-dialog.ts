@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ImageDialog {
   @Input() imageUrl: string | null = null;
+  @Input() caption: string | null = null;
   @Input() isOpen = false;
   @Input() showPrevious = false;
   @Input() showNext = false;
@@ -21,6 +22,28 @@ export class ImageDialog {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.close();
+  }
+
+  @HostListener('document:keydown.arrowleft')
+  onArrowLeft(): void {
+    if (!this.isOpen || !this.showPrevious) {
+      return;
+    }
+
+    this.previous.emit();
+  }
+
+  @HostListener('document:keydown.arrowright')
+  onArrowRight(): void {
+    if (!this.isOpen || !this.showNext) {
+      return;
+    }
+
+    this.next.emit();
+  }
+
+  get displayCaption(): string {
+    return (this.caption ?? '').toLowerCase();
   }
 
   close(): void {

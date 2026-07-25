@@ -101,3 +101,9 @@
   text-align: center;
   color: style-variables.$accent-variant-4;
 }
+
+.comments-empty-state {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+}

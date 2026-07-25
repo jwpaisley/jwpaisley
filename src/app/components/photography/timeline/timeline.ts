@@ -25,6 +25,7 @@ export class Timeline implements OnInit, OnDestroy {
   protected groupedPhotos: { label: string; photos: Photo[] }[] = [];
   protected showAddCollectionDialog = false;
   protected selectedImageUrl: string | null = null;
+  protected selectedImageCaption: string | null = null;
   protected selectedImageIndex = 0;
   protected isImageDialogOpen = false;
 
@@ -133,6 +134,7 @@ export class Timeline implements OnInit, OnDestroy {
     const index = this.photos.findIndex((item) => item.image === photo.image && item.caption === photo.caption);
     this.selectedImageIndex = index >= 0 ? index : 0;
     this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
+    this.selectedImageCaption = this.photos[this.selectedImageIndex]?.caption ?? null;
     this.isImageDialogOpen = true;
     this.cdr.detectChanges();
   }
@@ -144,6 +146,7 @@ export class Timeline implements OnInit, OnDestroy {
 
     this.selectedImageIndex -= 1;
     this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
+    this.selectedImageCaption = this.photos[this.selectedImageIndex]?.caption ?? null;
     this.cdr.detectChanges();
   }
 
@@ -154,12 +157,14 @@ export class Timeline implements OnInit, OnDestroy {
 
     this.selectedImageIndex += 1;
     this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
+    this.selectedImageCaption = this.photos[this.selectedImageIndex]?.caption ?? null;
     this.cdr.detectChanges();
   }
 
   protected closeImageDialog(): void {
     this.isImageDialogOpen = false;
     this.selectedImageUrl = null;
+    this.selectedImageCaption = null;
     this.selectedImageIndex = 0;
     this.cdr.detectChanges();
   }

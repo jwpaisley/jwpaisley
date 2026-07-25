@@ -42,6 +42,8 @@
   background: rgba(0, 0, 0, 0.72);
   color: style-variables.$light-text;
   cursor: pointer;
+  z-index: 3;
+  pointer-events: auto;
 }
 
 .close-button {
@@ -68,6 +70,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 
 .image-frame img {
@@ -75,6 +78,31 @@
   height: 100%;
   object-fit: contain;
   display: block;
+}
+
+.caption-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 0.95rem;
+  text-transform: lowercase;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.caption-overlay span {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .empty-state {

@@ -14,6 +14,9 @@
 
     <div class="image-frame" *ngIf="imageUrl; else noImage">
       <img [src]="imageUrl" alt="image preview" />
+      <div class="caption-overlay" *ngIf="displayCaption">
+        <span>{{ displayCaption }}</span>
+      </div>
     </div>
 
     <ng-template #noImage>

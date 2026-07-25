@@ -42,6 +42,19 @@
   <ng-template #notFound>
     <div class="empty-state">collection not found</div>
   </ng-template>
+
+  <div class="comments-section" *ngIf="collection">
+    <h3>comments (0)</h3>
+    <div class="comments-empty-state">
+        <jwpaisley-empty-state
+            emoji="💬"
+            title="no comments yet"
+            subtitle="this collection is waiting for its first comment"
+            size="medium"
+        ></jwpaisley-empty-state>
+    </div>
+  </div>
+
 </jwpaisley-loader>
 
 @if (showDeleteConfirmation) {
@@ -58,6 +71,7 @@
 
 <jwpaisley-image-dialog
   [imageUrl]="selectedImageUrl"
+  [caption]="selectedImageCaption"
   [isOpen]="isImageDialogOpen"
   [showPrevious]="selectedImageIndex > 0"
   [showNext]="selectedImageIndex < photos.length - 1"
