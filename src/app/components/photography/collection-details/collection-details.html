@@ -14,12 +14,8 @@
 
       @if (isAdmin) {
         <div class="admin-actions">
-          <jwpaisley-button variant="primary" (click)="onEditCollectionClick()">
-            edit
-          </jwpaisley-button>
-          <jwpaisley-button variant="danger" (click)="onDeleteCollectionClick()">
-            delete
-          </jwpaisley-button>
+          <jwpaisley-button variant="primary" text="edit" (click)="onEditCollectionClick()"></jwpaisley-button>
+          <jwpaisley-button variant="danger" text="delete" (click)="onDeleteCollectionClick()"></jwpaisley-button>
         </div>
       }
     </div>
@@ -60,9 +56,7 @@
         placeholder="write a comment"
       ></jwpaisley-comment-input>
     } @else {
-      <jwpaisley-button variant="primary" [routerLink]="['/profile']">
-        log in to comment
-      </jwpaisley-button>
+      <jwpaisley-button variant="primary" text="log in to comment" [routerLink]="['/profile']"></jwpaisley-button>
     }
   </div>
 

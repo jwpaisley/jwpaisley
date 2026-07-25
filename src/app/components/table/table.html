@@ -24,9 +24,7 @@
               }
 
               @if (cell.type === CellType.BUTTON) {
-                <jwpaisley-button (click)="cell.action?.(cell.data)">
-                  {{ cell.data }}
-                </jwpaisley-button>
+                <jwpaisley-button [text]="cell.data" (click)="cell.action?.(cell.data)"></jwpaisley-button>
               }
 
               @if (cell.type === CellType.CURRENCY) {

@@ -15,14 +15,12 @@
     <div class="actions">
     <jwpaisley-button 
         variant="primary" 
-        (click)="onConfirm()">
-        {{ confirmLabel }}
-      </jwpaisley-button>
+        [text]="confirmLabel"
+        (click)="onConfirm()"></jwpaisley-button>
       <jwpaisley-button 
         variant="secondary" 
-        (click)="onCancel()">
-        {{ cancelLabel }}
-      </jwpaisley-button>
+        [text]="cancelLabel"
+        (click)="onCancel()"></jwpaisley-button>
     </div>
   </div>
 </div>
