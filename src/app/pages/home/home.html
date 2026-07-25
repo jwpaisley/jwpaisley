@@ -12,7 +12,7 @@
                 [link]="item.link" 
                 [type]="getDashboardCardTypeByIndex(i)"
                 [class]="getDashboardCardIsTallByIndex(i) ? 'tall-dashboard-card' : ''"
-                [isWorkInProgress]="item.isWorkInProgress || false" 
+                [status]="item.status || 'done'" 
             />
         }
     </div>

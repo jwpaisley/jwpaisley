@@ -138,14 +138,6 @@ export class CollectionDetails implements OnInit, OnDestroy {
       return;
     }
 
-    const existingImageUrls = new Set(this.photos.map((photo) => photo.image));
-    const newImages = data.images.filter((image, index, images) => {
-      const isAlreadyInCollection = existingImageUrls.has(image.url);
-      const isDuplicateInSelection = images.findIndex((candidate) => candidate.url === image.url && candidate.name === image.name) !== index;
-
-      return !isAlreadyInCollection && !isDuplicateInSelection;
-    });
-
     this.isLoading = true;
     this.closeEditCollectionDialog();
     this.cdr.detectChanges();
@@ -154,7 +146,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
       title: data.title,
       description: data.description,
       location: data.location,
-      images: newImages,
+      images: data.images,
     }).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.isLoading = false;

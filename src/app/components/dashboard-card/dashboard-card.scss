@@ -15,15 +15,11 @@
     }
 }
 
-.work-in-progress-container {}
-
-.work-in-progress-banner {
-    color: style-variables.$primary-text;
+.status-banner {
     position: absolute;
     top: 24px;
     padding: 0 80px 0 80px;
     right: -32px;
-    background-color: style-variables.$sunflower;
     transform: rotate(20deg);
     z-index: 10;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -35,6 +31,16 @@
         right: -64px;
         transform: rotate(15deg);
     }
+}
+
+.status-banner--work-in-progress {
+    color: style-variables.$primary-text;
+    background-color: style-variables.$sunflower;
+}
+
+.status-banner--coming-soon {
+    color: style-variables.$light-text;
+    background-color: style-variables.$lake;
 }
 
 .mat-mdc-card-title {

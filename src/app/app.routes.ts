@@ -34,5 +34,9 @@ export const routes: Routes = [
     {
         path: 'euchre', 
         loadChildren: () => import('./pages/euchre/euchre-module').then(m => m.EuchreModule),
+    },
+    {
+        path: 'sailing',
+        loadChildren: () => import('./pages/sailing/sailing-module').then(m => m.SailingModule),
     }
 ];

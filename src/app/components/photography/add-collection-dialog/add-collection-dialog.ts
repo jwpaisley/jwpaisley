@@ -7,6 +7,7 @@ import { FormInput } from '../../form-input/form-input';
 import { FormTextArea } from '../../form-text-area/form-text-area';
 import { FormImageUpload, FormImageUploadValue } from '../../form-image-upload/form-image-upload';
 import { Photo, PhotoCollection } from '../../../services/photo-service/photo-service';
+import { PhotoMetadataDialog, PhotoMetadataDialogData } from '../photo-metadata-dialog/photo-metadata-dialog';
 
 export interface AddCollectionDialogData {
   title: string;
@@ -20,7 +21,7 @@ export type CollectionDialogMode = 'create' | 'edit';
 @Component({
   selector: 'jwpaisley-add-collection-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, Button, FormInput, FormTextArea, FormImageUpload],
+  imports: [CommonModule, FormsModule, MatIconModule, Button, FormInput, FormTextArea, FormImageUpload, PhotoMetadataDialog],
   templateUrl: './add-collection-dialog.html',
   styleUrl: './add-collection-dialog.scss',
 })
@@ -29,6 +30,8 @@ export class AddCollectionDialog {
   description = '';
   location = '';
   images: FormImageUploadValue[] = [];
+  selectedImage: FormImageUploadValue | null = null;
+  showPhotoMetadataDialog = false;
 
   @Input() mode: CollectionDialogMode = 'create';
   @Input() collection: PhotoCollection | null = null;
@@ -45,6 +48,12 @@ export class AddCollectionDialog {
       this.images = this.photos.map((photo) => ({
         name: photo.caption || 'photo',
         url: photo.image,
+        caption: photo.caption,
+        location: photo.location,
+        takenDate: photo.takenDate,
+        id: photo.id,
+        collection: photo.collection,
+        image: photo.image,
       }));
     }
   }
@@ -75,6 +84,30 @@ export class AddCollectionDialog {
 
   onImagesChange(value: FormImageUploadValue[]): void {
     this.images = value;
+  }
+
+  onImageSelect(image: FormImageUploadValue): void {
+    this.selectedImage = image;
+    this.showPhotoMetadataDialog = true;
+  }
+
+  closePhotoMetadataDialog(): void {
+    this.showPhotoMetadataDialog = false;
+    this.selectedImage = null;
+  }
+
+  onPhotoMetadataConfirm(data: PhotoMetadataDialogData): void {
+    if (!this.selectedImage) {
+      return;
+    }
+
+    this.selectedImage.caption = data.caption;
+    this.selectedImage.location = data.location;
+    this.selectedImage.takenDate = data.takenDate;
+    this.images = this.images.map((image) =>
+      image.url === this.selectedImage?.url && image.name === this.selectedImage.name ? this.selectedImage : image,
+    );
+    this.closePhotoMetadataDialog();
   }
 
   onConfirm(): void {

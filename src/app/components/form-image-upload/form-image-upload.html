@@ -5,9 +5,9 @@
 
   <div class="image-grid" role="list">
     @for (image of value; track image.name) {
-      <div class="image-tile" role="listitem">
+      <div class="image-tile" role="listitem" (click)="selectImage(image)">
         <img [src]="image.url" [alt]="image.name" />
-        <button type="button" class="remove-button" (click)="removeImage($index)">
+        <button type="button" class="remove-button" (click)="$event.stopPropagation(); removeImage($index)">
           ×
         </button>
       </div>

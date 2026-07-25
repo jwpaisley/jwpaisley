@@ -38,6 +38,7 @@
           label="images"
           [ngModel]="images"
           (ngModelChange)="onImagesChange($event)"
+          (imageSelect)="onImageSelect($event)"
         ></jwpaisley-form-image-upload>
       </div>
     </div>
@@ -56,3 +57,11 @@
     </div>
   </div>
 </div>
+
+@if (showPhotoMetadataDialog && selectedImage) {
+  <jwpaisley-photo-metadata-dialog
+    [image]="selectedImage"
+    (confirm)="onPhotoMetadataConfirm($event)"
+    (cancel)="closePhotoMetadataDialog()"
+  ></jwpaisley-photo-metadata-dialog>
+}

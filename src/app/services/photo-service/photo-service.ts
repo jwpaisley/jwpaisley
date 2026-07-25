@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, concatMap, forkJoin, throwError } from 'rxjs';
+import { Observable, concatMap, forkJoin, of, throwError } from 'rxjs';
 
 export declare interface Photo {
   id?: string;
@@ -26,6 +26,12 @@ export interface PhotoUploadValue {
   name: string;
   url: string;
   file?: File;
+  caption?: string;
+  location?: string;
+  takenDate?: string;
+  id?: string;
+  collection?: string;
+  image?: string;
 }
 
 export interface PhotoUploadResponse {
@@ -56,6 +62,14 @@ export class PhotoService {
 
   createPhoto(photo: Photo): Observable<Photo> {
     return this.httpClient.post<Photo>(`${this.apiUrl}/photos`, photo);
+  }
+
+  updatePhoto(photo: Photo): Observable<Photo> {
+    if (!photo.id) {
+      return throwError(() => new Error('Photo id is required to update a photo.'));
+    }
+
+    return this.httpClient.put<Photo>(`${this.apiUrl}/photos/${photo.id}`, photo);
   }
 
   getPhotos(): Observable<Photo[]> {
@@ -141,11 +155,11 @@ export class PhotoService {
                 this.createPhoto({
                   collection: collection.id,
                   image: uploadResult.url,
-                  caption: image.name,
-                  location: payload.location,
-                  takenDate: image.file?.lastModified
+                  caption: image.caption ?? '',
+                  location: image.location ?? '',
+                  takenDate: image.takenDate || (image.file?.lastModified
                     ? new Date(image.file.lastModified).toISOString().slice(0, 10)
-                    : undefined,
+                    : undefined),
                 }),
               ),
             ),
@@ -177,32 +191,42 @@ export class PhotoService {
       location: payload.location,
     }).pipe(
       concatMap(() => {
-        const imageFiles = payload.images.filter((image) => image.file instanceof File);
+        const existingPhotoUpdates = payload.images
+          .filter((image) => image.id)
+          .map((image) =>
+            this.updatePhoto({
+              id: image.id,
+              collection: collectionId,
+              image: image.image || image.url,
+              caption: image.caption ?? '',
+              location: image.location ?? '',
+              takenDate: image.takenDate,
+            }),
+          );
 
-        if (imageFiles.length === 0) {
-          return new Observable<Photo[]>((observer) => {
-            observer.next([]);
-            observer.complete();
-          });
+        const newImageFiles = payload.images.filter((image) => !image.id && image.file instanceof File);
+
+        if (existingPhotoUpdates.length === 0 && newImageFiles.length === 0) {
+          return of([]);
         }
 
-        return forkJoin(
-          imageFiles.map((image) =>
-            this.uploadPhoto(image.file as File).pipe(
-              concatMap((uploadResult) =>
-                this.createPhoto({
-                  collection: collectionId,
-                  image: uploadResult.url,
-                  caption: image.name,
-                  location: payload.location,
-                  takenDate: image.file?.lastModified
-                    ? new Date(image.file.lastModified).toISOString().slice(0, 10)
-                    : undefined,
-                }),
-              ),
+        const createOps = newImageFiles.map((image) =>
+          this.uploadPhoto(image.file as File).pipe(
+            concatMap((uploadResult) =>
+              this.createPhoto({
+                collection: collectionId,
+                image: uploadResult.url,
+                caption: image.caption ?? '',
+                location: image.location ?? '',
+                takenDate: image.takenDate || (image.file?.lastModified
+                  ? new Date(image.file.lastModified).toISOString().slice(0, 10)
+                  : undefined),
+              }),
             ),
           ),
         );
+
+        return forkJoin([...existingPhotoUpdates, ...createOps]);
       }),
     );
   }

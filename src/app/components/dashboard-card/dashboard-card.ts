@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
+export type DashboardStatus = 'done' | 'workInProgress' | 'comingSoon';
+
 export declare interface DashboardItem {
   title: string;
   icon: string;
@@ -11,7 +13,7 @@ export declare interface DashboardItem {
   link: string;
   type?: 'primary' | 'secondary' | 'tertiary';
   isTall?: boolean;
-  isWorkInProgress?: boolean;
+  status?: DashboardStatus;
 }
 
 @Component({
@@ -28,5 +30,5 @@ export class DashboardCard {
   @Input() link?: string;
   @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
   @Input() isTall: boolean = false;
-  @Input() isWorkInProgress: boolean = false;
+  @Input() status: DashboardStatus = 'done';
 }

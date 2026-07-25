@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +6,12 @@ export interface FormImageUploadValue {
   name: string;
   url: string;
   file?: File;
+  caption?: string;
+  location?: string;
+  takenDate?: string;
+  id?: string;
+  collection?: string;
+  image?: string;
 }
 
 @Component({
@@ -25,6 +31,7 @@ export interface FormImageUploadValue {
 export class FormImageUpload implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = 'Select images';
+  @Output() imageSelect = new EventEmitter<FormImageUploadValue>();
 
   value: FormImageUploadValue[] = [];
   disabled = false;
@@ -107,5 +114,9 @@ export class FormImageUpload implements ControlValueAccessor {
 
     const input = document.getElementById(this.fileInputId) as HTMLInputElement | null;
     input?.click();
+  }
+
+  selectImage(image: FormImageUploadValue): void {
+    this.imageSelect.emit(image);
   }
 }

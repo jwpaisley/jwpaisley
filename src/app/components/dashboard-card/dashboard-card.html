@@ -1,10 +1,10 @@
 <mat-card 
     class="dashboard-card" 
-    [ngClass]="[type + '-card', isTall ? 'tall-dashboard-card' : '', isWorkInProgress ? 'work-in-progress-container' : '']" 
+    [ngClass]="[type + '-card', isTall ? 'tall-dashboard-card' : '', status === 'workInProgress' ? 'work-in-progress-container' : status === 'comingSoon' ? 'coming-soon-container' : '']" 
     [routerLink]="link"
 >
-    @if (!!isWorkInProgress) {
-        <div class="work-in-progress-banner">work in progress</div>
+    @if (status !== 'done') {
+        <div class="status-banner" [class]="status === 'workInProgress' ? 'status-banner--work-in-progress' : 'status-banner--coming-soon'">{{ status === 'workInProgress' ? 'work in progress' : 'coming soon' }}</div>
     }
     <mat-card-header>
         <mat-icon mat-card-avatar>{{ icon }}</mat-icon>
