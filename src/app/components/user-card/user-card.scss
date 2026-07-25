@@ -1,13 +1,17 @@
 @use '../../../styles/variables' as style-variables;
 
 .user-card {
-  background-color: style-variables.$sprout;
+  background-color: style-variables.$cloud;
+  color: style-variables.$primary-text;
+  border-radius: 1.25rem;
   padding: 1.5rem;
   margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 300px;
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(style-variables.$blue-slate, 0.12);
 
   &.full-width {
     width: calc(100% - 2rem);
@@ -17,42 +21,65 @@
 
 .card-header {
   justify-content: center;
-  padding: 1rem 0;
+  padding: 0.25rem 0 1rem;
+
+  .profile-image {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(style-variables.$blue-slate, 0.18);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
 
   ::ng-deep .user-icon-container {
-    width: 100px !important;
-    height: 100px !important;
-    font-size: 2rem !important;
-    border: 2px solid style-variables.$sprout;
-    box-shadow: 0 0 15px rgba(style-variables.$sprout, 0.2);
+    width: 132px !important;
+    height: 132px !important;
+    font-size: 2.25rem !important;
+    border: 2px solid rgba(style-variables.$blue-slate, 0.18);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    background-color: rgba(style-variables.$blue-slate, 0.06);
   }
 }
 
 .card-body {
   text-align: center;
-  margin-top: 1rem;
+  width: 100%;
 
   .user-name {
-    color: style-variables.$cloud;
-    font-size: 1.4rem;
-    margin: 0;
+    color: style-variables.$primary-text;
+    font-size: 1.35rem;
+    margin: 0 0 0.25rem;
   }
 
   .user-email {
-    color: style-variables.$cloud;
-    font-size: 0.9rem;
-    margin: 4px 0 12px;
+    font-size: 0.95rem;
+    margin: 0 0 1rem;
+    word-break: break-word;
   }
 
-  .status-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(style-variables.$sprout, 0.1);
-    color: style-variables.$sprout;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  .meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-label {
+    font-size: 0.7rem;
+    text-transform: lowercase;
+    letter-spacing: 0.08em;
+  }
+
+  .meta-value {
+    font-size: 0.95rem;
+    color: style-variables.$primary-text;
+    text-transform: lowercase;
   }
 }

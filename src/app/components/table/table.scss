@@ -58,16 +58,19 @@
   }
 
   .cell-img {
-    width: 32px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
-    border-radius: 0;
-    border: 1px solid style-variables.$accent-variant-1;
+    border-radius: 50%;
   }
 
   .hide-mobile {
     @media (max-width: 768px) {
       display: none;
     }
+  }
+
+  .clickable {
+    cursor: pointer;
   }
 }

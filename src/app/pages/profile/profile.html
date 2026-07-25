@@ -1,9 +1,11 @@
 <jwpaisley-loader [isLoading]="isLoading">
   <ng-container>
-    @if (loggedIn === true && user) {
+    @if (user) {
       <jwpaisley-user-profile [user]="user"></jwpaisley-user-profile>
-    } @else {
+    } @else if (!isViewingSpecificUser) {
       <jwpaisley-login></jwpaisley-login>
+    } @else {
+      <jwpaisley-empty-state emoji="🤔" title="who? never heard of 'em" subtitle="no user profile was found for the specified user id" size="large"></jwpaisley-empty-state>
     }
   </ng-container>
 </jwpaisley-loader>

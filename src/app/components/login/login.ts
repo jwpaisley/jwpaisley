@@ -11,16 +11,18 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { UserService, User } from '../../services/user-service/user-service';
 import { ToastService } from '../../services/toast-service/toast-service';
+import { Loader } from '../loader/loader';
 
 @Component({
   standalone: true,
   selector: 'jwpaisley-login',
-  imports: [],
+  imports: [Loader],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
   @Output() loginSuccess = new EventEmitter<void>();
+  isLoading = false;
 
   /**
    * This setter executes as soon as the #googleAuthButton element 
@@ -61,15 +63,21 @@ export class Login {
   }
 
   private async handleCredentialResponse(response: any): Promise<void> {
-    await this.ngZone.run(async () => {
-      const loginSucceeded = await this.userService.performLogin(response.credential);
-      const user: User | undefined = this.userService.getUserInfoFromLocalStorage();
+    this.isLoading = true;
 
-      if (loginSucceeded && user) {
-        this.toastService.addToast(`login successful! welcome, ${user.firstName}`, 'check_circle', 'success');
-        this.loginSuccess.emit();
-      } else {
-        this.toastService.addToast('login failed. please try again.', 'error', 'danger');
+    await this.ngZone.run(async () => {
+      try {
+        const loginSucceeded = await this.userService.performLogin(response.credential);
+        const user: User | undefined = this.userService.getUserInfoFromLocalStorage();
+
+        if (loginSucceeded && user) {
+          this.toastService.addToast(`login successful! welcome, ${user.firstName}`, 'check_circle', 'success');
+          this.loginSuccess.emit();
+        } else {
+          this.toastService.addToast('login failed. please try again.', 'error', 'danger');
+        }
+      } finally {
+        this.isLoading = false;
       }
     });
   }

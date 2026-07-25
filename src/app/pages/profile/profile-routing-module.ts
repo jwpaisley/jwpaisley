@@ -5,6 +5,9 @@ import { Profile } from './profile';
 const routes: Routes = [
     {
       path: '', component: Profile
+    },
+    {
+      path: ':id', component: Profile
     }
 ];
 

@@ -1,0 +1,22 @@
+@use '../../../styles/_variables' as style-variables;
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0 2rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  h1 {
+    margin: 0;
+    color: style-variables.$primary-text;
+    font-size: 1.75rem;
+    text-transform: lowercase;
+  }
+}

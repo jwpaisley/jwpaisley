@@ -16,5 +16,9 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'photography/collections/:id',
     renderMode: RenderMode.Server,
+  },
+  {
+    path: 'profile/:id',
+    renderMode: RenderMode.Server,
   }
 ];

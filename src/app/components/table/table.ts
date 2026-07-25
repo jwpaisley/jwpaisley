@@ -15,6 +15,7 @@ export interface TableRow {
     data: any;
     action?: (data: any) => void;
   }[];
+  action?: () => void;
 }
 
 @Component({

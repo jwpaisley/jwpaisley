@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, concatMap, forkJoin, of, throwError } from 'rxjs';
+import { getApiUrl } from '../../helpers/api-url';
 
 export declare interface Photo {
   id?: string;
@@ -58,7 +59,7 @@ export class PhotoService {
   private httpClient = inject(HttpClient);
   private readonly localApiUrl = 'http://localhost:8080/api';
   private readonly prodApiUrl = 'https://api.jwpaisley.com/api';
-  private readonly apiUrl = this.prodApiUrl;
+  private readonly apiUrl = getApiUrl(this.localApiUrl, this.prodApiUrl);
 
   createPhoto(photo: Photo): Observable<Photo> {
     return this.httpClient.post<Photo>(`${this.apiUrl}/photos`, photo);

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { getApiUrl } from '../../helpers/api-url';
 
 export declare interface Recipe {
   id: string;
@@ -37,7 +38,7 @@ export class RecipeService {
   private httpClient = inject(HttpClient);
   private readonly localApiUrl = 'http://localhost:8080/api/recipes';
   private readonly prodApiUrl = 'https://api.jwpaisley.com/api/recipes';
-  private readonly apiUrl = this.prodApiUrl;
+  private readonly apiUrl = getApiUrl(this.localApiUrl, this.prodApiUrl);
 
   createRecipe(recipe: Recipe): Observable<Recipe> {
     return this.httpClient.post<Recipe>(`${this.apiUrl}`, recipe);

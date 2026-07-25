@@ -1,6 +1,8 @@
 <div class="login-wrapper">
-  <div class="login-content">
-    <h1>wait a minute...who <i>ARE</i> you?</h1>    
-    <div #googleAuthButton id="google-auth-button"></div>
-  </div>
+  <jwpaisley-loader [isLoading]="isLoading" size="medium">
+    <div class="login-content">
+      <h1>wait a minute...who <i>ARE</i> you?</h1>
+      <div #googleAuthButton id="google-auth-button"></div>
+    </div>
+  </jwpaisley-loader>
 </div>

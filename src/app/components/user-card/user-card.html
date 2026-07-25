@@ -1,13 +1,29 @@
 <mat-card class="user-card" [class.full-width]="isHandheld">
   <mat-card-header class="card-header">
-    <jwpaisley-user-icon></jwpaisley-user-icon>
+    @if (user.imageUrl) {
+      <img class="profile-image" [src]="user.imageUrl" [alt]="user.firstName + ' ' + user.lastName" />
+    } @else {
+      <jwpaisley-user-icon></jwpaisley-user-icon>
+    }
   </mat-card-header>
 
   <mat-card-content class="card-body">
     <h2 class="user-name">{{ user.firstName }} {{ user.lastName }}</h2>
     <p class="user-email">{{ user.email }}</p>
+
+    <div class="meta-list">
+      <div class="meta-item">
+        <span class="meta-label">last login</span>
+        <span class="meta-value">{{ formatDate(user.lastLogin) }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">joined</span>
+        <span class="meta-value">{{ formatDate(user.createdAt) }}</span>
+      </div>
+    </div>
+
     @if (isCurrentUser()) {
-        <jwpaisley-button text="log out" (click)="logout()"></jwpaisley-button>
+      <jwpaisley-button text="log out" (click)="logout()"></jwpaisley-button>
     }
   </mat-card-content>
 </mat-card>

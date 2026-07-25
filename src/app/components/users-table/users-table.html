@@ -1,0 +1,17 @@
+<div class="users-table-wrapper">
+  <jwpaisley-loader [isLoading]="isLoading">
+    <jwpaisley-table
+      [headers]="tableHeaders"
+      [rows]="tableRows"
+      [mobileVisibleIndices]="mobileColumns"
+    ></jwpaisley-table>
+
+    @if (hasMoreUsers) {
+      <div class="load-more-row">
+        <jwpaisley-loader [isLoading]="isLoadingMore" size="small">
+          <jwpaisley-button text="load more" (click)="loadMoreUsers()"></jwpaisley-button>
+        </jwpaisley-loader>
+      </div>
+    }
+  </jwpaisley-loader>
+</div>

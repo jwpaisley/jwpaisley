@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
+import { getApiUrl } from '../../helpers/api-url';
 
 export enum BookReadState {
   WANT_TO_READ = 'wantToRead',
@@ -34,7 +35,7 @@ export class BooksService {
   private httpClient = inject(HttpClient);
   private readonly localApiUrl = 'http://localhost:8080/api/books';
   private readonly prodApiUrl = 'https://api.jwpaisley.com/api/books';
-  private readonly apiUrl = this.prodApiUrl;
+  private readonly apiUrl = getApiUrl(this.localApiUrl, this.prodApiUrl);
 
   createBook(book: Book): Observable<Book> {
     return this.httpClient.post<Book>(`${this.apiUrl}`, book);
@@ -62,7 +63,7 @@ export class BooksService {
     formData.append('cover', file);
 
     return this.httpClient.post<{ url: string }>(
-      'https://api.jwpaisley.com/api/book-covers', 
+      `${this.apiUrl.replace(/\/books$/, '')}/book-covers`,
       formData
     );
   }

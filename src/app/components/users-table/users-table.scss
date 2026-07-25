@@ -1,0 +1,13 @@
+@use '../../../styles/_variables' as style-variables;
+
+.users-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.load-more-row {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
