@@ -13,6 +13,7 @@
   @if (showUserIcon) {
     <div class="nav-right">
       @if (isUserLoggedIn) {
+        <jwpaisley-badge [text]="'🪙 ' + userCoins"></jwpaisley-badge>
         <jwpaisley-user-icon></jwpaisley-user-icon>
       } @else {
         <a routerLink="/profile">

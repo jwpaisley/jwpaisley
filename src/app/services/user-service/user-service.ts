@@ -17,6 +17,7 @@ export interface User {
   email: string;
   imageUrl: string;
   token: string;
+  coins?: number;
   lastLogin?: string;
   updatedAt?: string;
   createdAt?: string;
@@ -29,6 +30,7 @@ export interface User {
 })
 export class UserService {
   private readonly USER_STORAGE_KEY = 'jwpaisley.user_info';
+  private readonly USER_COOKIE_KEY = 'jwpaisley.user_cookie';
   private readonly USER_STORAGE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
   private readonly ADMIN_EMAILS = new Set<string>(['jacobpaisley97@gmail.com']);
   private readonly localApiUrl = 'http://localhost:8080/api';
@@ -79,6 +81,51 @@ export class UserService {
     }
   }
 
+  private setUserCookie(user: User): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const cookieValue = encodeURIComponent(JSON.stringify({
+      user,
+      expiry: new Date().getTime() + this.USER_STORAGE_DURATION,
+    }));
+
+    document.cookie = `${this.USER_COOKIE_KEY}=${cookieValue}; path=/; max-age=${this.USER_STORAGE_DURATION / 1000}; SameSite=Lax`;
+  }
+
+  private getUserCookie(): User | undefined {
+    if (!isPlatformBrowser(this.platformId)) {
+      return undefined;
+    }
+
+    const cookieString = document.cookie;
+    if (!cookieString) {
+      return undefined;
+    }
+
+    const cookieValue = cookieString
+      .split(';')
+      .map((part) => part.trim())
+      .find((part) => part.startsWith(`${this.USER_COOKIE_KEY}=`));
+
+    if (!cookieValue) {
+      return undefined;
+    }
+
+    try {
+      const cookiePayload = JSON.parse(decodeURIComponent(cookieValue.split('=').slice(1).join('=')));
+      if (new Date().getTime() < cookiePayload.expiry) {
+        return cookiePayload.user;
+      }
+    } catch {
+      // ignore malformed cookie payloads
+    }
+
+    document.cookie = `${this.USER_COOKIE_KEY}=; path=/; max-age=0; SameSite=Lax`;
+    return undefined;
+  }
+
   /**
    * Saves user information to local storage.
    * @param user 
@@ -91,7 +138,7 @@ export class UserService {
       };
 
       localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(sessionData));
-
+      this.setUserCookie(user);
       this.userSubject.next(user);
     }
   }
@@ -110,6 +157,11 @@ export class UserService {
         } else {
           localStorage.removeItem(this.USER_STORAGE_KEY);
         }
+      }
+
+      const cookieUser = this.getUserCookie();
+      if (cookieUser) {
+        return cookieUser;
       }
     }
 
@@ -141,6 +193,7 @@ export class UserService {
       email: user.email ?? user.emailAddress ?? '',
       imageUrl: user.imageUrl ?? user.profilePictureUrl ?? '',
       token: user.token ?? '',
+      coins: user.coins ?? 0,
       lastLogin: user.lastLogin,
       updatedAt: user.updatedAt,
       createdAt: user.createdAt,
@@ -171,11 +224,20 @@ export class UserService {
 
   getUser(userId: string): Observable<User> {
     return this.http.get<any>(`${this.apiUrl}/users/${userId}`).pipe(
-      map((user: any) => this.normalizeUser({
-        ...user,
-        email: user.emailAddress || user.email,
-        imageUrl: user.profilePictureUrl || user.imageUrl,
-      }))
+      map((user: any) => {
+        const normalizedUser = this.normalizeUser({
+          ...user,
+          email: user.emailAddress || user.email,
+          imageUrl: user.profilePictureUrl || user.imageUrl,
+        });
+
+        const currentUser = this.getUserInfoFromLocalStorage();
+        if (currentUser?.id === user.id || currentUser?.email === normalizedUser.email) {
+          this.saveUserInfoToLocalStorage(normalizedUser);
+        }
+
+        return normalizedUser;
+      })
     );
   }
 
@@ -189,6 +251,7 @@ export class UserService {
           ...backendUser,
           email: backendUser.emailAddress || backendUser.email,
           imageUrl: backendUser.profilePictureUrl || backendUser.imageUrl,
+          coins: backendUser.coins ?? 0,
           token: response.token,
         });
 
@@ -208,6 +271,7 @@ export class UserService {
   performLogout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.USER_STORAGE_KEY);
+      document.cookie = `${this.USER_COOKIE_KEY}=; path=/; max-age=0; SameSite=Lax`;
       this.userSubject.next(undefined);
     }
   }

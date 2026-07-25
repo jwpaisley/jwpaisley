@@ -3,12 +3,13 @@ import { RouterModule } from '@angular/router';
 import { UserIcon } from '../user-icon/user-icon';
 import { UserService } from '../../services/user-service/user-service';
 import { Button } from '../button/button';
+import { Badge } from '../badge/badge';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 @Component({
   selector: 'jwpaisley-top-nav',
-  imports: [UserIcon, RouterModule, Button],
+  imports: [UserIcon, RouterModule, Button, Badge],
   templateUrl: './top-nav.html',
   styleUrl: './top-nav.scss',
 })
@@ -17,6 +18,7 @@ export class TopNav implements OnInit, OnDestroy {
 
   protected isUserLoggedIn = false;
   protected isUserAdmin = false;
+  protected userCoins = 0;
   private destroy$ = new Subject<void>();
   
   constructor(
@@ -30,6 +32,7 @@ export class TopNav implements OnInit, OnDestroy {
       .subscribe(user => {
         this.isUserLoggedIn = !!user;
         this.isUserAdmin = this.userService.isUserAdmin();
+        this.userCoins = user?.coins ?? 0;
         this.cdr.detectChanges();
       });
   }
