@@ -53,6 +53,17 @@
             size="medium"
         ></jwpaisley-empty-state>
     </div>
+
+    @if (isLoggedIn) {
+      <jwpaisley-comment-input
+        [user]="currentUser"
+        placeholder="write a comment"
+      ></jwpaisley-comment-input>
+    } @else {
+      <jwpaisley-button variant="primary" [routerLink]="['/profile']">
+        log in to comment
+      </jwpaisley-button>
+    }
   </div>
 
 </jwpaisley-loader>

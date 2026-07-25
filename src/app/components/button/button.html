@@ -1,4 +1,5 @@
 <button
+  *ngIf="!routerLink"
   class="btn"
   [class]="variant"
   [class.disabled]="disabled"
@@ -11,3 +12,17 @@
     {{ text }}
   </ng-content>
 </button>
+
+<a
+  *ngIf="routerLink"
+  class="btn"
+  [class]="variant"
+  [class.disabled]="disabled"
+  [attr.aria-disabled]="disabled ? 'true' : null"
+  [routerLink]="routerLink"
+  (click)="onClick($event)"
+>
+  <ng-content>
+    {{ text }}
+  </ng-content>
+</a>

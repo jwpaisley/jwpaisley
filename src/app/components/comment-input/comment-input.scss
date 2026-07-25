@@ -1,0 +1,55 @@
+@use '../../../styles/variables' as style-variables;
+
+.comment-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.comment-input-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background-color: style-variables.$snow;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+
+.comment-input__avatar {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #dfe7ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-input__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comment-input__avatar-fallback {
+  font-weight: 700;
+  color: #2f3b4a;
+  text-transform: uppercase;
+}
+
+.comment-input__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.comment-input__actions {
+  display: flex;
+  justify-content: flex-start;
+}

@@ -12,11 +12,12 @@ import { ConfirmationDialog } from '../../confirmation-dialog/confirmation-dialo
 import { EmptyState } from '../../empty-state/empty-state';
 import { Button } from '../../button/button';
 import { AddCollectionDialog, AddCollectionDialogData } from '../add-collection-dialog/add-collection-dialog';
+import { CommentInput } from '../../comment-input/comment-input';
 
 @Component({
   selector: 'jwpaisley-collection-details',
   standalone: true,
-  imports: [CommonModule, Loader, RouterModule, MatIconModule, ImageDialog, ConfirmationDialog, EmptyState, Button, AddCollectionDialog],
+  imports: [CommonModule, Loader, RouterModule, MatIconModule, ImageDialog, ConfirmationDialog, EmptyState, Button, AddCollectionDialog, CommentInput],
   templateUrl: './collection-details.html',
   styleUrl: './collection-details.scss',
   host: { ngSkipHydration: '' },
@@ -31,6 +32,8 @@ export class CollectionDetails implements OnInit, OnDestroy {
   protected selectedImageIndex = 0;
   protected isImageDialogOpen = false;
   protected isAdmin = false;
+  protected isLoggedIn = false;
+  protected currentUser: NonNullable<ReturnType<UserService['getUserInfoFromLocalStorage']>> | null = null;
   protected showDeleteConfirmation = false;
   protected showEditCollectionDialog = false;
 
@@ -44,8 +47,10 @@ export class CollectionDetails implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userService.user$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.userService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
+      this.currentUser = user ?? null;
       this.isAdmin = this.userService.isUserAdmin();
+      this.isLoggedIn = !!user;
       this.cdr.detectChanges();
     });
 
