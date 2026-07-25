@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  width: 100%;
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
@@ -13,13 +14,13 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  width: auto;
+  width: 100%;
   max-width: 100%;
   min-height: 100%;
   padding: 2rem 1.5rem;
   text-align: center;
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .empty-state-container.empty-state--large {
@@ -27,15 +28,25 @@
 }
 
 .empty-state-container.empty-state--medium {
-    gap: 0.6rem;
-    padding: 1.5rem 1rem;
-    max-width: 32rem;
+  gap: 0.6rem;
+  padding: 1.5rem 1rem;
 }
 
 .empty-state-container.empty-state--small {
   gap: 0.4rem;
   padding: 1rem 0.75rem;
-  max-width: 24rem;
+}
+
+@media (min-width: 768px) {
+  .empty-state-container.empty-state--medium {
+    width: auto;
+    max-width: 32rem;
+  }
+
+  .empty-state-container.empty-state--small {
+    width: auto;
+    max-width: 24rem;
+  }
 }
 
 .empty-state-circle {
