@@ -40,6 +40,18 @@
       }
     </div>
 
-    <div class="comment__text">{{ comment.text }}</div>
+    <div class="comment__text-wrapper">
+      <div
+        #commentText
+        class="comment__text"
+        [style.max-height]="showToggle && !isExpanded ? threeLineHeight : 'none'"
+        [style.overflow]="showToggle && !isExpanded ? 'hidden' : 'visible'"
+      >{{ comment.text }}</div>
+      @if (showToggle) {
+        <button type="button" class="comment__toggle" (click)="toggleExpanded()">
+          {{ isExpanded ? 'show less' : 'show more' }}
+        </button>
+      }
+    </div>
   </div>
 </div>
