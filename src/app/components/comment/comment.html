@@ -1,4 +1,4 @@
-<div class="comment">
+<div class="comment" [class.comment--reply]="comment.isReply || !!comment.parentComment">
   <div class="comment__avatar-column">
     @if (comment.user) {
       <a class="comment__avatar-link" [routerLink]="['/profile', comment.user]">
@@ -27,11 +27,22 @@
 
   <div class="comment__details">
     <div class="comment__meta">
-      @if (comment.user) {
-        <a class="comment__author" [routerLink]="['/profile', comment.user]">{{ userName }}</a>
-      } @else {
-        <div class="comment__author">{{ userName }}</div>
-      }
+      <div class="comment__meta-row">
+        @if (comment.user) {
+          <a class="comment__author" [routerLink]="['/profile', comment.user]">{{ userName }}</a>
+        } @else {
+          <div class="comment__author">{{ userName }}</div>
+        }
+        <div class="comment__actions">
+            @if (showReplyAction && !comment.isReply) {
+              <button type="button" class="comment__action-button" (click)="onReplyClick()">reply</button>
+            }
+            @if (isCurrentUserComment && !isEditing && !isDeleting) {
+                <button type="button" class="comment__action-button" (click)="onEditClick()">edit</button>
+                <button type="button" class="comment__action-button comment__action-button--danger" (click)="onDeleteClick()">delete</button>
+            }
+        </div>
+      </div>
       @if (createdAtLabel) {
         <div class="comment__timestamp">{{ createdAtLabel }}</div>
       }
@@ -40,18 +51,58 @@
       }
     </div>
 
-    <div class="comment__text-wrapper">
-      <div
-        #commentText
-        class="comment__text"
-        [style.max-height]="showToggle && !isExpanded ? threeLineHeight : 'none'"
-        [style.overflow]="showToggle && !isExpanded ? 'hidden' : 'visible'"
-      >{{ comment.text }}</div>
-      @if (showToggle) {
-        <button type="button" class="comment__toggle" (click)="toggleExpanded()">
-          {{ isExpanded ? 'show less' : 'show more' }}
-        </button>
-      }
-    </div>
+    @if (isEditing) {
+      <div class="comment__edit-form">
+        <jwpaisley-form-text-area
+          [(ngModel)]="editDraft"
+          name="editDraft"
+          placeholder="Edit your comment"
+          rows="4"
+        ></jwpaisley-form-text-area>
+        <div class="comment__edit-actions">
+            <jwpaisley-button text="save" (click)="onSaveEdit()"></jwpaisley-button>
+            <jwpaisley-button text="cancel" (click)="onCancelEdit()" variant="secondary"></jwpaisley-button>
+        </div>
+      </div>
+    } @else {
+      <div class="comment__text-wrapper">
+        <div
+          #commentText
+          class="comment__text"
+          [style.max-height]="showToggle && !isExpanded ? threeLineHeight : 'none'"
+          [style.overflow]="showToggle && !isExpanded ? 'hidden' : 'visible'"
+        >{{ comment.text }}</div>
+        @if (showToggle) {
+          <button type="button" class="comment__toggle" (click)="toggleExpanded()">
+            {{ isExpanded ? 'show less' : 'show more' }}
+          </button>
+        }
+      </div>
+    }
+
+    @if (isDeleting) {
+      <jwpaisley-confirmation-dialog
+        title="Delete comment"
+        message="Are you sure you want to delete this comment?"
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        (confirm)="onConfirmDelete()"
+        (cancel)="onCancelDelete()"
+      ></jwpaisley-confirmation-dialog>
+    }
   </div>
 </div>
+
+@if (isReplying) {
+  <div class="comment__reply-composer">
+    @if (isReplyPosting) {
+      <jwpaisley-loader [isLoading]="true" size="medium"></jwpaisley-loader>
+    } @else {
+      <jwpaisley-comment-input
+        [user]="userService?.getUserInfoFromLocalStorage() ?? null"
+        placeholder="write a reply"
+        (postComment)="handleReplyPost($event)"
+      ></jwpaisley-comment-input>
+    }
+  </div>
+}

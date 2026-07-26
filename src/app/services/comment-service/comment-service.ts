@@ -77,6 +77,16 @@ export class CommentService {
     return this.httpClient.get<CommentPage>(`${this.apiUrl}/resource/${resourceId}`, { params, headers: this.getAuthHeaders() });
   }
 
+  getRootComments(resourceId: string, type: CommentResourceType, pageToken?: string): Observable<CommentPage> {
+    let params = new HttpParams().set('commentType', type);
+
+    if (pageToken) {
+      params = params.set('pageToken', pageToken);
+    }
+
+    return this.httpClient.get<CommentPage>(`${this.apiUrl}/root/${resourceId}`, { params, headers: this.getAuthHeaders() });
+  }
+
   getReplies(parentCommentId: string, pageToken?: string): Observable<CommentPage> {
     let params = new HttpParams();
 

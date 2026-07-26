@@ -40,48 +40,10 @@
   </ng-template>
 
   <div class="comments-section" *ngIf="collection">
-    <h3>comments ({{ commentCount }}{{ hasMoreComments ? '+' : '' }})</h3>
-
-    @if (commentsLoading) {
-      <jwpaisley-loader [isLoading]="true" size="medium"></jwpaisley-loader>
-    } @else if (commentsError) {
-      <p>could not load comments right now.</p>
-    } @else if (comments.length === 0) {
-      <div class="comments-empty-state">
-        <p>be the first to add a comment to this collection</p>
-      </div>
-    } @else {
-      <div class="comments-list">
-        @for (comment of comments; track comment.id) {
-          <jwpaisley-comment [comment]="comment"></jwpaisley-comment>
-        }
-      </div>
-
-      @if (hasMoreComments) {
-        <div class="comments-load-more">
-          <jwpaisley-button
-            variant="primary"
-            text="load more"
-            [disabled]="isLoadingMoreComments"
-            (click)="loadMoreComments()"
-          ></jwpaisley-button>
-        </div>
-      }
-    }
-
-    @if (isLoggedIn) {
-      @if (isPostingComment) {
-        <jwpaisley-loader [isLoading]="true" size="medium"></jwpaisley-loader>
-      } @else {
-        <jwpaisley-comment-input
-          [user]="currentUser"
-          placeholder="write a comment"
-          (postComment)="handleCommentPost($event)"
-        ></jwpaisley-comment-input>
-      }
-    } @else {
-      <jwpaisley-button variant="primary" text="log in to comment" [routerLink]="['/profile']"></jwpaisley-button>
-    }
+    <jwpaisley-comments-section
+      [resourceId]="collection.id ?? null"
+      [resourceType]="'PHOTO_COLLECTION'"
+    ></jwpaisley-comments-section>
   </div>
 
 </jwpaisley-loader>
