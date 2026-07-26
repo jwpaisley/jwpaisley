@@ -46,14 +46,11 @@
     <div class="actions">
       <jwpaisley-button
         variant="primary"
+        [text]="confirmLabel"
         [disabled]="disableCreateButton"
         (click)="onConfirm()"
-      >
-        {{ confirmLabel }}
-      </jwpaisley-button>
-      <jwpaisley-button variant="secondary" (click)="onCancel()">
-        cancel
-      </jwpaisley-button>
+      ></jwpaisley-button>
+      <jwpaisley-button variant="secondary" text="cancel" (click)="onCancel()"></jwpaisley-button>
     </div>
   </div>
 </div>

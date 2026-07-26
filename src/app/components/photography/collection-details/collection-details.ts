@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,11 +13,13 @@ import { EmptyState } from '../../empty-state/empty-state';
 import { Button } from '../../button/button';
 import { AddCollectionDialog, AddCollectionDialogData } from '../add-collection-dialog/add-collection-dialog';
 import { CommentInput } from '../../comment-input/comment-input';
+import { CommentComponent } from '../../comment/comment';
+import { Comment, CommentService } from '../../../services/comment-service/comment-service';
 
 @Component({
   selector: 'jwpaisley-collection-details',
   standalone: true,
-  imports: [CommonModule, Loader, RouterModule, MatIconModule, ImageDialog, ConfirmationDialog, EmptyState, Button, AddCollectionDialog, CommentInput],
+  imports: [CommonModule, Loader, RouterModule, MatIconModule, ImageDialog, ConfirmationDialog, EmptyState, Button, AddCollectionDialog, CommentInput, CommentComponent],
   templateUrl: './collection-details.html',
   styleUrl: './collection-details.scss',
   host: { ngSkipHydration: '' },
@@ -36,6 +38,16 @@ export class CollectionDetails implements OnInit, OnDestroy {
   protected currentUser: NonNullable<ReturnType<UserService['getUserInfoFromLocalStorage']>> | null = null;
   protected showDeleteConfirmation = false;
   protected showEditCollectionDialog = false;
+  protected comments: Comment[] = [];
+  protected commentsLoading = false;
+  protected commentsError = false;
+  protected commentCount = 0;
+  protected isPostingComment = false;
+  protected hasMoreComments = false;
+  protected nextPageToken: string | null = null;
+  protected isLoadingMoreComments = false;
+  protected currentCollectionId: string | null = null;
+  @ViewChild(CommentInput) private commentInput?: CommentInput;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +55,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
     private photoService: PhotoService,
     private toastService: ToastService,
     private userService: UserService,
+    private commentService: CommentService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -62,11 +75,13 @@ export class CollectionDetails implements OnInit, OnDestroy {
       }
 
       this.isLoading = true;
+      this.currentCollectionId = collectionId;
       this.cdr.detectChanges();
 
       this.photoService.getPhotoCollection(collectionId).pipe(takeUntil(this.destroy$)).subscribe({
         next: (collection) => {
           this.collection = collection;
+          this.loadComments(collectionId);
           this.photoService.getPhotosByCollection(collectionId).pipe(takeUntil(this.destroy$)).subscribe({
             next: (photos) => {
               this.photos = photos;
@@ -87,6 +102,81 @@ export class CollectionDetails implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+    });
+  }
+
+  private loadComments(collectionId: string, append = false): void {
+    if (!append) {
+      this.commentsLoading = true;
+      this.commentsError = false;
+    } else {
+      this.isLoadingMoreComments = true;
+    }
+
+    this.cdr.detectChanges();
+
+    this.commentService.getCommentsForResource(collectionId, 'PHOTO_COLLECTION', append ? this.nextPageToken ?? undefined : undefined).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (response) => {
+        const pageItems = response.items ?? [];
+        this.comments = append ? [...this.comments, ...pageItems] : pageItems;
+        this.commentCount = this.comments.length;
+        this.hasMoreComments = !!response.nextPageToken;
+        this.nextPageToken = response.nextPageToken ?? null;
+        this.commentsLoading = false;
+        this.isLoadingMoreComments = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+        if (!append) {
+          this.comments = [];
+          this.commentCount = 0;
+          this.commentsError = true;
+        }
+        this.commentsLoading = false;
+        this.isLoadingMoreComments = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  protected loadMoreComments(): void {
+    if (!this.currentCollectionId || !this.nextPageToken || this.isLoadingMoreComments || this.commentsLoading) {
+      return;
+    }
+
+    this.loadComments(this.currentCollectionId, true);
+  }
+
+  handleCommentPost(commentText: string): void {
+    const resourceId = this.collection?.id;
+
+    if (!resourceId || !this.currentUser?.id || this.isPostingComment) {
+      return;
+    }
+
+    this.isPostingComment = true;
+    this.cdr.detectChanges();
+
+    this.commentService.createComment({
+      resource: resourceId,
+      type: 'PHOTO_COLLECTION',
+      text: commentText,
+      userId: this.currentUser.id,
+    }).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.isPostingComment = false;
+        this.commentInput?.reset();
+        this.loadComments(resourceId);
+        this.toastService.addToast('comment posted', 'comment', 'success');
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+        this.isPostingComment = false;
+        this.toastService.addToast('failed to post comment. please try again later.', 'error', 'danger');
+        this.cdr.detectChanges();
+      },
     });
   }
 

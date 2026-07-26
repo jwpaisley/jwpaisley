@@ -31,6 +31,7 @@ export interface User {
 export class UserService {
   private readonly USER_STORAGE_KEY = 'jwpaisley.user_info';
   private readonly USER_COOKIE_KEY = 'jwpaisley.user_cookie';
+  private readonly AUTH_TOKEN_STORAGE_KEY = 'jwpaisley.auth_token';
   private readonly USER_STORAGE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
   private readonly ADMIN_EMAILS = new Set<string>(['jacobpaisley97@gmail.com']);
   private readonly localApiUrl = 'http://localhost:8080/api';
@@ -138,6 +139,11 @@ export class UserService {
       };
 
       localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(sessionData));
+      if (user.token) {
+        localStorage.setItem(this.AUTH_TOKEN_STORAGE_KEY, user.token);
+      } else {
+        localStorage.removeItem(this.AUTH_TOKEN_STORAGE_KEY);
+      }
       this.setUserCookie(user);
       this.userSubject.next(user);
     }
@@ -147,13 +153,49 @@ export class UserService {
    * Retrieves user information from local storage if it exists and is not expired.
    * @returns User information or undefined if not found or expired.
    */
+  getAuthToken(): string | undefined {
+    const currentUser = this.userSubject.getValue();
+    if (currentUser?.token?.trim()) {
+      return currentUser.token.trim();
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+      const storedToken = localStorage.getItem(this.AUTH_TOKEN_STORAGE_KEY);
+      if (storedToken?.trim()) {
+        return storedToken.trim();
+      }
+
+      const sessionDataString = localStorage.getItem(this.USER_STORAGE_KEY);
+      if (sessionDataString) {
+        try {
+          const sessionData = JSON.parse(sessionDataString);
+          const sessionToken = sessionData?.user?.token;
+          if (typeof sessionToken === 'string' && sessionToken.trim()) {
+            return sessionToken.trim();
+          }
+        } catch {
+          // ignore malformed session payloads
+        }
+      }
+
+      const cookieUser = this.getUserCookie();
+      if (cookieUser?.token?.trim()) {
+        return cookieUser.token.trim();
+      }
+    }
+
+    return undefined;
+  }
+
   getUserInfoFromLocalStorage(): User | undefined {
     if (isPlatformBrowser(this.platformId)) {
       const sessionDataString = localStorage.getItem(this.USER_STORAGE_KEY);
       if (sessionDataString) {
         const sessionData = JSON.parse(sessionDataString);
         if (new Date().getTime() < sessionData.expiry) {
-          return sessionData.user;
+          const storedUser = sessionData.user;
+          const token = this.getAuthToken();
+          return token ? { ...storedUser, token } : storedUser;
         } else {
           localStorage.removeItem(this.USER_STORAGE_KEY);
         }
@@ -161,7 +203,8 @@ export class UserService {
 
       const cookieUser = this.getUserCookie();
       if (cookieUser) {
-        return cookieUser;
+        const token = this.getAuthToken();
+        return token ? { ...cookieUser, token } : cookieUser;
       }
     }
 
@@ -233,7 +276,11 @@ export class UserService {
 
         const currentUser = this.getUserInfoFromLocalStorage();
         if (currentUser?.id === user.id || currentUser?.email === normalizedUser.email) {
-          this.saveUserInfoToLocalStorage(normalizedUser);
+          const userToSave = {
+            ...normalizedUser,
+            token: currentUser?.token ?? normalizedUser.token,
+          };
+          this.saveUserInfoToLocalStorage(userToSave);
         }
 
         return normalizedUser;
@@ -245,6 +292,9 @@ export class UserService {
     try {
       const response = await firstValueFrom(this.http.post<any>(`${this.apiUrl}/auth/login`, { credential: token }));
       const backendUser = response?.user;
+      const authToken = typeof response?.token === 'string' && response.token.trim()
+        ? response.token.trim()
+        : undefined;
 
       if (backendUser) {
         const user: User = this.normalizeUser({
@@ -252,7 +302,7 @@ export class UserService {
           email: backendUser.emailAddress || backendUser.email,
           imageUrl: backendUser.profilePictureUrl || backendUser.imageUrl,
           coins: backendUser.coins ?? 0,
-          token: response.token,
+          token: authToken ?? backendUser.token ?? '',
         });
 
         this.saveUserInfoToLocalStorage(user);
@@ -271,6 +321,7 @@ export class UserService {
   performLogout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.USER_STORAGE_KEY);
+      localStorage.removeItem(this.AUTH_TOKEN_STORAGE_KEY);
       document.cookie = `${this.USER_COOKIE_KEY}=; path=/; max-age=0; SameSite=Lax`;
       this.userSubject.next(undefined);
     }

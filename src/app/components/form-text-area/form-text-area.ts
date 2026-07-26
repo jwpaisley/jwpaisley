@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -20,6 +20,7 @@ export class FormTextArea implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() placeholder: string = '';
+  @Output() valueChange = new EventEmitter<string>();
 
   value: string = '';
   disabled = false;
@@ -36,5 +37,6 @@ export class FormTextArea implements ControlValueAccessor {
     const target = event.target as HTMLTextAreaElement;
     this.value = target.value;
     this.onChange(this.value);
+    this.valueChange.emit(this.value);
   }
 }

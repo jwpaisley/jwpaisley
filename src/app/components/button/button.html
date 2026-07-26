@@ -5,6 +5,8 @@
   [class.disabled]="disabled"
   [disabled]="disabled"
   [attr.aria-disabled]="disabled ? 'true' : null"
+  [style.opacity]="disabled ? 0.6 : null"
+  [style.pointer-events]="disabled ? 'none' : null"
   type="button"
   (click)="onClick($event)"
 >
@@ -17,6 +19,8 @@
   [class]="variant"
   [class.disabled]="disabled"
   [attr.aria-disabled]="disabled ? 'true' : null"
+  [style.opacity]="disabled ? 0.6 : null"
+  [style.pointer-events]="disabled ? 'none' : null"
   [routerLink]="routerLink"
   (click)="onClick($event)"
 >

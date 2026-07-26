@@ -1,0 +1,45 @@
+<div class="comment">
+  <div class="comment__avatar-column">
+    @if (comment.user) {
+      <a class="comment__avatar-link" [routerLink]="['/profile', comment.user]">
+        <div class="comment__avatar">
+          @if (userImageUrl) {
+            <img [src]="userImageUrl" [alt]="userName + ' profile picture'" class="comment__avatar-image" referrerpolicy="no-referrer" />
+          } @else {
+            <div class="comment__avatar-fallback">
+              {{ userName.charAt(0).toUpperCase() }}
+            </div>
+          }
+        </div>
+      </a>
+    } @else {
+      <div class="comment__avatar">
+        @if (userImageUrl) {
+          <img [src]="userImageUrl" [alt]="userName + ' profile picture'" class="comment__avatar-image" referrerpolicy="no-referrer" />
+        } @else {
+          <div class="comment__avatar-fallback">
+            {{ userName.charAt(0).toUpperCase() }}
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="comment__details">
+    <div class="comment__meta">
+      @if (comment.user) {
+        <a class="comment__author" [routerLink]="['/profile', comment.user]">{{ userName }}</a>
+      } @else {
+        <div class="comment__author">{{ userName }}</div>
+      }
+      @if (createdAtLabel) {
+        <div class="comment__timestamp">{{ createdAtLabel }}</div>
+      }
+      @if (updatedAtLabel) {
+        <div class="comment__timestamp comment__timestamp--updated">{{ updatedAtLabel }}</div>
+      }
+    </div>
+
+    <div class="comment__text">{{ comment.text }}</div>
+  </div>
+</div>

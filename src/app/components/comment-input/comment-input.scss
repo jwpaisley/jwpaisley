@@ -24,7 +24,7 @@
   height: 48px;
   border-radius: 50%;
   overflow: hidden;
-  background: #dfe7ef;
+  background: style-variables.$cloud;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,7 @@
 
 .comment-input__avatar-fallback {
   font-weight: 700;
-  color: #2f3b4a;
+  color: style-variables.$slate;
   text-transform: uppercase;
 }
 
@@ -51,5 +51,6 @@
 
 .comment-input__actions {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  margin-top: auto;
 }

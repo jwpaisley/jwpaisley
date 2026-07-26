@@ -1,23 +1,30 @@
 <div class="comment-input">
-    <div class="comment-input-container">
-        <div class="comment-input__avatar">
-            @if (user?.imageUrl) {
-            <img [src]="user?.imageUrl" [alt]="(user?.firstName || 'user') + ' profile picture'" class="comment-input__avatar-image" referrerpolicy="no-referrer" />
-            } @else {
-            <div class="comment-input__avatar-fallback">
-                {{ (user?.firstName?.charAt(0) || '?') + (user?.lastName?.charAt(0) || '') }}
-            </div>
-            }
+  <div class="comment-input-container">
+    <div class="comment-input__avatar">
+      @if (user?.imageUrl) {
+        <img [src]="user?.imageUrl" [alt]="(user?.firstName || 'user') + ' profile picture'" class="comment-input__avatar-image" referrerpolicy="no-referrer" />
+      } @else {
+        <div class="comment-input__avatar-fallback">
+          {{ (user?.firstName?.charAt(0) || '?') + (user?.lastName?.charAt(0) || '') }}
         </div>
+      }
+    </div>
 
-        <div class="comment-input__body">
-            <jwpaisley-form-text-area
-            [placeholder]="placeholder"
-            size="medium"
-            ></jwpaisley-form-text-area>
-        </div>
+    <div class="comment-input__body">
+      <jwpaisley-form-text-area
+        [placeholder]="placeholder"
+        size="medium"
+        (valueChange)="commentText = $event"
+      ></jwpaisley-form-text-area>
+
+      <div class="comment-input__actions">
+        <jwpaisley-button
+          variant="primary"
+          text="post comment"
+          [disabled]="!hasContent"
+          (click)="onPostComment()"
+        ></jwpaisley-button>
+      </div>
     </div>
-    <div class="comment-input__actions">
-      <jwpaisley-button variant="primary" text="post comment"></jwpaisley-button>
-    </div>
+  </div>
 </div>

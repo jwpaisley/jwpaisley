@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Button } from '../button/button';
@@ -15,4 +15,25 @@ import { User } from '../../services/user-service/user-service';
 export class CommentInput {
   @Input() user: User | null = null;
   @Input() placeholder: string = 'write a comment';
+  @Output() postComment = new EventEmitter<string>();
+
+  commentText = '';
+
+  get hasContent(): boolean {
+    return !!this.commentText.trim();
+  }
+
+  onPostComment(): void {
+    const trimmedComment = this.commentText.trim();
+
+    if (!trimmedComment) {
+      return;
+    }
+
+    this.postComment.emit(trimmedComment);
+  }
+
+  reset(): void {
+    this.commentText = '';
+  }
 }
