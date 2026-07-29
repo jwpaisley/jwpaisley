@@ -4,7 +4,7 @@
   @if (commentsLoading) {
     <jwpaisley-loader [isLoading]="true" size="medium"></jwpaisley-loader>
   } @else if (commentsError) {
-    <p>could not load comments right now.</p>
+    <p>could not load comments</p>
   } @else if (comments.length === 0) {
     <div class="comments-empty-state">
       <p>be the first to add a comment</p>
@@ -17,6 +17,7 @@
             [comment]="thread.comment"
             [showReplyAction]="true"
             [refreshComments]="refreshCommentsForSection"
+            [userInfo]="getUserInfoForComment(thread.comment.user)"
           ></jwpaisley-comment>
 
           @if (thread.replies.length > 0) {
@@ -26,6 +27,7 @@
                   [comment]="reply"
                   [showReplyAction]="false"
                   [refreshComments]="refreshCommentsForSection"
+                  [userInfo]="getUserInfoForComment(reply.user)"
                 ></jwpaisley-comment>
               }
             </div>
@@ -36,12 +38,15 @@
 
     @if (hasMoreComments) {
       <div class="comments-load-more">
-        <jwpaisley-button
-          variant="primary"
-          text="load more"
-          [disabled]="isLoadingMoreComments"
-          (click)="loadMoreComments()"
-        ></jwpaisley-button>
+        @if (isLoadingMoreComments) {
+          <jwpaisley-loader [isLoading]="true" size="small"></jwpaisley-loader>
+        } @else {
+          <jwpaisley-button
+            variant="primary"
+            text="load more"
+            (click)="loadMoreComments()"
+          ></jwpaisley-button>
+        }
       </div>
     }
   }

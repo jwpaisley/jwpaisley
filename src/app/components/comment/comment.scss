@@ -49,6 +49,12 @@
   text-transform: uppercase;
 }
 
+.comment__author-loading {
+  color: style-variables.$slate;
+  opacity: 0.7;
+  font-weight: 600;
+}
+
 .comment__details {
   flex: 1;
   display: flex;
@@ -167,4 +173,10 @@
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
+}
+
+.deleted-comment {
+    font-style: italic;
+    color: style-variables.$slate;
+    opacity: 0.8;
 }

@@ -3,7 +3,9 @@
     @if (comment.user) {
       <a class="comment__avatar-link" [routerLink]="['/profile', comment.user]">
         <div class="comment__avatar">
-          @if (userImageUrl) {
+          @if (isUserLoading) {
+            <jwpaisley-loader [isLoading]="true" size="small"></jwpaisley-loader>
+          } @else if (userImageUrl) {
             <img [src]="userImageUrl" [alt]="userName + ' profile picture'" class="comment__avatar-image" referrerpolicy="no-referrer" />
           } @else {
             <div class="comment__avatar-fallback">
@@ -14,7 +16,9 @@
       </a>
     } @else {
       <div class="comment__avatar">
-        @if (userImageUrl) {
+        @if (isUserLoading) {
+          <jwpaisley-loader [isLoading]="true" size="small"></jwpaisley-loader>
+        } @else if (userImageUrl) {
           <img [src]="userImageUrl" [alt]="userName + ' profile picture'" class="comment__avatar-image" referrerpolicy="no-referrer" />
         } @else {
           <div class="comment__avatar-fallback">
@@ -29,9 +33,21 @@
     <div class="comment__meta">
       <div class="comment__meta-row">
         @if (comment.user) {
-          <a class="comment__author" [routerLink]="['/profile', comment.user]">{{ userName }}</a>
+          <a class="comment__author" [routerLink]="['/profile', comment.user]">
+            @if (isUserLoading) {
+              <span class="comment__author-loading">loading...</span>
+            } @else {
+              {{ userName }}
+            }
+          </a>
         } @else {
-          <div class="comment__author">{{ userName }}</div>
+          <div class="comment__author">
+            @if (isUserLoading) {
+              <span class="comment__author-loading">loading...</span>
+            } @else {
+              {{ userName }}
+            }
+          </div>
         }
         <div class="comment__actions">
             @if (showReplyAction && !comment.isReply) {
@@ -71,7 +87,13 @@
           class="comment__text"
           [style.max-height]="showToggle && !isExpanded ? threeLineHeight : 'none'"
           [style.overflow]="showToggle && !isExpanded ? 'hidden' : 'visible'"
-        >{{ comment.text }}</div>
+        >
+        @if (comment.text === 'deleted comment') {
+            <em class="deleted-comment">deleted comment</em>
+        } @else {
+            {{ comment.text }}
+        }
+        </div>
         @if (showToggle) {
           <button type="button" class="comment__toggle" (click)="toggleExpanded()">
             {{ isExpanded ? 'show less' : 'show more' }}
@@ -82,10 +104,10 @@
 
     @if (isDeleting) {
       <jwpaisley-confirmation-dialog
-        title="Delete comment"
-        message="Are you sure you want to delete this comment?"
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
+        title="delete comment"
+        message="are you sure you want to delete this comment?"
+        confirmLabel="delete"
+        cancelLabel="cancel"
         (confirm)="onConfirmDelete()"
         (cancel)="onCancelDelete()"
       ></jwpaisley-confirmation-dialog>

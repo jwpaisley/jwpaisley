@@ -8,7 +8,7 @@ import { CommentComponent } from '../comment/comment';
 import { Loader } from '../loader/loader';
 import { Comment, CommentResourceType, CommentService } from '../../services/comment-service/comment-service';
 import { ToastService } from '../../services/toast-service/toast-service';
-import { UserService } from '../../services/user-service/user-service';
+import { UserBasicInfo, UserService } from '../../services/user-service/user-service';
 
 interface ThreadedComment {
   comment: Comment;
@@ -37,6 +37,8 @@ export class CommentsSection implements OnInit, OnChanges, OnDestroy {
   protected nextPageToken: string | null = null;
   protected isLoadingMoreComments = false;
   protected loadingRepliesForCommentIds = new Set<string>();
+  protected loadingUserInfoIds = new Set<string>();
+  protected userInfoByUserId = new Map<string, UserBasicInfo>();
   protected currentUser: NonNullable<ReturnType<UserService['getUserInfoFromLocalStorage']>> | null = null;
   protected isLoggedIn = false;
 
@@ -103,6 +105,7 @@ export class CommentsSection implements OnInit, OnChanges, OnDestroy {
         this.isLoadingMoreComments = false;
         this.cdr.detectChanges();
 
+        this.ensureUserInfoForComments(this.comments);
         this.loadRepliesForRootComments();
       },
       error: (error) => {
@@ -145,6 +148,7 @@ export class CommentsSection implements OnInit, OnChanges, OnDestroy {
       this.threadedComments = [];
       this.commentCount = this.comments.length;
       this.cdr.detectChanges();
+      this.ensureUserInfoForComments([normalizedComment]);
       this.loadRepliesForRootComments();
       return;
     }
@@ -179,6 +183,38 @@ export class CommentsSection implements OnInit, OnChanges, OnDestroy {
         this.toastService.addToast('failed to post comment. please try again later.', 'error', 'danger');
         this.cdr.detectChanges();
       },
+    });
+  }
+
+  protected getUserInfoForComment(userId?: string): UserBasicInfo | null {
+    return userId ? this.userInfoByUserId.get(userId) ?? null : null;
+  }
+
+  private ensureUserInfoForComments(comments: Comment[]): void {
+    comments.forEach((comment) => {
+      const userId = typeof comment.user === 'string' ? comment.user : comment.user ? String(comment.user) : '';
+      if (!userId || this.userInfoByUserId.has(userId) || this.loadingUserInfoIds.has(userId)) {
+        return;
+      }
+
+      this.loadingUserInfoIds.add(userId);
+      this.userService.getUserBasicInfo(userId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (userInfo) => {
+          this.userInfoByUserId.set(userId, userInfo);
+          this.loadingUserInfoIds.delete(userId);
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.loadingUserInfoIds.delete(userId);
+          this.userInfoByUserId.set(userId, {
+            id: userId,
+            firstName: '',
+            lastName: '',
+            profilePictureUrl: null,
+          });
+          this.cdr.detectChanges();
+        },
+      });
     });
   }
 
@@ -217,6 +253,7 @@ export class CommentsSection implements OnInit, OnChanges, OnDestroy {
           if (rootComment.id) {
             this.loadingRepliesForCommentIds.delete(rootComment.id);
           }
+          this.ensureUserInfoForComments([rootComment, ...replies]);
           this.cdr.detectChanges();
         },
         error: (error) => {

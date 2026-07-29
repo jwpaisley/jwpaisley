@@ -4,6 +4,25 @@
       <mat-icon>close</mat-icon>
     </button>
 
+    <button class="secondary-button" type="button" (click)="openComments(); $event.stopPropagation()" aria-label="Open comments">
+      <mat-icon>comment</mat-icon>
+    </button>
+
+    @if (isCommentsOpen) {
+      <div class="comments-dialog-backdrop" (click)="closeComments()">
+        <div class="comments-dialog-card" (click)="$event.stopPropagation()">
+          <button class="comments-dialog__close" type="button" (click)="closeComments()" aria-label="Close comments">
+            <mat-icon>close</mat-icon>
+          </button>
+
+          <div class="comments-dialog__content">
+            <h3>comments</h3>
+            <jwpaisley-comments-section [resourceId]="resourceId" [resourceType]="'PHOTO'"></jwpaisley-comments-section>
+          </div>
+        </div>
+      </div>
+    }
+
     <button *ngIf="showPrevious" class="nav-button nav-button-left" type="button" (click)="previous.emit()" aria-label="Previous image">
       <mat-icon>chevron_left</mat-icon>
     </button>

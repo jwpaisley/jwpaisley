@@ -1,13 +1,20 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getApiUrl } from '../../helpers/api-url';
 
 export interface UserPage {
   items: User[];
   nextPageToken: string | null;
+}
+
+export interface UserBasicInfo {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  profilePictureUrl?: string | null;
 }
 
 export interface User {
@@ -33,6 +40,7 @@ export class UserService {
   private readonly USER_COOKIE_KEY = 'jwpaisley.user_cookie';
   private readonly AUTH_TOKEN_STORAGE_KEY = 'jwpaisley.auth_token';
   private readonly USER_STORAGE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  private readonly BASIC_USER_INFO_CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
   private readonly ADMIN_EMAILS = new Set<string>(['jacobpaisley97@gmail.com']);
   private readonly localApiUrl = 'http://localhost:8080/api';
   private readonly prodApiUrl = 'https://api.jwpaisley.com/api';
@@ -40,6 +48,7 @@ export class UserService {
 
   private userSubject = new BehaviorSubject<User | undefined>(this.getUserInfoFromLocalStorage());
   public user$: Observable<User | undefined> = this.userSubject.asObservable();
+  private basicUserInfoCache = new Map<string, { expiresAt: number; value: UserBasicInfo }>();
   
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -285,6 +294,31 @@ export class UserService {
 
         return normalizedUser;
       })
+    );
+  }
+
+  getUserBasicInfo(userId: string): Observable<UserBasicInfo> {
+    const cachedEntry = this.basicUserInfoCache.get(userId);
+    if (cachedEntry && cachedEntry.expiresAt > Date.now()) {
+      return of(cachedEntry.value);
+    }
+
+    return this.http.get<any>(`${this.apiUrl}/users/${userId}`).pipe(
+      map((user: any) => {
+        const basicInfo: UserBasicInfo = {
+          id: user?.id ?? userId,
+          firstName: user?.firstName ?? user?.first_name ?? '',
+          lastName: user?.lastName ?? user?.last_name ?? '',
+          profilePictureUrl: user?.profilePictureUrl ?? user?.profile_picture_url ?? user?.imageUrl ?? user?.image_url ?? null,
+        };
+
+        this.basicUserInfoCache.set(userId, {
+          expiresAt: Date.now() + this.BASIC_USER_INFO_CACHE_DURATION,
+          value: basicInfo,
+        });
+
+        return basicInfo;
+      }),
     );
   }
 

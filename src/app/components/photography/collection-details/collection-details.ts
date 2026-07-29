@@ -29,6 +29,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
   protected photos: Photo[] = [];
   protected selectedImageUrl: string | null = null;
   protected selectedImageCaption: string | null = null;
+  protected selectedImageResourceId: string | null = null;
   protected selectedImageIndex = 0;
   protected isImageDialogOpen = false;
   protected isAdmin = false;
@@ -37,6 +38,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
   protected showDeleteConfirmation = false;
   protected showEditCollectionDialog = false;
   protected currentCollectionId: string | null = null;
+  protected pendingPhotoId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +66,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
 
       this.isLoading = true;
       this.currentCollectionId = collectionId;
+      this.pendingPhotoId = this.route.snapshot.queryParamMap.get('photo');
       this.cdr.detectChanges();
 
       this.photoService.getPhotoCollection(collectionId).pipe(takeUntil(this.destroy$)).subscribe({
@@ -75,6 +78,14 @@ export class CollectionDetails implements OnInit, OnDestroy {
               this.photos = photos;
               this.isLoading = false;
               this.cdr.detectChanges();
+
+              if (this.pendingPhotoId) {
+                const matchingPhoto = this.photos.find((photo) => photo.id === this.pendingPhotoId);
+                if (matchingPhoto) {
+                  this.openImageDialog(matchingPhoto);
+                }
+                this.pendingPhotoId = null;
+              }
             },
             error: (error) => {
               console.error(error);
@@ -102,6 +113,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
     this.selectedImageIndex = index >= 0 ? index : 0;
     this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
     this.selectedImageCaption = this.photos[this.selectedImageIndex]?.caption ?? null;
+    this.selectedImageResourceId = this.photos[this.selectedImageIndex]?.id ?? null;
     this.isImageDialogOpen = true;
     this.cdr.detectChanges();
   }
@@ -132,6 +144,7 @@ export class CollectionDetails implements OnInit, OnDestroy {
     this.isImageDialogOpen = false;
     this.selectedImageUrl = null;
     this.selectedImageCaption = null;
+    this.selectedImageResourceId = null;
     this.selectedImageIndex = 0;
     this.cdr.detectChanges();
   }

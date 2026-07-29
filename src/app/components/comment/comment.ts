@@ -10,7 +10,7 @@ import { CommentInput } from '../comment-input/comment-input';
 import { Loader } from '../loader/loader';
 import { Comment, CommentService } from '../../services/comment-service/comment-service';
 import { ToastService } from '../../services/toast-service/toast-service';
-import { User, UserService } from '../../services/user-service/user-service';
+import { UserBasicInfo, UserService } from '../../services/user-service/user-service';
 
 @Component({
   selector: 'jwpaisley-comment',
@@ -23,11 +23,13 @@ export class CommentComponent implements OnInit, OnChanges, OnDestroy, AfterView
   @Input() comment!: Comment;
   @Input() refreshComments?: (newComment?: Comment) => void;
   @Input() showReplyAction = true;
+  @Input() userInfo: UserBasicInfo | null = null;
   @ViewChild('commentText') private commentTextElement?: ElementRef<HTMLElement>;
   @ViewChild(CommentInput) private replyInput?: CommentInput;
 
   protected userName = 'user';
   protected userImageUrl: string | null = null;
+  protected isUserLoading = false;
   protected createdAtLabel = '';
   protected updatedAtLabel = '';
   protected isExpanded = false;
@@ -60,24 +62,12 @@ export class CommentComponent implements OnInit, OnChanges, OnDestroy, AfterView
 
     const currentUser = this.userService?.getUserInfoFromLocalStorage();
     this.isCurrentUserComment = Boolean(currentUser?.id) && currentUser?.id === this.comment?.user;
-
-    if (this.comment?.user && this.userService) {
-      this.userService.getUser(this.comment.user).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (user) => {
-          this.userName = this.getDisplayName(user);
-          this.userImageUrl = user.imageUrl || user.profilePictureUrl || null;
-          this.cdr.detectChanges();
-        },
-        error: () => {
-          this.userName = 'user';
-          this.cdr.detectChanges();
-        },
-      });
-    }
+    this.applyUserInfo(this.userInfo);
+    this.loadCommentUserInfo();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['comment']) {
+    if (changes['comment'] || changes['userInfo']) {
       this.isExpanded = false;
       this.showToggle = false;
       this.isEditing = false;
@@ -85,6 +75,8 @@ export class CommentComponent implements OnInit, OnChanges, OnDestroy, AfterView
       this.isReplying = false;
       this.replyDraft = '';
       this.editDraft = this.comment?.text ?? '';
+      this.applyUserInfo(this.userInfo);
+      this.loadCommentUserInfo();
       this.updateShowToggle();
     }
   }
@@ -189,10 +181,12 @@ export class CommentComponent implements OnInit, OnChanges, OnDestroy, AfterView
         this.comment = { ...this.comment, text: 'deleted comment' };
         this.isCurrentUserComment = false;
         this.isDeleting = false;
+        this.toastService.addToast('comment deleted', 'comment', 'success');
         this.cdr.detectChanges();
       },
       error: () => {
         this.isDeleting = false;
+        this.toastService.addToast('failed to delete comment. please try again later.', 'error', 'danger');
         this.cdr.detectChanges();
       },
     });
@@ -201,6 +195,48 @@ export class CommentComponent implements OnInit, OnChanges, OnDestroy, AfterView
   protected onCancelDelete(): void {
     this.isDeleting = false;
     this.cdr.detectChanges();
+  }
+
+  private applyUserInfo(userInfo: UserBasicInfo | null): void {
+    if (userInfo) {
+      this.userName = this.getDisplayName(userInfo);
+      this.userImageUrl = userInfo.profilePictureUrl || null;
+      this.isUserLoading = false;
+      return;
+    }
+
+    if (!this.comment?.user) {
+      this.userName = 'user';
+      this.userImageUrl = null;
+      this.isUserLoading = false;
+      return;
+    }
+
+    this.userName = 'user';
+    this.userImageUrl = null;
+    this.isUserLoading = false;
+  }
+
+  private loadCommentUserInfo(): void {
+    if (!this.comment?.user || !this.userService) {
+      return;
+    }
+
+    const userId = typeof this.comment.user === 'string' ? this.comment.user : String(this.comment.user);
+    this.userService.getUserBasicInfo(userId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (userInfo) => {
+        this.userName = this.getDisplayName(userInfo);
+        this.userImageUrl = userInfo.profilePictureUrl || null;
+        this.isUserLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.userName = 'user';
+        this.userImageUrl = null;
+        this.isUserLoading = false;
+        this.cdr.detectChanges();
+      },
+    });
   }
 
   private observeTextSize(): void {
@@ -246,8 +282,8 @@ export class CommentComponent implements OnInit, OnChanges, OnDestroy, AfterView
     });
   }
 
-  private getDisplayName(user: User): string {
-    const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ').trim();
+  private getDisplayName(user: UserBasicInfo | null | undefined): string {
+    const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ').trim();
     return fullName || 'user';
   }
 

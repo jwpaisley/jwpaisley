@@ -1,9 +1,8 @@
-@use '../../styles/variables' as style-variables;
+@use '../../../styles/variables' as style-variables;
 
 .comments-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .comments-list {
@@ -28,7 +27,6 @@
 }
 
 .comments-empty-state {
-  padding: 1rem 0;
   color: style-variables.$slate;
   opacity: 0.8;
 }
@@ -36,4 +34,6 @@
 .comments-load-more {
   display: flex;
   justify-content: center;
+  min-height: 2.75rem;
+  align-items: center;
 }

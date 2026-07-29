@@ -50,4 +50,20 @@ describe('UserService', () => {
     const storedUser = service.getUserInfoFromLocalStorage();
     expect(storedUser?.token).toBe('abc123');
   });
+
+  it('should cache basic user info for repeated lookups', () => {
+    const firstCall = service.getUserBasicInfo('user-1');
+    const secondCall = service.getUserBasicInfo('user-1');
+
+    firstCall.subscribe();
+    secondCall.subscribe();
+
+    const req = httpMock.expectOne((request) => request.url.includes('/users/user-1'));
+    req.flush({
+      id: 'user-1',
+      first_name: 'Jane',
+      last_name: 'Doe',
+      profile_picture_url: 'https://example.com/avatar.jpg',
+    });
+  });
 });

@@ -26,6 +26,7 @@ export class Timeline implements OnInit, OnDestroy {
   protected showAddCollectionDialog = false;
   protected selectedImageUrl: string | null = null;
   protected selectedImageCaption: string | null = null;
+  protected selectedImageResourceId: string | null = null;
   protected selectedImageIndex = 0;
   protected isImageDialogOpen = false;
 
@@ -135,6 +136,7 @@ export class Timeline implements OnInit, OnDestroy {
     this.selectedImageIndex = index >= 0 ? index : 0;
     this.selectedImageUrl = this.photos[this.selectedImageIndex]?.image ?? null;
     this.selectedImageCaption = this.photos[this.selectedImageIndex]?.caption ?? null;
+    this.selectedImageResourceId = this.photos[this.selectedImageIndex]?.id ?? null;
     this.isImageDialogOpen = true;
     this.cdr.detectChanges();
   }
@@ -165,6 +167,7 @@ export class Timeline implements OnInit, OnDestroy {
     this.isImageDialogOpen = false;
     this.selectedImageUrl = null;
     this.selectedImageCaption = null;
+    this.selectedImageResourceId = null;
     this.selectedImageIndex = 0;
     this.cdr.detectChanges();
   }
