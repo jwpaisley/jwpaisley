@@ -1,0 +1,14 @@
+@use '../../../styles/variables' as style-variables;
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.tag-list__empty {
+  color: style-variables.$primary-text;
+  font-size: 0.95rem;
+  padding: 0.25rem 0 0.75rem;
+}

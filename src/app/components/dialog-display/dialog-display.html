@@ -25,6 +25,13 @@
           />
         }
 
+        @case ('add-recipe-tag') {
+          <jwpaisley-add-recipe-tag-dialog
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
+          />
+        }
+
         @default {
           <p>Unknown dialog type: {{ config()?.type }}</p>
         }

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { getApiUrl } from '../../helpers/api-url';
+import { RecipeTag } from '../recipe-tag-service/recipe-tag-service';
 
 export declare interface Recipe {
   id: string;
@@ -21,6 +22,7 @@ export declare interface Recipe {
   ingredients: string[];
   miseEnPlaceSteps: string[];
   instructions: string[];
+  recipeTags: RecipeTag[];
 
   createdAt?: string;
   updatedAt?: string;
@@ -44,11 +46,17 @@ export class RecipeService {
     return this.httpClient.post<Recipe>(`${this.apiUrl}`, recipe);
   }
 
-  getRecipes(pageToken?: string): Observable<RecipePage> {
+  getRecipes(pageToken?: string, recipeTags?: string[]): Observable<RecipePage> {
     let params = new HttpParams();
 
     if (pageToken) {
       params = params.set('pageToken', pageToken);
+    }
+
+    if (recipeTags && recipeTags.length > 0) {
+      recipeTags.forEach((recipeTagId) => {
+        params = params.append('recipeTags', recipeTagId);
+      });
     }
 
     return this.httpClient.get<RecipePage>(`${this.apiUrl}`, { params });

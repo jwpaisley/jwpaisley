@@ -1,5 +1,9 @@
-<jwpaisley-table
-    [headers]="tableHeaders"
-    [rows]="tableRows()"
-    [mobileVisibleIndices]="mobileColumns"
-></jwpaisley-table>
+@if (recipes().length === 0) {
+    <p class="empty-state">no recipes found</p>
+} @else {
+    <jwpaisley-table
+        [headers]="tableHeaders"
+        [rows]="tableRows()"
+        [mobileVisibleIndices]="mobileColumns"
+    ></jwpaisley-table>
+}

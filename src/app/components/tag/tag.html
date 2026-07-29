@@ -1,0 +1,14 @@
+<button
+  class="tag"
+  type="button"
+  [class.tag--selected]="tag.selected"
+  [class.tag--unselected]="!tag.selected"
+  (click)="onTagClick()"
+>
+  <span class="tag__title">{{ tag.title }}</span>
+  @if (tag.selected) {
+    <button class="tag__remove" type="button" (click)="onRemoveClick($event)" aria-label="Remove tag">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</button>

@@ -1,0 +1,92 @@
+@use '../../../styles/variables' as style-variables;
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.dialog-card {
+  position: relative;
+  background: style-variables.$cloud;
+  border: 1px solid rgba(style-variables.$blue-slate, 0.2);
+  border-radius: 1rem;
+  padding: 2.5rem;
+  width: min(100%, 32rem);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.close-x {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: style-variables.$blue-slate;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.close-x:hover {
+  opacity: 1;
+}
+
+.icon-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid style-variables.$sprout;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: style-variables.$sprout;
+}
+
+.content {
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 1.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.content p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  color: style-variables.$blue-slate;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.actions jwpaisley-button {
+  flex: 1;
+}

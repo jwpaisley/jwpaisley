@@ -1,0 +1,13 @@
+@if (sortedTags.length === 0) {
+  <div class="tag-list__empty">no tags found</div>
+} @else {
+  <div class="tag-list">
+    @for (tag of sortedTags; track tag.id) {
+      <jwpaisley-tag
+        [tag]="tag"
+        (selected)="onTagSelected($event)"
+        (unselected)="onTagUnselected($event)"
+      ></jwpaisley-tag>
+    }
+  </div>
+}

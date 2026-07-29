@@ -30,6 +30,7 @@ const RECIPE_TEMPLATE: Recipe = {
   ingredients: [],
   miseEnPlaceSteps: [],
   instructions: [],
+  recipeTags: [],
 };
 
 @Component({
@@ -241,6 +242,7 @@ export class RecipePage implements OnInit {
       ingredients: this.getFormArrayValues('ingredients'),
       miseEnPlaceSteps: this.getFormArrayValues('miseEnPlaceSteps'),
       instructions: this.getFormArrayValues('instructions'),
+      recipeTags: this.recipe.recipeTags ?? [],
     };
   }
 
