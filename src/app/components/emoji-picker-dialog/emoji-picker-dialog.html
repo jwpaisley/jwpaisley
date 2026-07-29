@@ -25,14 +25,13 @@
             <jwpaisley-button 
                 variant="primary" 
                 (click)="onConfirm()"
-            >
-                {{ confirmLabel }}
-            </jwpaisley-button>
+                [text]="confirmLabel"
+            ></jwpaisley-button>
             <jwpaisley-button 
                 variant="secondary" 
-                (click)="onCancel()">
-                {{ cancelLabel }}
-            </jwpaisley-button>
+                (click)="onCancel()"
+                [text]="cancelLabel"
+            ></jwpaisley-button>
         </div>
     </form>
   </div>

@@ -37,6 +37,22 @@
         }
       </div>
 
+      @if (editMode) {
+        <div class="recipe-tags-editor">
+          <jwpaisley-form-tags-list
+            [tags]="availableTags"
+            formControlName="recipeTags"
+            (addTagClicked)="onTagsChanged(formGroup.get('recipeTags')?.value || [])"
+          ></jwpaisley-form-tags-list>
+        </div>
+      } @else if (recipe.recipeTags.length) {
+        <div class="recipe-tags">
+          @for (recipeTag of recipe.recipeTags; track recipeTag.id) {
+            <jwpaisley-tag [tag]="{ id: recipeTag.id, title: recipeTag.name, selected: false }"></jwpaisley-tag>
+          }
+        </div>
+      }
+
       <div class="recipe-nutritional-grid">
         <span>
           <strong>servings:</strong>

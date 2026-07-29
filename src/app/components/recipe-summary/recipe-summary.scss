@@ -42,6 +42,14 @@
   color: style-variables.$slate;
 }
 
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
 .recipe-nutritional-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -1,0 +1,10 @@
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-list__empty {
+  color: #6b7280;
+  font-size: 0.95rem;
+}

@@ -1,0 +1,12 @@
+<div class="form-tags-list">
+  @for (tag of selectedTags; track tag.id) {
+    <jwpaisley-tag
+      [tag]="{ id: tag.id, title: tag.title, selected: true }"
+      (unselected)="onTagUnselect($event)"
+    ></jwpaisley-tag>
+  }
+
+  <button class="form-tags-list__chip form-tags-list__chip--new" type="button" (click)="onAddTagClick()">
+    {{ placeholder }}
+  </button>
+</div>

@@ -11,6 +11,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { DialogService } from '../../services/dialog-service/dialog-service';
 import { Router } from '@angular/router';
 import { ToastService, ToastLevel } from '../../services/toast-service/toast-service';
+import { RecipeTag, RecipeTagService } from '../../services/recipe-tag-service/recipe-tag-service';
+import { Tag } from '../../components/tag/tag';
 
 const RECIPE_TEMPLATE: Recipe = {
   id: '',
@@ -50,11 +52,14 @@ export class RecipePage implements OnInit {
   protected isUserAdmin = signal(false);
   protected recipe: Recipe = RECIPE_TEMPLATE;
   protected formGroup: FormGroup = this.buildFormGroup(this.recipe);
+  protected availableTags: Array<Tag> = [];
+  private availableRecipeTags: RecipeTag[] = [];
   private destroy$ = new Subject<void>();
   
   constructor(
     private dialogService: DialogService,
     private recipeService: RecipeService,
+    private recipeTagService: RecipeTagService,
     private toastService: ToastService,
     private userService: UserService,
   ) {}
@@ -74,6 +79,7 @@ export class RecipePage implements OnInit {
       sugar: [recipe.sugar, [Validators.required, Validators.min(0)]],
       sodium: [recipe.sodium, [Validators.required, Validators.min(0)]],
 
+      recipeTags: [recipe.recipeTags?.map((recipeTag) => recipeTag.id) ?? []],
       ingredients: this.formBuilder.array(
         recipe.ingredients.map(ingredient => 
           this.formBuilder.control(ingredient, Validators.required)
@@ -89,6 +95,8 @@ export class RecipePage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadRecipeTags();
+
     if (this.isNewRecipe) {
       this.editMode = true;
       this.isLoading = false;
@@ -98,7 +106,6 @@ export class RecipePage implements OnInit {
         .subscribe({
           next: (recipe: Recipe) => {
             this.recipe = recipe;
-            console.log('fetched recipe:', recipe);
             this.syncForm(this.recipe);
             this.isLoading = false;
           },
@@ -219,8 +226,33 @@ export class RecipePage implements OnInit {
     return this.id === 'new';
   }
 
+  private loadRecipeTags(): void {
+    this.recipeTagService.getRecipeTags()
+      .pipe(first())
+      .subscribe({
+        next: (recipeTags: RecipeTag[]) => {
+          this.availableRecipeTags = recipeTags;
+          this.availableTags = recipeTags.map((recipeTag) => ({
+            id: recipeTag.id,
+            title: recipeTag.name,
+            selected: false,
+          }));
+          this.formGroup.patchValue({
+            recipeTags: this.recipe.recipeTags?.map((recipeTag) => recipeTag.id) ?? [],
+          });
+        },
+        error: () => {
+          this.availableTags = [];
+          this.availableRecipeTags = [];
+        },
+      });
+  }
+
   private syncForm(recipe: Recipe) {
     this.formGroup.reset(recipe);
+    this.formGroup.patchValue({
+      recipeTags: recipe.recipeTags?.map((recipeTag) => recipeTag.id) ?? [],
+    });
     this.syncFormArray('ingredients', recipe.ingredients);
     this.syncFormArray('miseEnPlaceSteps', recipe.miseEnPlaceSteps);
     this.syncFormArray('instructions', recipe.instructions);
@@ -236,13 +268,19 @@ export class RecipePage implements OnInit {
 
   private recipeFromForm(): Recipe {
     const formValue = this.formGroup.value;
+    const selectedTagIds: string[] = formValue.recipeTags ?? [];
+    const recipeTags = selectedTagIds
+      .map((tagId: string) => this.availableRecipeTags.find((recipeTag) => recipeTag.id === tagId)
+        ?? this.recipe.recipeTags?.find((recipeTag) => recipeTag.id === tagId))
+      .filter((recipeTag): recipeTag is RecipeTag => Boolean(recipeTag));
+
     return {
       ...this.recipe,
       ...formValue,
       ingredients: this.getFormArrayValues('ingredients'),
       miseEnPlaceSteps: this.getFormArrayValues('miseEnPlaceSteps'),
       instructions: this.getFormArrayValues('instructions'),
-      recipeTags: this.recipe.recipeTags ?? [],
+      recipeTags,
     };
   }
 

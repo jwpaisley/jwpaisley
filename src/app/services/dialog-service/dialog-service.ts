@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-export type DialogType = 'confirm' | 'info' | 'input' | 'emoji' | 'add-recipe-tag';
+export type DialogType = 'confirm' | 'info' | 'input' | 'emoji' | 'add-recipe-tag' | 'tag-selector';
 
 export interface DialogConfig {
   type: DialogType;
@@ -9,7 +9,7 @@ export interface DialogConfig {
   icon?: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  value?: string;
+  value?: any;
 }
 
 export interface DialogResult<T = any> {
@@ -40,6 +40,10 @@ export class DialogService {
 
   openAddRecipeTagDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
     return this.open({ ...config, type: 'add-recipe-tag' });
+  }
+
+  openTagSelectorDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
+    return this.open({ ...config, type: 'tag-selector' });
   }
 
   close(confirmed: boolean, value?: any) {

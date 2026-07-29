@@ -6,12 +6,15 @@
                     [recipe]="recipe" 
                     [editMode]="editMode" 
                     [formGroup]="formGroup"
+                    [availableTags]="availableTags"
+                    [selectedTagIds]="formGroup.get('recipeTags')?.value || []"
                     [isUserAdmin]="isUserAdmin()"
                     [isNewRecipe]="isNewRecipe"
                     (editButtonClicked)="enterEditMode()"
                     (changeEmojiButtonClicked)="openEmojiPicker()"
                     (saveButtonClicked)="saveRecipe()"
                     (cancelButtonClicked)="cancelEdit()"
+                    (tagsChanged)="formGroup.patchValue({ recipeTags: $event })"
                     (deleteButtonClicked)="deleteRecipe()"
                 />
             </div>

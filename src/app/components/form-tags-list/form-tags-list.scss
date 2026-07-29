@@ -1,0 +1,29 @@
+@use '../../../styles/variables' as style-variables;
+
+.form-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.form-tags-list__chip {
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.form-tags-list__chip--unselected {
+  background: style-variables.$cloud;
+  color: style-variables.$primary-text;
+}
+
+.form-tags-list__chip--new {
+  background: transparent;
+  border-style: dashed;
+  border-color: style-variables.$slate;
+  color: style-variables.$slate;
+}

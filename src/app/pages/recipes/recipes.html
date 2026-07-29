@@ -21,14 +21,13 @@
         <h2>recipes</h2>
         <jwpaisley-loader [isLoading]="isLoadingRecipes">
             <jwpaisley-recipes-table [recipes]="recipes"></jwpaisley-recipes-table>
+            @if (hasMoreRecipes) {
+                <div class="load-more-row">
+                    <jwpaisley-loader [isLoading]="isLoadingMore" size="small">
+                        <jwpaisley-button text="load more" (click)="loadMoreRecipes()"></jwpaisley-button>
+                    </jwpaisley-loader>
+                </div>
+            }
         </jwpaisley-loader>
-
-        @if (hasMoreRecipes) {
-            <div class="load-more-row">
-                <jwpaisley-loader [isLoading]="isLoadingMore" size="small">
-                    <jwpaisley-button text="load more" (click)="loadMoreRecipes()"></jwpaisley-button>
-                </jwpaisley-loader>
-            </div>
-        }
     </div>
 </div>
