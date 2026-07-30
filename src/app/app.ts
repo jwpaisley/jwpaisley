@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TopNav } from './components/top-nav/top-nav';
 import { ToastDisplay } from './components/toast-display/toast-display';
 import { DialogDisplay } from './components/dialog-display/dialog-display';
+import { InitialPageLoadComponent } from './components/initial-page-load/initial-page-load';
 
 const NG_COMPONENT_IMPORTS = [
   CommonModule,
@@ -24,6 +25,7 @@ const NG_COMPONENT_IMPORTS = [
   ToastDisplay,
   TopNav,
   DialogDisplay,
+  InitialPageLoadComponent,
 ];
 
 

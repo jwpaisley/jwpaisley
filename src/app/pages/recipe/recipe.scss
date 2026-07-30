@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as style-variables;
+
 .recipe-page-container {
   display: block;
   margin: 0 auto;
@@ -21,4 +23,26 @@
         width: calc(100% - 400px);
         margin-left: calc(400px + 2rem);
     }
+}
+
+.back-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: style-variables.$primary-text;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.back-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
 }

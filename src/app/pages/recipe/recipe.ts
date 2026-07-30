@@ -9,7 +9,7 @@ import { UserService } from '../../services/user-service/user-service';
 import { Subject, takeUntil } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { DialogService } from '../../services/dialog-service/dialog-service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ToastService, ToastLevel } from '../../services/toast-service/toast-service';
 import { RecipeTag, RecipeTagService } from '../../services/recipe-tag-service/recipe-tag-service';
 import { Tag } from '../../components/tag/tag';
@@ -37,7 +37,7 @@ const RECIPE_TEMPLATE: Recipe = {
 
 @Component({
   selector: 'jwpaisley-recipe',
-  imports: [Loader, RecipeSummary, RecipeDetails, ReactiveFormsModule],
+  imports: [Loader, RecipeSummary, RecipeDetails, ReactiveFormsModule, RouterModule],
   templateUrl: './recipe.html',
   styleUrl: './recipe.scss',
 })
@@ -45,7 +45,6 @@ export class RecipePage implements OnInit {
   @Input({required: true}) id!: string;
   private platformId = inject(PLATFORM_ID);
   private formBuilder = inject(FormBuilder);
-  private router = inject(Router);
   protected isLoading = true;
   protected editMode = false;
   protected isBrowser = isPlatformBrowser(this.platformId);
@@ -57,6 +56,7 @@ export class RecipePage implements OnInit {
   private destroy$ = new Subject<void>();
   
   constructor(
+    private router: Router,
     private dialogService: DialogService,
     private recipeService: RecipeService,
     private recipeTagService: RecipeTagService,

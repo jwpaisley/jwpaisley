@@ -14,7 +14,7 @@ import { FormTextArea } from '../form-text-area/form-text-area';
   styleUrl: './add-recipe-tag-dialog.scss',
 })
 export class AddRecipeTagDialog {
-  @Input() icon = 'local_offer';
+  @Input() icon = 'sell';
   @Input() title = 'create recipe tag';
   @Input() text = 'add a reusable tag that can be attached to recipes.';
   @Input() confirmLabel = 'create tag';
