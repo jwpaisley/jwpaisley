@@ -1,0 +1,99 @@
+@use '../../../../styles/variables' as style-variables;
+
+:host {
+  display: block;
+}
+
+.sailboat-card {
+  background: style-variables.$snow;
+  border: 1px solid style-variables.$cloud;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-height: 180px;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.sailboat-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.card-title {
+  flex: 1;
+}
+
+.flag-preview {
+  width: clamp(64px, 14vw, 88px);
+  aspect-ratio: 16 / 12;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  background: style-variables.$snow;
+}
+
+.flag-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.eyebrow {
+  margin: 0 0 0.2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: style-variables.$slate;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: style-variables.$primary-text;
+}
+
+.details-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.detail {
+  background: style-variables.$cloud;
+  border-radius: 12px;
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: style-variables.$slate;
+}
+
+strong {
+  color: style-variables.$primary-text;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 700px) {
+  .details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

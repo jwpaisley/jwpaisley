@@ -4,13 +4,15 @@ import { DialogService } from '../../services/dialog-service/dialog-service';
 import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 import { EmojiPickerDialog } from '../emoji-picker-dialog/emoji-picker-dialog';
 import { AddRecipeTagDialog } from '../add-recipe-tag-dialog/add-recipe-tag-dialog';
+import { AddPortDialog } from '../add-port-dialog/add-port-dialog';
+import { AddSailboatDialog } from '../add-sailboat-dialog/add-sailboat-dialog';
 import { TagSelectorDialog } from '../tag-selector-dialog/tag-selector-dialog';
 import { Tag } from '../tag/tag';
 
 @Component({
   selector: 'jwpaisley-dialog-display',
   standalone: true,
-  imports: [CommonModule, ConfirmationDialog, EmojiPickerDialog, AddRecipeTagDialog, TagSelectorDialog],
+  imports: [CommonModule, ConfirmationDialog, EmojiPickerDialog, AddRecipeTagDialog, AddPortDialog, AddSailboatDialog, TagSelectorDialog],
   templateUrl: './dialog-display.html',
   styleUrl: './dialog-display.scss'
 })

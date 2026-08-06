@@ -1,0 +1,47 @@
+<div class="dialog-backdrop" (click)="onCancel()">
+  <div class="dialog-card" (click)="$event.stopPropagation()">
+    <button class="close-x" type="button" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="content">
+      <h1>{{ title }}</h1>
+      <p>{{ text }}</p>
+
+      <form class="form" [formGroup]="formGroup" (ngSubmit)="onConfirm()">
+        <div class="field-group">
+          <jwpaisley-form-input label="port name" placeholder="e.g. san francisco" formControlName="name" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="latitude" placeholder="e.g. 33.76" formControlName="latitude" type="number" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="longitude" placeholder="e.g. -118.19" formControlName="longitude" type="number" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="tide station id" placeholder="e.g. 9410660" formControlName="tideStationId" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="current station id" placeholder="e.g. 9410230" formControlName="currentStationId" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="buoy station id" placeholder="e.g. 46042" formControlName="buoyStationId" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="nws office" placeholder="e.g. MTR" formControlName="nwsOffice" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="nws grid x" placeholder="e.g. 10" formControlName="nwsGridX" type="number" />
+        </div>
+        <div class="field-group">
+          <jwpaisley-form-input label="nws grid y" placeholder="e.g. 20" formControlName="nwsGridY" type="number" />
+        </div>
+      </form>
+    </div>
+
+    <div class="actions">
+      <jwpaisley-button variant="primary" [text]="confirmLabel" [disabled]="!enableConfirmButton" (click)="onConfirm()"></jwpaisley-button>
+      <jwpaisley-button variant="secondary" [text]="cancelLabel" (click)="onCancel()"></jwpaisley-button>
+    </div>
+  </div>
+</div>

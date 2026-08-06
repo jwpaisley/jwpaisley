@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Sailing } from './sailing';
 import { Conditions } from '../../components/sailing/conditions/conditions';
 import { Boats } from '../../components/sailing/boats/boats';
+import { BoatDetails } from '../../components/sailing/boat-details/boat-details';
 import { Voyages } from '../../components/sailing/voyages/voyages';
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'boats',
         component: Boats,
+      },
+      {
+        path: 'boats/:id',
+        component: BoatDetails,
       },
       {
         path: 'voyages',

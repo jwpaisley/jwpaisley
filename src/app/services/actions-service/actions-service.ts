@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 
 export type ActionType = 
     'add' |
+    'addSailboat' |
     'edit' |
     'delete';
 

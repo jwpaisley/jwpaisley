@@ -32,6 +32,20 @@
           />
         }
 
+        @case ('add-port') {
+          <jwpaisley-add-port-dialog
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
+          />
+        }
+
+        @case ('add-sailboat') {
+          <jwpaisley-add-sailboat-dialog
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
+          />
+        }
+
         @case ('tag-selector') {
           <jwpaisley-tag-selector-dialog
             [title]="config()?.title || 'select tags'"

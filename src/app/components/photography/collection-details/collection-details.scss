@@ -105,18 +105,3 @@
 .comments-section {
     margin-top: 4rem;
 }
-
-.comments-empty-state {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  font-size: normal;
-  color: style-variables.$slate;
-  margin-bottom: 2rem;
-}
-
-@media (min-width: 768px) {
-  .comments-empty-state {
-    width: fit-content;
-  }
-}

@@ -31,6 +31,12 @@
                     [formGroup]="formGroup" 
                 />
             </div>
+            <div class="comments-section">
+                <jwpaisley-comments-section
+                    [resourceId]="recipe.id"
+                    [resourceType]="'RECIPE'"
+                ></jwpaisley-comments-section>
+            </div>
         }
     </jwpaisley-loader>
 </div>

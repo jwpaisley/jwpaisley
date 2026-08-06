@@ -1,0 +1,67 @@
+<article
+  class="sailboat-card"
+  *ngIf="boat"
+  [routerLink]="['/sailing', 'boats', boat.id]"
+  [attr.aria-label]="'view details for ' + boat.name"
+>
+  <div class="card-header">
+    <div class="card-title">
+      <p class="eyebrow">sailboat</p>
+      <h3>{{ boat.name }}</h3>
+    </div>
+    <div class="flag-preview" aria-label="private ensign flag preview" *ngIf="ensignFlagUrl">
+      <img [src]="ensignFlagUrl" alt="private ensign flag" />
+    </div>
+  </div>
+
+  <div class="details-grid">
+    <div class="detail">
+      <span class="label">home port</span>
+      <strong>{{ boat.homePort || '-' }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">make / model</span>
+      <strong>{{ makeModel }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">year built</span>
+      <strong>{{ boat.yearBuilt || '-' }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">manufacturer</span>
+      <strong>{{ boat.manufacturer || '-' }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">designer</span>
+      <strong>{{ boat.designer || '-' }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">hull</span>
+      <strong>{{ hullDescription }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">keel type</span>
+      <strong>{{ boat.keelType || '-' }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">rig type</span>
+      <strong>{{ boat.rigType || '-' }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">length</span>
+      <strong>{{ lengthDisplay }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">beam</span>
+      <strong>{{ beamDisplay }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">displacement</span>
+      <strong>{{ displacementDisplay }}</strong>
+    </div>
+    <div class="detail">
+      <span class="label">ballast</span>
+      <strong>{{ ballastDisplay }}</strong>
+    </div>
+  </div>
+</article>

@@ -1,13 +1,14 @@
 <div class="input-wrapper" [class]="'size-' + size" [class.disabled]="disabled">
   @if (label) {
-    <label class="input-label">{{ label | lowercase }}</label>
+    <label class="input-label" [for]="inputId">{{ label }}</label>
   }
-  
+
   <div class="input-container">
-     @if (prefix) {
+    @if (prefix) {
       <span class="input-prefix">{{ prefix }}</span>
     }
     <input
+      [id]="inputId"
       [type]="type"
       [value]="value"
       [placeholder]="placeholder"

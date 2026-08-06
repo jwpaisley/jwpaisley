@@ -13,6 +13,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastService, ToastLevel } from '../../services/toast-service/toast-service';
 import { RecipeTag, RecipeTagService } from '../../services/recipe-tag-service/recipe-tag-service';
 import { Tag } from '../../components/tag/tag';
+import { CommentsSection } from '../../components/comments-section/comments-section';
 
 const RECIPE_TEMPLATE: Recipe = {
   id: '',
@@ -37,7 +38,7 @@ const RECIPE_TEMPLATE: Recipe = {
 
 @Component({
   selector: 'jwpaisley-recipe',
-  imports: [Loader, RecipeSummary, RecipeDetails, ReactiveFormsModule, RouterModule],
+  imports: [Loader, RecipeSummary, RecipeDetails, CommentsSection, ReactiveFormsModule, RouterModule],
   templateUrl: './recipe.html',
   styleUrl: './recipe.scss',
 })

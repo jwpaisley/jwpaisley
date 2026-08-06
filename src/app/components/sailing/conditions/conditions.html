@@ -1,3 +1,26 @@
 <div class="sailing-section">
-  <h2>conditions</h2>
+  @if (isUserAdmin) {
+    <jwpaisley-action-dock>
+      <jwpaisley-action-dock-button icon="add" variant="primary" action="add"></jwpaisley-action-dock-button>
+    </jwpaisley-action-dock>
+  }
+  
+  <div class="section-header">
+    <h2 class="section-title">ports</h2>
+    <jwpaisley-loader [isLoading]="isLoading">
+      @if (cards.length === 0) {
+        <jwpaisley-empty-state
+            emoji="🌤️"
+            title="no conditions to display"
+            subtitle="no ports were found, so no sailing conditions can be displayed"
+        ></jwpaisley-empty-state>
+      } @else {
+        <div class="carousel" role="list">
+          @for (card of cards; track card.id) {
+            <jwpaisley-sailing-conditions-card [card]="card" />
+          }
+        </div>
+      }
+    </jwpaisley-loader>
+  </div>
 </div>

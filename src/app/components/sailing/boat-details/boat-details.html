@@ -1,0 +1,71 @@
+<section class="boat-details-page">
+  <jwpaisley-loader [isLoading]="isLoading">
+    @if (boat) {
+        <div class="page-header">
+            <div>
+            <p class="eyebrow">sailboat</p>
+            <h2>{{ boat.name }}</h2>
+            </div>
+            <p class="subtitle">full specifications and registration details for this vessel</p>
+        </div>
+        <div class="details-card">
+            <div class="details-grid">
+            <div class="detail-card detail-card--full-width">
+                <h3>overview</h3>
+                <div class="detail-list detail-list--two-up">
+                <div class="detail-item"><span>name</span><strong>{{ boat.name }}</strong></div>
+                <div class="detail-item"><span>make / model</span><strong>{{ makeModel }}</strong></div>
+                <div class="detail-item"><span>home port</span><strong>{{ boat.homePort || '-' }}</strong></div>
+                <div class="detail-item"><span>year built</span><strong>{{ boat.yearBuilt || '-' }}</strong></div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>registration</h3>
+                <div class="detail-list">
+                <div class="detail-item"><span>mmsi</span><strong>{{ boat.mmsi || '-' }}</strong></div>
+                <div class="detail-item"><span>hin / cin</span><strong>{{ boat.hinCin || '-' }}</strong></div>
+                <div class="detail-item"><span>official number</span><strong>{{ boat.officialNumber || '-' }}</strong></div>
+                <div class="detail-item"><span>flag state</span><strong>{{ boat.flagState || '-' }}</strong></div>
+                <div class="detail-item"><span>call sign</span><strong>{{ boat.callSign || '-' }}</strong></div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>design & construction</h3>
+                <div class="detail-list">
+                <div class="detail-item"><span>designer</span><strong>{{ boat.designer || '-' }}</strong></div>
+                <div class="detail-item"><span>hull</span><strong>{{ hullDescription }}</strong></div>
+                <div class="detail-item"><span>keel type</span><strong>{{ boat.keelType || '-' }}</strong></div>
+                <div class="detail-item"><span>rig type</span><strong>{{ boat.rigType || '-' }}</strong></div>
+                <div class="detail-item"><span>manufacturer</span><strong>{{ boat.manufacturer || '-' }}</strong></div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>dimensions</h3>
+                <div class="detail-list">
+                <div class="detail-item"><span>length</span><strong>{{ lengthDisplay }}</strong></div>
+                <div class="detail-item"><span>beam</span><strong>{{ beamDisplay }}</strong></div>
+                <div class="detail-item"><span>draft min</span><strong>{{ boat.draftMin != null ? boat.draftMin + ' ft' : '-' }}</strong></div>
+                <div class="detail-item"><span>draft max</span><strong>{{ boat.draftMax != null ? boat.draftMax + ' ft' : '-' }}</strong></div>
+                <div class="detail-item"><span>waterline</span><strong>{{ boat.lwl != null ? boat.lwl + ' ft' : '-' }}</strong></div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3>performance & systems</h3>
+                <div class="detail-list">
+                <div class="detail-item"><span>displacement</span><strong>{{ displacementDisplay }}</strong></div>
+                <div class="detail-item"><span>ballast</span><strong>{{ ballastDisplay }}</strong></div>
+                <div class="detail-item"><span>sail area</span><strong>{{ boat.sailArea != null ? boat.sailArea + ' sq ft' : '-' }}</strong></div>
+                <div class="detail-item"><span>phrf rating</span><strong>{{ boat.phrfRating || '-' }}</strong></div>
+                <div class="detail-item"><span>orc rating</span><strong>{{ boat.orcRating || '-' }}</strong></div>
+                <div class="detail-item"><span>engine</span><strong>{{ boat.engineMakeModel || '-' }}</strong></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    }
+  </jwpaisley-loader>
+</section>

@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 export class FormInput implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() type: 'text' | 'number' = 'text';
+  protected readonly inputId = `form-input-${Math.random().toString(36).slice(2, 10)}`;
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() placeholder: string = '';
   @Input() prefix: string = '';

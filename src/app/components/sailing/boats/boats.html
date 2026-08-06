@@ -1,3 +1,34 @@
 <div class="sailing-section">
-  <h2>boats</h2>
+    @if (isUserAdmin) {
+        <jwpaisley-action-dock>
+            <jwpaisley-action-dock-button icon="add" variant="primary" action="addSailboat"></jwpaisley-action-dock-button>
+        </jwpaisley-action-dock>
+    }
+
+    <div class="section-header">
+        <h2 class="section-title">my boats</h2>
+        <jwpaisley-loader [isLoading]="isLoading">
+            @if (boats.length === 0) {
+                <jwpaisley-empty-state
+                    emoji="⛵"
+                    title="no sailboats to display"
+                    subtitle="when there are sailboats to display, they will appear here"
+                ></jwpaisley-empty-state>
+            } @else {
+                <div *ngIf="!isLoading && boats.length > 0" class="boat-grid">
+                    <jwpaisley-sailboat-card *ngFor="let boat of boats" [boat]="boat"></jwpaisley-sailboat-card>
+                </div>
+            }
+        </jwpaisley-loader>
+    </div>
+    <!-- <div class="section-header">
+        <h2>boats i've sailed</h2>
+        <jwpaisley-loader [isLoading]="false">
+            <jwpaisley-empty-state
+                emoji="⛵"
+                title="no sailboats to display"
+                subtitle="when there are sailboats to display, they will appear here"
+            ></jwpaisley-empty-state>
+        </jwpaisley-loader>
+    </div> -->
 </div>

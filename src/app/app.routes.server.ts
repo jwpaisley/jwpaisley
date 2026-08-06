@@ -20,5 +20,9 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'profile/:id',
     renderMode: RenderMode.Server,
+  },
+  {
+    path: 'sailing/boats/:id',
+    renderMode: RenderMode.Server,
   }
 ];

@@ -1,0 +1,44 @@
+<article class="conditions-card" *ngIf="card" [class]="conditionClass">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">{{ card.location }}</p>
+      <h3>{{ card.title }}</h3>
+    </div>
+    <span class="condition-pill" [class]="conditionClass">{{ conditionLabel }}</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <span class="label">wind</span>
+      <strong>{{ card.windSpeed }} kt • {{ card.windDirection | lowercase }}</strong>
+    </div>
+    <div class="stat">
+      <span class="label">current</span>
+      <strong>{{ card.currentSpeed != null ? card.currentSpeed + ' kt' : 'n/a' }}</strong>
+    </div>
+    <div class="stat">
+      <span class="label">gusts</span>
+      <strong>{{ card.gusts }} kt</strong>
+    </div>
+    <div class="stat">
+      <span class="label">waves</span>
+      <strong>{{ card.waveHeight }}</strong>
+    </div>
+    <div class="stat">
+      <span class="label">water</span>
+      <strong>{{ card.waterTemp }}°F</strong>
+    </div>
+    <div class="stat">
+      <span class="label">tide</span>
+      <strong>{{ card.tide }}</strong>
+    </div>
+    <div class="stat">
+      <span class="label">weather</span>
+      <strong>{{ card.forecast }}</strong>
+    </div>
+  </div>
+
+  <div class="footer-row">
+    <span class="time">{{ card.time }}</span>
+  </div>
+</article>
