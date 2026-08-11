@@ -41,32 +41,60 @@ export interface Sailboat {
   updatedAt?: string | null;
 }
 
+export interface SailboatPhoto {
+  id?: string;
+  sailboatId: string;
+  voyageId?: string | null;
+  photoUrl?: string;
+  showInCarousel?: boolean;
+  caption?: string;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class SailboatService {
   private httpClient = inject(HttpClient);
-  private readonly localApiUrl = 'http://localhost:8080/api/sailboats';
-  private readonly prodApiUrl = 'https://api.jwpaisley.com/api/sailboats';
-  private readonly apiUrl = getApiUrl(this.localApiUrl, this.prodApiUrl);
+  private readonly localApiBaseUrl = 'http://localhost:8080/api';
+  private readonly prodApiBaseUrl = 'https://api.jwpaisley.com/api';
+  private readonly apiUrl = getApiUrl(this.localApiBaseUrl, this.prodApiBaseUrl);
+  private readonly sailboatApiUrl = `${this.apiUrl}/sailboats`;
+  private readonly sailboatPhotoApiUrl = `${this.apiUrl}/sailboat-photos`;
 
   getSailboats(): Observable<Sailboat[]> {
-    return this.httpClient.get<Sailboat[]>(this.apiUrl);
+    return this.httpClient.get<Sailboat[]>(this.sailboatApiUrl);
   }
 
   getSailboat(id: string): Observable<Sailboat> {
-    return this.httpClient.get<Sailboat>(`${this.apiUrl}/${id}`);
+    return this.httpClient.get<Sailboat>(`${this.sailboatApiUrl}/${id}`);
+  }
+
+  getSailboatPhotos(sailboatId: string): Observable<SailboatPhoto[]> {
+    return this.httpClient.get<SailboatPhoto[]>(`${this.sailboatApiUrl}/${sailboatId}/photos`);
   }
 
   createSailboat(sailboat: Sailboat): Observable<Sailboat> {
-    return this.httpClient.post<Sailboat>(this.apiUrl, sailboat);
+    return this.httpClient.post<Sailboat>(this.sailboatApiUrl, sailboat);
   }
 
   updateSailboat(sailboat: Sailboat): Observable<Sailboat> {
-    return this.httpClient.put<Sailboat>(`${this.apiUrl}/${sailboat.id}`, sailboat);
+    return this.httpClient.put<Sailboat>(`${this.sailboatApiUrl}/${sailboat.id}`, sailboat);
   }
 
   deleteSailboat(id: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/${id}`);
+    return this.httpClient.delete<void>(`${this.sailboatApiUrl}/${id}`);
+  }
+
+  uploadSailboatPhoto(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('photo', file);
+
+    return this.httpClient.post<{ url: string }>(`${this.sailboatPhotoApiUrl}/upload`, formData);
+  }
+
+  createSailboatPhoto(photo: SailboatPhoto): Observable<SailboatPhoto> {
+    return this.httpClient.post<SailboatPhoto>(this.sailboatPhotoApiUrl, photo);
   }
 }

@@ -1,0 +1,16 @@
+<div class="checkbox-wrapper" [class]="'size-' + size" [class.disabled]="disabled">
+  <label class="checkbox-control" [for]="inputId">
+    <input
+      [id]="inputId"
+      type="checkbox"
+      [checked]="value"
+      [disabled]="disabled"
+      (change)="handleChange($event)"
+      (blur)="onTouched()"
+    />
+    <span class="checkbox-mark"></span>
+    @if (label) {
+      <span class="checkbox-label">{{ label }}</span>
+    }
+  </label>
+</div>

@@ -13,21 +13,23 @@
       </div>
     }
 
-    <button
-      type="button"
-      class="image-tile add-tile"
-      [disabled]="disabled"
-      (click)="triggerPicker()"
-    >
-      <span class="plus">+</span>
-    </button>
+    @if (!isSelectionLimitReached) {
+      <button
+        type="button"
+        class="image-tile add-tile"
+        [disabled]="disabled"
+        (click)="triggerPicker()"
+      >
+        <mat-icon>add_a_photo</mat-icon>
+      </button>
+    }
   </div>
 
   <input
     [id]="fileInputId"
     type="file"
     accept="image/*"
-    multiple
+    [multiple]="maxImages === null || maxImages > 1"
     hidden
     (change)="handleFileSelection($event)"
   />

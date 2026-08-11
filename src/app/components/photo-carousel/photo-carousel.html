@@ -1,0 +1,22 @@
+@if (photoUrls.length) {
+  <div class="carousel-shell">
+    <div class="carousel-frame">
+      <img [src]="currentPhoto" alt="carousel photo" class="carousel-image" />
+
+      @if (hasMultiplePhotos) {
+        <div class="carousel-controls" role="group" aria-label="carousel controls">
+          <button type="button" class="carousel-button" (click)="goToPrevious()" aria-label="previous photo">
+            ‹
+          </button>
+          <button type="button" class="carousel-button" (click)="goToNext()" aria-label="next photo">
+            ›
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="carousel-shell empty-state">
+    <p>No photos available.</p>
+  </div>
+}

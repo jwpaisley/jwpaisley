@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface FormImageUploadValue {
   name: string;
@@ -17,7 +18,7 @@ export interface FormImageUploadValue {
 @Component({
   selector: 'jwpaisley-form-image-upload',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
   templateUrl: './form-image-upload.html',
   styleUrl: './form-image-upload.scss',
   providers: [
@@ -31,6 +32,7 @@ export interface FormImageUploadValue {
 export class FormImageUpload implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = 'Select images';
+  @Input() maxImages: number | null = null;
   @Output() imageSelect = new EventEmitter<FormImageUploadValue>();
 
   value: FormImageUploadValue[] = [];
@@ -39,6 +41,11 @@ export class FormImageUpload implements ControlValueAccessor {
 
   onChange: any = () => {};
   onTouched: any = () => {};
+
+  get isSelectionLimitReached(): boolean {
+    const maxImages = this.maxImages != null && this.maxImages > 0 ? this.maxImages : null;
+    return maxImages != null ? this.value.length >= maxImages : false;
+  }
 
   private getImageKey(image: FormImageUploadValue): string {
     if (image.file) {
@@ -87,7 +94,16 @@ export class FormImageUpload implements ControlValueAccessor {
       return;
     }
 
-    const nextImages = files
+    const maxImages = this.maxImages != null && this.maxImages > 0 ? this.maxImages : null;
+    const remainingSlots = maxImages != null ? Math.max(0, maxImages - this.value.length) : files.length;
+    const selectedFiles = files.slice(0, remainingSlots);
+
+    if (selectedFiles.length === 0) {
+      input.value = '';
+      return;
+    }
+
+    const nextImages = selectedFiles
       .map((file) => ({
         name: file.name,
         url: URL.createObjectURL(file),
@@ -108,7 +124,7 @@ export class FormImageUpload implements ControlValueAccessor {
   }
 
   triggerPicker(): void {
-    if (this.disabled) {
+    if (this.disabled || this.isSelectionLimitReached) {
       return;
     }
 

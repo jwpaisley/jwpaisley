@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 export type ActionType = 
     'add' |
     'addSailboat' |
+    'addSailboatPhoto' |
     'edit' |
     'delete';
 

@@ -46,6 +46,13 @@
           />
         }
 
+        @case ('add-sailboat-photo') {
+          <jwpaisley-add-sailboat-photo-dialog
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
+          />
+        }
+
         @case ('tag-selector') {
           <jwpaisley-tag-selector-dialog
             [title]="config()?.title || 'select tags'"

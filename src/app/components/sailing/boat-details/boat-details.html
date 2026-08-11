@@ -2,12 +2,27 @@
   <jwpaisley-loader [isLoading]="isLoading">
     @if (boat) {
         <div class="page-header">
-            <div>
-            <p class="eyebrow">sailboat</p>
-            <h2>{{ boat.name }}</h2>
+            @if (ensignFlagUrl) {
+              <div class="ensign-flag-wrapper">
+                <img class="ensign-flag" [src]="ensignFlagUrl" alt="private ensign flag" />
+              </div>
+            }
+            <div class="page-header__title-row">
+              <div>
+                <h2>{{ boat.name }}</h2>
+              </div>
+              @if (isUserAdmin) {
+                <jwpaisley-action-dock>
+                  <jwpaisley-action-dock-button icon="add_a_photo" variant="primary" action="addSailboatPhoto"></jwpaisley-action-dock-button>
+                </jwpaisley-action-dock>
+              }
             </div>
-            <p class="subtitle">full specifications and registration details for this vessel</p>
         </div>
+        @if (carouselPhotoUrls.length) {
+          <div class="carousel-wrapper">
+            <app-photo-carousel [photoUrls]="carouselPhotoUrls" [scrollSeconds]="5"></app-photo-carousel>
+          </div>
+        }
         <div class="details-card">
             <div class="details-grid">
             <div class="detail-card detail-card--full-width">

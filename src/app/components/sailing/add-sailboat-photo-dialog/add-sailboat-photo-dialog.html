@@ -1,0 +1,39 @@
+<div class="dialog-backdrop" (click)="onCancel()">
+  <div class="dialog-card" (click)="$event.stopPropagation()">
+    <button class="close-x" type="button" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="content">
+      <h1>add sailboat photo</h1>
+
+      <div class="field-group">
+        <jwpaisley-form-image-upload
+          label="photo"
+          placeholder="choose a photo"
+          [maxImages]="1"
+          [ngModel]="selectedImages"
+          (ngModelChange)="onImagesChange($event)"
+        ></jwpaisley-form-image-upload>
+      </div>
+
+      <div class="field-group">
+        <jwpaisley-form-text-area
+          label="caption"
+          placeholder="ex: the selkie in her slip"
+          [ngModel]="caption"
+          (ngModelChange)="onCaptionChange($event)"
+        ></jwpaisley-form-text-area>
+      </div>
+
+      <div class="field-group">
+        <jwpaisley-form-checkbox label="show in carousel" [(ngModel)]="showInCarousel"></jwpaisley-form-checkbox>
+      </div>
+    </div>
+
+    <div class="actions">
+      <jwpaisley-button variant="primary" text="save photo" [disabled]="isConfirmDisabled" (click)="onConfirm()"></jwpaisley-button>
+      <jwpaisley-button variant="secondary" text="cancel" (click)="onCancel()"></jwpaisley-button>
+    </div>
+  </div>
+</div>
