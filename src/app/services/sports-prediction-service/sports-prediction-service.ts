@@ -58,6 +58,10 @@ export interface SportsPredictionLeagueParticipant {
   userId: string;
   points: number;
   joinedAt?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  profilePictureUrl?: string | null;
+  profilePictureId?: string | null;
 }
 
 export interface SportsPredictionPick {
@@ -168,6 +172,10 @@ export class SportsPredictionService {
 
   getLeagueParticipant(participantId: string): Observable<SportsPredictionLeagueParticipant> {
     return this.httpClient.get<SportsPredictionLeagueParticipant>(`${this.leagueParticipantsApiUrl}/${participantId}`);
+  }
+
+  getParticipantsForLeague(leagueId: string): Observable<SportsPredictionLeagueParticipant[]> {
+    return this.httpClient.get<SportsPredictionLeagueParticipant[]>(`${this.leagueParticipantsApiUrl}/league/${leagueId}`);
   }
 
   createLeagueParticipant(participant: SportsPredictionLeagueParticipant): Observable<SportsPredictionLeagueParticipant> {

@@ -1,0 +1,74 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.people-list {
+  width: 100%;
+}
+
+.people-list__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.people-list__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
+  margin: 0.25rem 0;
+  padding: 0.625rem 0.75rem;
+  background: style-variables.$cloud;
+  border: 1px solid style-variables.$cloud;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.people-list__avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: style-variables.$cloud;
+  color: style-variables.$primary-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.people-list__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.people-list__name {
+  font-size: 0.95rem;
+  color: style-variables.$primary-text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.people-list__empty {
+  color: style-variables.$slate;
+  font-size: 0.92rem;
+}
+
+.people-list__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}

@@ -5,14 +5,22 @@
         <span class="back-arrow" aria-hidden="true">←</span>
         <span>back to leagues</span>
       </a>
+
+      @if (league && showJoinLeagueButton) {
+        <jwpaisley-button text="join league" variant="primary" (click)="onJoinLeagueClick()"></jwpaisley-button>
+      }
+
+      @if (league && showLeaveLeagueButton) {
+        <jwpaisley-button text="leave league" variant="danger" (click)="onLeaveLeagueClick()"></jwpaisley-button>
+      }
     </div>
 
     @if (!league) {
-      <div class="empty-state">
-        <span class="emoji">🏆</span>
-        <h2>league details</h2>
-        <p>this league could not be found.</p>
-      </div>
+      <jwpaisley-empty-state
+        emoji="🏆"
+        title="league details"
+        subtitle="this league could not be found"
+      ></jwpaisley-empty-state>
     } @else {
       <header class="league-summary">
         <div class="league-summary__avatar-stack" aria-label="league avatar">
@@ -40,6 +48,45 @@
         <h1>{{ league.name }}</h1>
         <p class="league-summary__description">{{ league.description || 'no description provided' }}</p>
       </header>
+
+      <jwpaisley-card-grid [largeColumns]="3" [mediumColumns]="2" [smallColumns]="1" class="league-card-grid">
+        <jwpaisley-card [title]="'participants (' + participants.length + ')'">
+          @if (participants.length > 0) {
+            <jwpaisley-people-list [people]="peopleListData" [maxPeopleToShow]="5"></jwpaisley-people-list>
+          } @else {
+            <jwpaisley-empty-state
+              size="medium"
+              emoji="📋"
+              title="no participants yet"
+              subtitle="when there are participants to display, they will appear here"
+            />
+          }
+        </jwpaisley-card>
+        <jwpaisley-card title="standings">
+            <jwpaisley-empty-state 
+                size="medium"
+                emoji="👑"
+                title="no standings yet"
+                subtitle="when there are standings to display, they will appear here"
+            />
+        </jwpaisley-card>
+        <jwpaisley-card title="upcoming matches">
+            <jwpaisley-empty-state 
+                size="medium"
+                emoji="🏟️"
+                title="no upcoming matches yet"
+                subtitle="when there are upcoming matches to display, they will appear here"
+            />
+        </jwpaisley-card>
+        <jwpaisley-card title="picks">
+            <jwpaisley-empty-state
+                size="medium"
+                emoji="👉"
+                title="no picks yet"
+                subtitle="when there are picks to display, they will appear here"
+            />
+        </jwpaisley-card>
+      </jwpaisley-card-grid>
     }
   </jwpaisley-loader>
 </div>

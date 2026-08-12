@@ -1,0 +1,31 @@
+<div class="people-list">
+  @if (people.length === 0) {
+    <div class="people-list__empty">no people to display</div>
+  } @else {
+    <ul class="people-list__items">
+      @for (person of visiblePeople; track person.firstName + person.lastName) {
+        <li class="people-list__item">
+          <div class="people-list__avatar" aria-label="{{ getFullName(person) }} avatar">
+            @if (person.profilePictureUrl) {
+              <img [src]="person.profilePictureUrl" [alt]="getFullName(person)" />
+            } @else {
+              <span>{{ getInitials(person) }}</span>
+            }
+          </div>
+
+          <span class="people-list__name">{{ getFullName(person) }}</span>
+        </li>
+      }
+    </ul>
+
+    @if (hasMorePeople) {
+      <div class="people-list__actions">
+        <jwpaisley-button
+          [text]="showAll ? 'show less' : 'show more'"
+          variant="secondary"
+          (click)="toggleShowMore()"
+        ></jwpaisley-button>
+      </div>
+    }
+  }
+</div>
