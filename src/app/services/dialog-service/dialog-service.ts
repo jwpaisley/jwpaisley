@@ -1,12 +1,15 @@
 import { Injectable, signal } from '@angular/core';
 
-export type DialogType = 'confirm' | 'info' | 'input' | 'emoji' | 'add-recipe-tag' | 'add-port' | 'add-sailboat' | 'add-sailboat-photo' | 'create-sports-prediction-league' | 'tag-selector';
+export type DialogType = 'confirm' | 'info' | 'input' | 'emoji' | 'achievement' | 'add-recipe-tag' | 'add-port' | 'add-sailboat' | 'add-sailboat-photo' | 'create-sports-prediction-league' | 'tag-selector';
 
 export interface DialogConfig {
   type: DialogType;
   title: string;
   text?: string;
   icon?: string;
+  subtitle?: string;
+  emoji?: string;
+  seconds?: number;
   confirmLabel?: string;
   cancelLabel?: string;
   value?: any;
@@ -36,6 +39,10 @@ export class DialogService {
 
   openEmojiPickerDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
     return this.open({ ...config, type: 'emoji' });
+  }
+
+  openAchievementDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
+    return this.open({ ...config, type: 'achievement' });
   }
 
   openAddRecipeTagDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {

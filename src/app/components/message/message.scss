@@ -1,0 +1,53 @@
+@use '../../../styles/variables' as style-variables;
+
+.message {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.message__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.message__icon mat-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+}
+
+.message__text {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.message--info {
+  background: rgba(style-variables.$smoke, 0.18);
+  color: style-variables.$primary-text;
+}
+
+.message--warning {
+  background: rgba(style-variables.$sunflower, 0.18);
+  color: style-variables.$primary-text;
+}
+
+.message--success {
+  background: rgba(style-variables.$sprout, 0.18);
+  color: style-variables.$primary-text;
+}
+
+.message--danger {
+  background: rgba(style-variables.$wine, 0.18);
+  color: style-variables.$primary-text;
+}

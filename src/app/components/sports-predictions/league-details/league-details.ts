@@ -67,20 +67,20 @@ export class LeagueDetails implements OnInit, OnDestroy {
     return this.participants.find((participant) => participant.userId === this.currentUserId)?.id ?? null;
   }
 
-  get leagueKeyValuePairs(): Map<string, string> {
+  get leagueKeyValuePairs() {
     if (!this.league) {
-      return new Map();
+      return [];
     }
 
-    return new Map<string, string>([
-      ['🥇 first place', `🪙 ${this.league.firstPlacePrizeCoins ?? 0}`],
-      ['🥈 second place', `🪙 ${this.league.secondPlacePrizeCoins ?? 0}`],
-      ['🥉 third place', `🪙 ${this.league.thirdPlacePrizeCoins ?? 0}`],
-      ['start date', this.formatDate(this.league.leagueStartDate)],
-      ['end date', this.formatDate(this.league.leagueEndDate)],
-      ['created on', this.formatDate(this.league.createdAt)],
-      ['updated on', this.formatDate(this.league.updatedAt)],
-    ]);
+    return [
+      { key: '🥇 first place', value: `🪙 ${this.league.firstPlacePrizeCoins ?? 0}` },
+      { key: '🥈 second place', value: `🪙 ${this.league.secondPlacePrizeCoins ?? 0}` },
+      { key: '🥉 third place', value: `🪙 ${this.league.thirdPlacePrizeCoins ?? 0}` },
+      { key: 'start date', value: this.formatDate(this.league.leagueStartDate) },
+      { key: 'end date', value: this.formatDate(this.league.leagueEndDate) },
+      { key: 'created on', value: this.formatDate(this.league.createdAt) },
+      { key: 'updated on', value: this.formatDate(this.league.updatedAt) },
+    ];
   }
 
   get standingsData(): StandingsItem[] {

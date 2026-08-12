@@ -9,12 +9,13 @@ import { AddSailboatDialog } from '../add-sailboat-dialog/add-sailboat-dialog';
 import { AddSailboatPhotoDialog } from '../sailing/add-sailboat-photo-dialog/add-sailboat-photo-dialog';
 import { CreateSportsPredictionLeagueDialog } from '../sports-predictions/create-sports-prediction-league-dialog/create-sports-prediction-league-dialog';
 import { TagSelectorDialog } from '../tag-selector-dialog/tag-selector-dialog';
+import { AchievementDialog } from '../achievement-dialog/achievement-dialog';
 import { Tag } from '../tag/tag';
 
 @Component({
   selector: 'jwpaisley-dialog-display',
   standalone: true,
-  imports: [CommonModule, ConfirmationDialog, EmojiPickerDialog, AddRecipeTagDialog, AddPortDialog, AddSailboatDialog, AddSailboatPhotoDialog, CreateSportsPredictionLeagueDialog, TagSelectorDialog],
+  imports: [CommonModule, ConfirmationDialog, EmojiPickerDialog, AchievementDialog, AddRecipeTagDialog, AddPortDialog, AddSailboatDialog, AddSailboatPhotoDialog, CreateSportsPredictionLeagueDialog, TagSelectorDialog],
   templateUrl: './dialog-display.html',
   styleUrl: './dialog-display.scss'
 })
@@ -32,6 +33,20 @@ export class DialogDisplay {
     return {
       availableTags: Array.isArray(value?.availableTags) ? value.availableTags : [],
       selectedTagIds: Array.isArray(value?.selectedTagIds) ? value.selectedTagIds : [],
+    };
+  }
+
+  protected get achievementDialogData(): { emoji: string; subtitle: string; seconds: number } | null {
+    if (this.config()?.type !== 'achievement') {
+      return null;
+    }
+
+    const value = this.config()?.value as { emoji?: string; subtitle?: string; seconds?: number } | undefined;
+
+    return {
+      emoji: value?.emoji || this.config()?.emoji || this.config()?.icon || '🎉',
+      subtitle: value?.subtitle || this.config()?.subtitle || this.config()?.text || '',
+      seconds: value?.seconds ?? this.config()?.seconds ?? 5,
     };
   }
 

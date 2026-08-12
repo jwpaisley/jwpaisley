@@ -27,6 +27,28 @@
   border-top: none;
 }
 
+.key-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.swatch {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(46, 44, 47, 0.2);
+  background-size: cover;
+  background-position: center;
+}
+
+.swatch--image {
+  background-repeat: no-repeat;
+}
+
 .key,
 .value {
   min-width: 0;

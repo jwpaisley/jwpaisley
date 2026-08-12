@@ -1,0 +1,115 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.wheel {
+  position: relative;
+  width: min(80vw, 26rem);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 1rem solid style-variables.$primary-bg;
+  box-shadow: 0 0 0 4px style-variables.$slate;
+  overflow: visible;
+}
+
+.wheel__arrow {
+  position: absolute;
+  left: 50%;
+  top: -1.9rem;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 2rem solid transparent;
+  border-right: 2rem solid transparent;
+  border-top: 3.2rem solid style-variables.$slate;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.wheel__arrow::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: -2.95rem;
+  width: 0;
+  height: 0;
+  border-left: 1.5rem solid transparent;
+  border-right: 1.5rem solid transparent;
+  border-top: 2.45rem solid style-variables.$primary-bg;
+}
+
+.wheel__disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.wheel__disc--locked {
+  cursor: not-allowed;
+}
+
+.wheel__disc {
+  will-change: transform;
+}
+
+.wheel__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  white-space: nowrap;
+  text-align: center;
+  transform-origin: center center;
+  color: style-variables.$primary-text;
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+.wheel__emoji {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.wheel__label-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.025em;
+  line-height: 1;
+}
+
+.wheel__hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4rem;
+  height: 4rem;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: style-variables.$snow;
+  color: style-variables.$primary-text;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wheel__hub mat-icon {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+}

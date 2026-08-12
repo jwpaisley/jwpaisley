@@ -1,8 +1,15 @@
 <div class="key-value-list" aria-label="key value list">
-  @for (entry of entries; track entry[0]) {
+  @for (entry of entries; track entry.key) {
     <div class="key-value-row">
-      <span class="key">{{ entry[0] }}</span>
-      <span class="value">{{ entry[1] }}</span>
+      <div class="key-group">
+        @if (entry.imageUrl) {
+          <span class="swatch swatch--image" [style.background-image]="'url(' + entry.imageUrl + ')'" aria-label="{{ entry.key }} icon"></span>
+        } @else if (entry.color) {
+          <span class="swatch" [style.background]="entry.color" aria-label="{{ entry.key }} color"></span>
+        }
+        <span class="key">{{ entry.key }}</span>
+      </div>
+      <span class="value">{{ entry.value }}</span>
     </div>
   }
 </div>

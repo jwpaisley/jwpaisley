@@ -25,6 +25,16 @@
           />
         }
 
+        @case ('achievement') {
+          <jwpaisley-achievement-dialog
+            [emoji]="achievementDialogData?.emoji || '🎉'"
+            [title]="config()?.title || 'woo!'"
+            [subtitle]="achievementDialogData?.subtitle || ''"
+            [seconds]="achievementDialogData?.seconds ?? 5"
+            (close)="handleCancel()"
+          />
+        }
+
         @case ('add-recipe-tag') {
           <jwpaisley-add-recipe-tag-dialog
             (confirm)="handleConfirm($event)"

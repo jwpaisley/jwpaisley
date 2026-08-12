@@ -1,0 +1,16 @@
+<div class="wheel">
+  <div class="wheel__arrow" aria-hidden="true"></div>
+  <div
+    class="wheel__disc"
+    [class.wheel__disc--locked]="!canSpin"
+    [style.background]="wheelBackground"
+    [style.transform]="wheelTransform"
+    (click)="spin()"
+  ></div>
+  <div class="wheel__hub">
+    <ng-container *ngIf="canSpin; else lockedState">spin</ng-container>
+    <ng-template #lockedState>
+      <mat-icon aria-label="wheel locked">lock</mat-icon>
+    </ng-template>
+  </div>
+</div>

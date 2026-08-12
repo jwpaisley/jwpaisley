@@ -44,6 +44,10 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/sports-predictions/sports-predictions-module').then(m => m.SportsPredictionsModule),
     },
     {
+        path: 'the-wheel',
+        loadChildren: () => import('./pages/the-wheel/the-wheel-module').then(m => m.TheWheelModule),
+    },
+    {
         path: 'sports-predictions/leagues/:id',
         loadComponent: () => import('./components/sports-predictions/league-details/league-details').then(m => m.LeagueDetails),
     }

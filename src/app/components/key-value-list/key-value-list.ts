@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
+export interface KeyValueListItem {
+  key: string;
+  value: string;
+  color?: string;
+  imageUrl?: string;
+}
+
 @Component({
   selector: 'jwpaisley-key-value-list',
   standalone: true,
@@ -9,9 +16,9 @@ import { Component, Input } from '@angular/core';
   styleUrl: './key-value-list.scss',
 })
 export class KeyValueList {
-  @Input() keyValuePairs: Map<string, string> = new Map();
+  @Input() keyValuePairs: KeyValueListItem[] = [];
 
-  get entries(): Array<[string, string]> {
-    return Array.from(this.keyValuePairs.entries());
+  get entries(): KeyValueListItem[] {
+    return this.keyValuePairs;
   }
 }

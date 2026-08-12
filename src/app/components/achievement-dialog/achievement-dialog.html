@@ -1,0 +1,24 @@
+<div class="dialog-backdrop">
+  <div class="confetti-layer" aria-hidden="true">
+    <span class="confetti confetti--1" style="--x:-120px; --y:-120px;">✦</span>
+    <span class="confetti confetti--2" style="--x:-100px; --y:-35px;">✦</span>
+    <span class="confetti confetti--3" style="--x:-60px; --y:-140px;">✦</span>
+    <span class="confetti confetti--4" style="--x:50px; --y:-150px;">✦</span>
+    <span class="confetti confetti--5" style="--x:120px; --y:-110px;">✦</span>
+    <span class="confetti confetti--6" style="--x:140px; --y:20px;">✦</span>
+    <span class="confetti confetti--7" style="--x:100px; --y:120px;">✦</span>
+    <span class="confetti confetti--8" style="--x:30px; --y:150px;">✦</span>
+    <span class="confetti confetti--9" style="--x:-40px; --y:140px;">✦</span>
+    <span class="confetti confetti--10" style="--x:-130px; --y:40px;">✦</span>
+  </div>
+
+  <div class="dialog-card" (click)="$event.stopPropagation()">
+    <div class="emoji-wrap">
+      <span class="emoji" aria-label="achievement emoji">{{ emoji }}</span>
+    </div>
+    <div class="content">
+      <h1>{{ title }}</h1>
+      <p>{{ subtitle }}</p>
+    </div>
+  </div>
+</div>

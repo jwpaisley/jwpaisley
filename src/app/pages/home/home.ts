@@ -146,6 +146,13 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     link: '/movies',
     status: 'comingSoon',
   },
+  {
+    title: 'the wheel',
+    icon: 'poker_chip',
+    description: "spin the wheel daily to earn a random amount of coins.",
+    link: '/the-wheel',
+    status: 'workInProgress',
+  },
 ];
 
 @Component({
