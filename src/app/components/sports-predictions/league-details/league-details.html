@@ -1,0 +1,45 @@
+<div class="league-details-page">
+  <jwpaisley-loader [isLoading]="isLoading">
+    <div class="back-link-row">
+      <a class="back-link" [routerLink]="['/sports-predictions', 'leagues']">
+        <span class="back-arrow" aria-hidden="true">←</span>
+        <span>back to leagues</span>
+      </a>
+    </div>
+
+    @if (!league) {
+      <div class="empty-state">
+        <span class="emoji">🏆</span>
+        <h2>league details</h2>
+        <p>this league could not be found.</p>
+      </div>
+    } @else {
+      <header class="league-summary">
+        <div class="league-summary__avatar-stack" aria-label="league avatar">
+          @if (league.imageUrl) {
+            <div class="league-summary__avatar">
+              <img [src]="league.imageUrl" [alt]="league.name + ' primary logo'" />
+            </div>
+          } @else {
+            <div class="league-summary__avatar league-summary__avatar--fallback">
+              {{ league.name.charAt(0).toUpperCase() }}
+            </div>
+          }
+
+          @if (league.leagueImageUrl) {
+            <div class="league-summary__avatar league-summary__avatar--mini">
+              <img [src]="league.leagueImageUrl" [alt]="league.name + ' secondary logo'" />
+            </div>
+          } @else if (league.imageUrl) {
+            <div class="league-summary__avatar league-summary__avatar--mini league-summary__avatar--mini-fallback">
+              {{ league.name.charAt(0).toUpperCase() }}
+            </div>
+          }
+        </div>
+
+        <h1>{{ league.name }}</h1>
+        <p class="league-summary__description">{{ league.description || 'no description provided' }}</p>
+      </header>
+    }
+  </jwpaisley-loader>
+</div>

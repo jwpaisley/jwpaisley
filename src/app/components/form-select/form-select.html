@@ -1,0 +1,21 @@
+<div class="input-wrapper" [class]="'size-' + size" [class.disabled]="disabled">
+  @if (label) {
+    <label class="input-label" [for]="inputId">{{ label }}</label>
+  }
+
+  <div class="input-container">
+    <select
+      [id]="inputId"
+      [value]="value"
+      [disabled]="disabled"
+      (change)="handleChange($event)"
+      (blur)="onTouched()"
+      class="input"
+    >
+      <option value="" disabled>{{ placeholder }}</option>
+      @for (option of options; track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </div>
+</div>

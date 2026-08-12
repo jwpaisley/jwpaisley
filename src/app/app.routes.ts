@@ -38,5 +38,13 @@ export const routes: Routes = [
     {
         path: 'sailing',
         loadChildren: () => import('./pages/sailing/sailing-module').then(m => m.SailingModule),
+    },
+    {
+        path: 'sports-predictions',
+        loadChildren: () => import('./pages/sports-predictions/sports-predictions-module').then(m => m.SportsPredictionsModule),
+    },
+    {
+        path: 'sports-predictions/leagues/:id',
+        loadComponent: () => import('./components/sports-predictions/league-details/league-details').then(m => m.LeagueDetails),
     }
 ];

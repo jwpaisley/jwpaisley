@@ -1,0 +1,49 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  &.size-small .input { font-size: 0.875rem; padding: 0.5rem 0.75rem; }
+  &.size-medium .input { font-size: 1rem; padding: 0.75rem 1rem; }
+  &.size-large .input { font-size: 1.125rem; padding: 0.875rem 1rem; }
+}
+
+.input-container {
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: 2px solid style-variables.$cloud;
+  border-radius: 0;
+  font-family: inherit;
+  color: style-variables.$slate;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-color: style-variables.$fog;
+    background: style-variables.$cloud;
+  }
+}
+
+.input-label {
+  text-transform: lowercase;
+  font-weight: 500;
+  color: style-variables.$slate;
+}
+
+.input-wrapper.disabled {
+  opacity: 0.7;
+}

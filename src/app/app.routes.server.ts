@@ -24,5 +24,9 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'sailing/boats/:id',
     renderMode: RenderMode.Server,
+  },
+  {
+    path: 'sports-predictions/leagues/:id',
+    renderMode: RenderMode.Server,
   }
 ];

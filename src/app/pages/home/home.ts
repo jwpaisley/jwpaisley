@@ -130,14 +130,7 @@ const DASHBOARD_ITEMS: DashboardItem[] = [
     icon: 'sports_soccer',
     description: "compete in friendly sports prediction leagues with friends and against prediction models.",
     link: '/sports-predictions',
-    status: 'comingSoon',
-  },
-  {
-    title: 'sports predictions',
-    icon: 'sports_soccer',
-    description: "compete in friendly sports prediction leagues with friends and against prediction models.",
-    link: '/sports-predictions',
-    status: 'comingSoon',
+    status: 'workInProgress',
   },
   {
     title: 'sailing',

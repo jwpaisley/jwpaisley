@@ -1,0 +1,58 @@
+<article
+  class="league-card"
+  *ngIf="league"
+  [routerLink]="['/sports-predictions', 'leagues', league.id]"
+  [attr.aria-label]="'view details for ' + league.name"
+>
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">{{ league.sport | lowercase }}</p>
+      <h3>{{ league.name }}</h3>
+    </div>
+
+    <div class="league-badge" *ngIf="league.leagueImageUrl; else leagueFallback">
+      <img [src]="league.leagueImageUrl" [alt]="league.name + ' logo'" />
+    </div>
+    <ng-template #leagueFallback>
+      <div class="league-badge league-badge-fallback" aria-label="No league image">
+        <span>{{ league.name.charAt(0).toUpperCase() }}</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <p class="description">{{ league.description || 'no description provided' }}</p>
+
+  <div class="prize-grid">
+    <div class="prize-item">
+      <span class="label">1st</span>
+      <strong>🪙 {{ league.firstPlacePrizeCoins }}</strong>
+    </div>
+    <div class="prize-item">
+      <span class="label">2nd</span>
+      <strong>🪙 {{ league.secondPlacePrizeCoins }}</strong>
+    </div>
+    <div class="prize-item">
+      <span class="label">3rd</span>
+      <strong>🪙 {{ league.thirdPlacePrizeCoins }}</strong>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-item">
+      <span class="label">participants</span>
+      <strong>{{ participantCount }}</strong>
+    </div>
+    <div class="meta-item">
+      <span class="label">current leader</span>
+      <strong>{{ currentLeader || '-' }}</strong>
+    </div>
+    <div class="meta-item">
+      <span class="label">starts</span>
+      <strong>{{ formatDate(league.leagueStartDate) }}</strong>
+    </div>
+    <div class="meta-item">
+      <span class="label">ends</span>
+      <strong>{{ formatDate(league.leagueEndDate) }}</strong>
+    </div>
+  </div>
+</article>

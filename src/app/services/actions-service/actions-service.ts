@@ -5,6 +5,7 @@ export type ActionType =
     'add' |
     'addSailboat' |
     'addSailboatPhoto' |
+    'addSportsPredictionLeague' |
     'edit' |
     'delete';
 

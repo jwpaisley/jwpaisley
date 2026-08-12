@@ -53,6 +53,13 @@
           />
         }
 
+        @case ('create-sports-prediction-league') {
+          <jwpaisley-create-sports-prediction-league-dialog
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
+          />
+        }
+
         @case ('tag-selector') {
           <jwpaisley-tag-selector-dialog
             [title]="config()?.title || 'select tags'"

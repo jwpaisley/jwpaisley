@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-export type DialogType = 'confirm' | 'info' | 'input' | 'emoji' | 'add-recipe-tag' | 'add-port' | 'add-sailboat' | 'add-sailboat-photo' | 'tag-selector';
+export type DialogType = 'confirm' | 'info' | 'input' | 'emoji' | 'add-recipe-tag' | 'add-port' | 'add-sailboat' | 'add-sailboat-photo' | 'create-sports-prediction-league' | 'tag-selector';
 
 export interface DialogConfig {
   type: DialogType;
@@ -52,6 +52,10 @@ export class DialogService {
 
   openAddSailboatPhotoDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
     return this.open({ ...config, type: 'add-sailboat-photo' });
+  }
+
+  openCreateSportsPredictionLeagueDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {
+    return this.open({ ...config, type: 'create-sports-prediction-league' });
   }
 
   openTagSelectorDialog<T = any>(config: Omit<DialogConfig, 'type'>): Promise<DialogResult<T>> {

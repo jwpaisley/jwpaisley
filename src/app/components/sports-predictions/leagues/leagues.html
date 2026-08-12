@@ -1,0 +1,74 @@
+<div class="section-header">
+  @if (isUserAdmin) {
+    <jwpaisley-action-dock>
+      <jwpaisley-action-dock-button icon="add" variant="primary" action="addSportsPredictionLeague"></jwpaisley-action-dock-button>
+    </jwpaisley-action-dock>
+  }
+
+  <jwpaisley-loader [isLoading]="isLoading">
+    <div class="league-section-stack">
+      <section class="league-section">
+        <h2 class="section-title">my leagues</h2>
+        @if (myLeagues.length === 0) {
+          <jwpaisley-empty-state
+            emoji="🏆"
+            title="no leagues yet"
+            subtitle="join a league to track your standings here"
+          ></jwpaisley-empty-state>
+        } @else {
+          <div class="league-grid">
+            @for (league of myLeagues; track league.id) {
+              <jwpaisley-sports-prediction-league-card
+                [league]="league"
+                [participantCount]="getParticipantCount(league.id)"
+                [currentLeader]="'-'"
+              />
+            }
+          </div>
+        }
+      </section>
+
+      <section class="league-section">
+        <h2 class="section-title">open leagues</h2>
+        @if (openLeagues.length === 0) {
+          <jwpaisley-empty-state
+            emoji="🔓"
+            title="no open leagues"
+            subtitle="there are no public leagues currently open for entry"
+          ></jwpaisley-empty-state>
+        } @else {
+          <div class="league-grid">
+            @for (league of openLeagues; track league.id) {
+              <jwpaisley-sports-prediction-league-card
+                [league]="league"
+                [participantCount]="getParticipantCount(league.id)"
+                [currentLeader]="'-'"
+              />
+            }
+          </div>
+        }
+      </section>
+
+      <section class="league-section">
+        <h2 class="section-title">past leagues</h2>
+        @if (pastLeagues.length === 0) {
+          <jwpaisley-empty-state
+            emoji="📜"
+            title="no past leagues"
+            subtitle="finished leagues will appear here"
+          ></jwpaisley-empty-state>
+        } @else {
+          <div class="league-grid">
+            @for (league of pastLeagues; track league.id) {
+              <jwpaisley-sports-prediction-league-card
+                [league]="league"
+                [participantCount]="getParticipantCount(league.id)"
+                [currentLeader]="'-'"
+              />
+            }
+          </div>
+        }
+      </section>
+    </div>
+  </jwpaisley-loader>
+</div>
