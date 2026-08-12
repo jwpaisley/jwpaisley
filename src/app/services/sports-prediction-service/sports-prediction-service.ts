@@ -71,12 +71,19 @@ export interface SportsPredictionPick {
   fixtureId: string;
   selectedTeamId?: string | null;
   isDrawPick: boolean;
+  isCorrect: boolean;
+  isSettled: boolean;
   payoutMultiplier: number;
   status: string;
   coinsAwarded: number;
   pointsAwarded: number;
   createdAt?: string | null;
   updatedAt?: string | null;
+}
+
+export interface SportsPredictionLeagueUserPointsTotal {
+  userId: string;
+  totalPoints: number;
 }
 
 @Injectable({
@@ -196,6 +203,10 @@ export class SportsPredictionService {
 
   getPick(pickId: string): Observable<SportsPredictionPick> {
     return this.httpClient.get<SportsPredictionPick>(`${this.picksApiUrl}/${pickId}`);
+  }
+
+  getLeagueUserTotals(leagueId: string): Observable<SportsPredictionLeagueUserPointsTotal[]> {
+    return this.httpClient.get<SportsPredictionLeagueUserPointsTotal[]>(`${this.picksApiUrl}/league/${leagueId}/totals`);
   }
 
   createPick(pick: SportsPredictionPick): Observable<SportsPredictionPick> {

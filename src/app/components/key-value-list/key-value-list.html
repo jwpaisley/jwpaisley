@@ -1,0 +1,8 @@
+<div class="key-value-list" aria-label="key value list">
+  @for (entry of entries; track entry[0]) {
+    <div class="key-value-row">
+      <span class="key">{{ entry[0] }}</span>
+      <span class="value">{{ entry[1] }}</span>
+    </div>
+  }
+</div>

@@ -50,6 +50,9 @@
       </header>
 
       <jwpaisley-card-grid [largeColumns]="3" [mediumColumns]="2" [smallColumns]="1" class="league-card-grid">
+        <jwpaisley-card title="league details">
+            <jwpaisley-key-value-list [keyValuePairs]="leagueKeyValuePairs"></jwpaisley-key-value-list>
+        </jwpaisley-card>
         <jwpaisley-card [title]="'participants (' + participants.length + ')'">
           @if (participants.length > 0) {
             <jwpaisley-people-list [people]="peopleListData" [maxPeopleToShow]="5"></jwpaisley-people-list>
@@ -63,12 +66,7 @@
           }
         </jwpaisley-card>
         <jwpaisley-card title="standings">
-            <jwpaisley-empty-state 
-                size="medium"
-                emoji="👑"
-                title="no standings yet"
-                subtitle="when there are standings to display, they will appear here"
-            />
+            <jwpaisley-standings [standings]="standingsData"></jwpaisley-standings>
         </jwpaisley-card>
         <jwpaisley-card title="upcoming matches">
             <jwpaisley-empty-state 
@@ -84,6 +82,14 @@
                 emoji="👉"
                 title="no picks yet"
                 subtitle="when there are picks to display, they will appear here"
+            />
+        </jwpaisley-card>
+        <jwpaisley-card title="prediction bots">
+            <jwpaisley-empty-state
+                size="medium"
+                emoji="🤖"
+                title="no bots yet"
+                subtitle="when there are bots to display, they will appear here"
             />
         </jwpaisley-card>
       </jwpaisley-card-grid>

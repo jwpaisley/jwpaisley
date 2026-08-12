@@ -1,0 +1,48 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.key-value-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.key-value-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.625rem 0;
+  border-top: 1px solid style-variables.$fog;
+  box-sizing: border-box;
+}
+
+.key-value-row:first-child {
+  border-top: none;
+}
+
+.key,
+.value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.key {
+  text-align: left;
+  font-weight: 400;
+  color: style-variables.$primary-text;
+}
+
+.value {
+  text-align: right;
+  font-weight: 700;
+  color: style-variables.$primary-text;
+}

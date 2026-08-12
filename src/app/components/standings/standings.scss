@@ -1,0 +1,85 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.standings {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.standings__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.625rem 0;
+  border-top: 1px solid style-variables.$fog;
+  box-sizing: border-box;
+}
+
+.standings__row:first-child {
+  border-top: none;
+}
+
+.standings__rank {
+  min-width: 3.25rem;
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.standings__person {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.standings__avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: style-variables.$cloud;
+  color: style-variables.$primary-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.standings__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.standings__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: style-variables.$primary-text;
+}
+
+.standings__points {
+  font-weight: 700;
+  color: style-variables.$primary-text;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.standings__empty {
+  color: style-variables.$slate;
+  font-size: 0.92rem;
+}

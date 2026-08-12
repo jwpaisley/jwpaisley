@@ -1,0 +1,25 @@
+<div class="standings" aria-label="standings list">
+  @if (sortedStandings.length === 0) {
+    <div class="standings__empty">no standings to display</div>
+  } @else {
+    @for (item of sortedStandings; track item.label; let index = $index) {
+      <div class="standings__row">
+        <div class="standings__rank" aria-label="rank {{ index + 1 }}">{{ getPlaceLabel(index) }}</div>
+
+        <div class="standings__person">
+          <div class="standings__avatar" aria-label="{{ item.label }} avatar">
+            @if (item.imageUrl) {
+              <img [src]="item.imageUrl" [alt]="item.label" />
+            } @else {
+              <span>{{ getInitials(item.label) }}</span>
+            }
+          </div>
+
+          <span class="standings__label">{{ item.label }}</span>
+        </div>
+
+        <div class="standings__points">{{ item.points }}</div>
+      </div>
+    }
+  }
+</div>

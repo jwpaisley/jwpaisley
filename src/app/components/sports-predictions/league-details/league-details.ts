@@ -9,6 +9,8 @@ import { Loader } from '../../loader/loader';
 import { EmptyState } from '../../empty-state/empty-state';
 import { Button } from '../../button/button';
 import { PeopleList, PeopleListPerson } from '../../people-list/people-list';
+import { KeyValueList } from '../../key-value-list/key-value-list';
+import { Standings, StandingsItem } from '../../standings/standings';
 import { UserService } from '../../../services/user-service/user-service';
 import { DialogService } from '../../../services/dialog-service/dialog-service';
 import { ToastService } from '../../../services/toast-service/toast-service';
@@ -26,7 +28,7 @@ interface ParticipantRow {
 @Component({
   selector: 'jwpaisley-sports-prediction-league-details',
   standalone: true,
-  imports: [CommonModule, Loader, RouterModule, CardGrid, Card, EmptyState, Button, PeopleList],
+  imports: [CommonModule, Loader, RouterModule, CardGrid, Card, EmptyState, Button, PeopleList, KeyValueList, Standings],
   templateUrl: './league-details.html',
   styleUrl: './league-details.scss',
 })
@@ -46,6 +48,7 @@ export class LeagueDetails implements OnInit, OnDestroy {
 
   get peopleListData(): PeopleListPerson[] {
     return this.participants.map((participant) => ({
+      id: participant.userId,
       firstName: participant.name.split(' ')[0] ?? '',
       lastName: participant.name.split(' ').slice(1).join(' ') ?? '',
       profilePictureUrl: participant.imageUrl ?? null,
@@ -62,6 +65,38 @@ export class LeagueDetails implements OnInit, OnDestroy {
 
   get currentUserParticipantId(): string | null {
     return this.participants.find((participant) => participant.userId === this.currentUserId)?.id ?? null;
+  }
+
+  get leagueKeyValuePairs(): Map<string, string> {
+    if (!this.league) {
+      return new Map();
+    }
+
+    return new Map<string, string>([
+      ['🥇 first place', `🪙 ${this.league.firstPlacePrizeCoins ?? 0}`],
+      ['🥈 second place', `🪙 ${this.league.secondPlacePrizeCoins ?? 0}`],
+      ['🥉 third place', `🪙 ${this.league.thirdPlacePrizeCoins ?? 0}`],
+      ['start date', this.formatDate(this.league.leagueStartDate)],
+      ['end date', this.formatDate(this.league.leagueEndDate)],
+      ['created on', this.formatDate(this.league.createdAt)],
+      ['updated on', this.formatDate(this.league.updatedAt)],
+    ]);
+  }
+
+  get standingsData(): StandingsItem[] {
+    if (!this.leagueId) {
+      return [];
+    }
+
+    const totalsByUser = new Map<string, number>();
+
+    const totals = this.participants.map((participant) => ({
+      label: participant.name,
+      imageUrl: participant.imageUrl ?? null,
+      points: totalsByUser.get(participant.userId) ?? 0,
+    }));
+
+    return totals.sort((a, b) => b.points - a.points);
   }
 
   ngOnInit(): void {
@@ -113,6 +148,40 @@ export class LeagueDetails implements OnInit, OnDestroy {
     }
 
     return words.map((word) => word.charAt(0).toUpperCase()).join('');
+  }
+
+  formatDate(value?: string | null): string {
+    if (!value) {
+      return 'n/a';
+    }
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return 'n/a';
+    }
+
+    const month = date.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' }).toLowerCase();
+    const day = date.getUTCDate();
+    const year = date.getUTCFullYear();
+
+    return `${month} ${day}${this.getOrdinal(day)}, ${year}`;
+  }
+
+  private getOrdinal(day: number): string {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
   }
 
   async onJoinLeagueClick(): Promise<void> {
@@ -242,10 +311,39 @@ export class LeagueDetails implements OnInit, OnDestroy {
       .subscribe({
         next: (participants) => {
           this.participants = participants;
-          this.isLoading = false;
+          this.loadLeagueTotals();
         },
         error: () => {
           this.participants = [];
+          this.isLoading = false;
+        },
+      });
+  }
+
+  private loadLeagueTotals(): void {
+    if (!this.leagueId) {
+      this.isLoading = false;
+      return;
+    }
+
+    this.sportsPredictionService
+      .getLeagueUserTotals(this.leagueId)
+      .pipe(takeUntil(this.destroy$), catchError(() => of([])))
+      .subscribe({
+        next: (totals) => {
+          const totalsByUser = new Map<string, number>();
+          totals.forEach((total) => {
+            totalsByUser.set(total.userId, total.totalPoints ?? 0);
+          });
+
+          this.participants = this.participants.map((participant) => ({
+            ...participant,
+            points: totalsByUser.get(participant.userId) ?? participant.points ?? 0,
+          }));
+
+          this.isLoading = false;
+        },
+        error: () => {
           this.isLoading = false;
         },
       });

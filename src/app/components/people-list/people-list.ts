@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Button } from '../button/button';
 
 export interface PeopleListPerson {
+  id?: string | null;
   firstName: string;
   lastName: string;
   profilePictureUrl?: string | null;
@@ -11,7 +13,7 @@ export interface PeopleListPerson {
 @Component({
   selector: 'jwpaisley-people-list',
   standalone: true,
-  imports: [CommonModule, Button],
+  imports: [CommonModule, RouterModule, Button],
   templateUrl: './people-list.html',
   styleUrl: './people-list.scss',
 })
