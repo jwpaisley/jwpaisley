@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError, timer } from 'rxjs';
+import { mergeMap, retryWhen, take } from 'rxjs/operators';
 import { getApiUrl } from '../../helpers/api-url';
 
 export interface WheelOptionApi {
@@ -30,6 +31,23 @@ export interface CanSpinWheelResponse {
   lastSpinAt?: string | null;
 }
 
+function withSingleNotFoundRetry<T>(request$: Observable<T>): Observable<T> {
+  return request$.pipe(
+    retryWhen((errors) =>
+      errors.pipe(
+        mergeMap((error) => {
+          if (error instanceof HttpErrorResponse && error.status === 404) {
+            return timer(250);
+          }
+
+          return throwError(() => error);
+        }),
+        take(1),
+      ),
+    ),
+  );
+}
+
 @Injectable({ providedIn: 'root' })
 export class WheelService {
   private readonly httpClient = inject(HttpClient);
@@ -40,30 +58,38 @@ export class WheelService {
   private readonly wheelSpinsApiUrl = `${this.apiUrl}/wheel-spins`;
 
   getWheelOptions(): Observable<WheelOptionApi[]> {
-    return this.httpClient.get<WheelOptionApi[]>(this.wheelOptionsApiUrl);
+    return withSingleNotFoundRetry(this.httpClient.get<WheelOptionApi[]>(this.wheelOptionsApiUrl));
   }
 
   getWheelOption(id: string): Observable<WheelOptionApi> {
-    return this.httpClient.get<WheelOptionApi>(`${this.wheelOptionsApiUrl}/${id}`);
+    return withSingleNotFoundRetry(
+      this.httpClient.get<WheelOptionApi>(`${this.wheelOptionsApiUrl}/${id}`),
+    );
   }
 
   createWheelOption(option: WheelOptionApi): Observable<WheelOptionApi> {
-    return this.httpClient.post<WheelOptionApi>(this.wheelOptionsApiUrl, option);
+    return withSingleNotFoundRetry(this.httpClient.post<WheelOptionApi>(this.wheelOptionsApiUrl, option));
   }
 
   updateWheelOption(option: WheelOptionApi): Observable<WheelOptionApi> {
-    return this.httpClient.put<WheelOptionApi>(`${this.wheelOptionsApiUrl}/${option.id}`, option);
+    return withSingleNotFoundRetry(
+      this.httpClient.put<WheelOptionApi>(`${this.wheelOptionsApiUrl}/${option.id}`, option),
+    );
   }
 
   deleteWheelOption(id: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.wheelOptionsApiUrl}/${id}`);
+    return withSingleNotFoundRetry(this.httpClient.delete<void>(`${this.wheelOptionsApiUrl}/${id}`));
   }
 
   getCanSpinWheel(): Observable<CanSpinWheelResponse> {
-    return this.httpClient.get<CanSpinWheelResponse>(`${this.wheelSpinsApiUrl}/can-spin`);
+    return withSingleNotFoundRetry(
+      this.httpClient.get<CanSpinWheelResponse>(`${this.wheelSpinsApiUrl}/can-spin`),
+    );
   }
 
   spinWheel(): Observable<WheelSpinResponse> {
-    return this.httpClient.post<WheelSpinResponse>(`${this.wheelSpinsApiUrl}/spin`, {});
+    return withSingleNotFoundRetry(
+      this.httpClient.post<WheelSpinResponse>(`${this.wheelSpinsApiUrl}/spin`, {}),
+    );
   }
 }

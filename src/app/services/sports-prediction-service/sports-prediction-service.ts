@@ -37,7 +37,8 @@ export interface SportsPredictionLeague {
 export interface SportsPredictionFixture {
   id?: string;
   apiSportsFixtureId: number;
-  leagueId: string;
+  apiSportsLeagueId: number;
+  apiSportsSeasonId: number;
   homeTeamId: string;
   awayTeamId: string;
   commenceTime?: string | null;

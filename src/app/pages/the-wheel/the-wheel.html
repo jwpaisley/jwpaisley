@@ -3,19 +3,27 @@
     <h2>the wheel</h2>
     <p class="page-header__subtitle">spin the wheel to win daily bonus coins</p>
     <jwpaisley-message
-      *ngIf="spinCountdownMessage"
+      *ngIf="!isLoggedIn"
+      level="info"
+      icon="login"
+      message="log in to spin the wheel"
+    ></jwpaisley-message>
+    <jwpaisley-message
+      *ngIf="isLoggedIn && spinCountdownMessage"
       level="info"
       icon="timer"
       [message]="spinCountdownMessage"
     ></jwpaisley-message>
   </div>
   <div class="the-wheel-page__content">
-    <jwpaisley-wheel
-      [options]="wheelOptions"
-      [canSpin]="canSpin"
-      (spinRequested)="spinWheel()"
-      (spinningStopped)="showWheelAchievementDialog()"
-    ></jwpaisley-wheel>
+    <jwpaisley-loader [isLoading]="isWheelLoading" size="medium" class="the-wheel-page__wheel-loader">
+      <jwpaisley-wheel
+        [options]="wheelOptions"
+        [canSpin]="canSpin"
+        (spinRequested)="spinWheel()"
+        (spinningStopped)="showWheelAchievementDialog()"
+      ></jwpaisley-wheel>
+    </jwpaisley-loader>
 
     <jwpaisley-card title="wheel options" class="the-wheel-page__card">
       <jwpaisley-key-value-list [keyValuePairs]="wheelOptionMap"></jwpaisley-key-value-list>

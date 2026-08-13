@@ -48,6 +48,11 @@
   border-radius: 50%;
   cursor: pointer;
   z-index: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 .wheel__disc--locked {

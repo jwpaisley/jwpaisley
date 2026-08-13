@@ -105,8 +105,6 @@ export class SailingPortService {
       weather,
     };
 
-    console.debug('[sailing-port-condition]', 'Evaluating conditions', debugContext);
-
     // 1. Critical Hazards & Marine Alerts
     if (
       weather.includes('thunder') ||

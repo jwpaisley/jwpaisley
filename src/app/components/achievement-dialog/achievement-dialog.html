@@ -13,6 +13,10 @@
   </div>
 
   <div class="dialog-card" (click)="$event.stopPropagation()">
+    <button class="close-x" type="button" (click)="closeDialog()" aria-label="Close achievement dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+
     <div class="emoji-wrap">
       <span class="emoji" aria-label="achievement emoji">{{ emoji }}</span>
     </div>

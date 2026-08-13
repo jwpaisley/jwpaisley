@@ -3,6 +3,7 @@ import { Component, ViewChild, inject, OnDestroy, OnInit, PLATFORM_ID } from '@a
 import { Card } from '../../components/card/card';
 import { KeyValueList } from '../../components/key-value-list/key-value-list';
 import { Message } from '../../components/message/message';
+import { Loader } from '../../components/loader/loader';
 import { Wheel, WheelOption } from '../../components/wheel/wheel';
 import { ToastService } from '../../services/toast-service/toast-service';
 import { UserService } from '../../services/user-service/user-service';
@@ -12,7 +13,7 @@ import { WheelService } from '../../services/wheel-service/wheel-service';
 @Component({
   selector: 'jwpaisley-the-wheel-page',
   standalone: true,
-  imports: [CommonModule, Wheel, Card, KeyValueList, Message],
+  imports: [CommonModule, Wheel, Card, KeyValueList, Message, Loader],
   templateUrl: './the-wheel.html',
   styleUrl: './the-wheel.scss',
 })
@@ -29,15 +30,19 @@ export class TheWheelPage implements OnInit, OnDestroy {
   wheelOptions: WheelOption[] = [];
   canSpin = false;
   isSpinning = false;
+  isWheelLoading = true;
+  isLoggedIn = false;
   spinCountdownMessage = '';
   private lastWheelCoinsWon = 0;
   private lastSpinAt: Date | null = null;
+  private forceLockedUntilReload = false;
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
+    this.isLoggedIn = !!this.userService.getUserInfoFromLocalStorage();
     this.loadWheelOptions();
     this.loadSpinEligibility();
     this.startCooldownTimer();
@@ -71,6 +76,7 @@ export class TheWheelPage implements OnInit, OnDestroy {
     }
 
     this.canSpin = false;
+    this.forceLockedUntilReload = true;
     this.isSpinning = true;
     this.lastWheelCoinsWon = 0;
     this.wheelComponent?.spin();
@@ -125,6 +131,8 @@ export class TheWheelPage implements OnInit, OnDestroy {
   }
 
   private loadWheelOptions(): void {
+    this.isWheelLoading = true;
+
     this.wheelService.getWheelOptions().subscribe({
       next: (options) => {
         this.wheelOptions = [...options]
@@ -135,19 +143,37 @@ export class TheWheelPage implements OnInit, OnDestroy {
             label: String(option.value),
             percentage: Number(option.probability),
           }));
+        this.isWheelLoading = this.wheelOptions.length === 0;
       },
       error: () => {
         this.wheelOptions = [];
+        this.isWheelLoading = false;
         this.toastService.addToast('failed to load wheel options', 'error', 'danger');
       },
     });
   }
 
   private loadSpinEligibility(): void {
+    this.isLoggedIn = !!this.userService.getUserInfoFromLocalStorage();
+
+    if (!this.isLoggedIn) {
+      this.canSpin = false;
+      this.lastSpinAt = null;
+      this.spinCountdownMessage = '';
+      return;
+    }
+
     this.wheelService.getCanSpinWheel().subscribe({
       next: (response) => {
+        this.lastSpinAt = response.lastSpinAt ? new Date(response.lastSpinAt + (response.lastSpinAt.endsWith('Z') ? '' : 'Z')) : null;
+
+        if (this.forceLockedUntilReload) {
+          this.canSpin = false;
+          this.updateSpinCountdownMessage();
+          return;
+        }
+
         this.canSpin = response.canSpin;
-        this.lastSpinAt = response.lastSpinAt ? new Date(response.lastSpinAt) : null;
         this.updateSpinCountdownMessage();
       },
       error: () => {
