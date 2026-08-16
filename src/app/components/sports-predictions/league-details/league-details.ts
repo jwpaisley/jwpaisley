@@ -11,11 +11,14 @@ import { Button } from '../../button/button';
 import { PeopleList, PeopleListPerson } from '../../people-list/people-list';
 import { KeyValueList } from '../../key-value-list/key-value-list';
 import { Standings, StandingsItem } from '../../standings/standings';
+import { Scrollbox } from '../../scrollbox/scrollbox';
 import { FixtureList } from '../fixture-list/fixture-list';
+import { DisplayPick, PickList } from '../pick-list/pick-list';
+import { FixturePickOption, FixturePickRequest } from '../fixture/fixture';
 import { UserService } from '../../../services/user-service/user-service';
 import { DialogService } from '../../../services/dialog-service/dialog-service';
 import { ToastService } from '../../../services/toast-service/toast-service';
-import { SportsPredictionFixture, SportsPredictionLeague, SportsPredictionService } from '../../../services/sports-prediction-service/sports-prediction-service';
+import { SportsPredictionFixture, SportsPredictionLeague, SportsPredictionPicksPage, SportsPredictionPick, SportsPredictionService } from '../../../services/sports-prediction-service/sports-prediction-service';
 
 interface ParticipantRow {
   id: string;
@@ -29,7 +32,7 @@ interface ParticipantRow {
 @Component({
   selector: 'jwpaisley-sports-prediction-league-details',
   standalone: true,
-  imports: [CommonModule, Loader, RouterModule, CardGrid, Card, EmptyState, Button, PeopleList, KeyValueList, Standings, FixtureList],
+  imports: [CommonModule, Loader, RouterModule, CardGrid, Card, EmptyState, Button, PeopleList, KeyValueList, Standings, Scrollbox, FixtureList, PickList],
   templateUrl: './league-details.html',
   styleUrl: './league-details.scss',
 })
@@ -49,6 +52,52 @@ export class LeagueDetails implements OnInit, OnDestroy {
   upcomingFixtures: SportsPredictionFixture[] = [];
   fixtureTeamNameById: Record<string, string> = {};
   fixtureTeamLogoById: Record<string, string> = {};
+  selectedPickOptionByFixtureId: Record<string, FixturePickOption> = {};
+  recentPicks: SportsPredictionPick[] = [];
+  private isSubmittingPick = false;
+
+  get displayRecentPicks(): DisplayPick[] {
+    const participantNameByUserId = this.participants.reduce<Record<string, string>>((acc, participant) => {
+      acc[participant.userId] = participant.name;
+      return acc;
+    }, {});
+
+    const participantImageByUserId = this.participants.reduce<Record<string, string>>((acc, participant) => {
+      if (participant.imageUrl) {
+        acc[participant.userId] = participant.imageUrl;
+      }
+      return acc;
+    }, {});
+
+    const fixtureById = this.upcomingFixtures.reduce<Record<string, SportsPredictionFixture>>((acc, fixture) => {
+      if (fixture.id) {
+        acc[this.normalizeFixtureId(fixture.id)] = fixture;
+      }
+      return acc;
+    }, {});
+
+    return this.recentPicks.map((pick) => {
+      const fixture = fixtureById[this.normalizeFixtureId(pick.fixtureId)];
+      const homeTeamName = fixture ? (this.fixtureTeamNameById[fixture.homeTeamId] ?? 'home') : 'home';
+      const awayTeamName = fixture ? (this.fixtureTeamNameById[fixture.awayTeamId] ?? 'away') : 'away';
+      const fixtureLabel = fixture ? `${homeTeamName} vs ${awayTeamName}` : 'fixture';
+
+      const pickLabel = pick.isDrawPick
+        ? 'draw'
+        : (pick.selectedTeamId ? (this.fixtureTeamNameById[pick.selectedTeamId] ?? 'team') : 'team');
+
+      return {
+        id: pick.id ?? `${pick.userId}-${pick.fixtureId}`,
+        pickerName: participantNameByUserId[pick.userId] ?? 'unknown user',
+        pickerImageUrl: participantImageByUserId[pick.userId] ?? null,
+        fixtureLabel,
+        pickLabel,
+        payoutPoints: Math.ceil(10 * (pick.payoutMultiplier ?? 0)),
+        status: pick.status ?? 'pending',
+        createdAt: pick.createdAt,
+      };
+    });
+  }
 
   get peopleListData(): PeopleListPerson[] {
     return this.participants.map((participant) => ({
@@ -105,7 +154,12 @@ export class LeagueDetails implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
+      const previousUserId = this.currentUserId;
       this.currentUserId = user?.id ?? null;
+
+      if (this.league?.id && previousUserId !== this.currentUserId) {
+        this.loadUpcomingFixtures();
+      }
     });
 
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
@@ -258,6 +312,63 @@ export class LeagueDetails implements OnInit, OnDestroy {
       });
   }
 
+  async onPickRequested(pickRequest: FixturePickRequest): Promise<void> {
+    if (this.isSubmittingPick) {
+      return;
+    }
+
+    if (!this.leagueId || !this.currentUserId) {
+      this.toastService.addToast('you need to be signed in to create picks', 'error', 'warning');
+      return;
+    }
+
+    const payoutPoints = Math.ceil(10 * pickRequest.payoutMultiplier);
+
+    const result = await this.dialogService.openConfirmDialog({
+      title: 'confirm pick',
+      text: `pick '${pickRequest.pickOption}' for ${pickRequest.homeTeamLabel} vs ${pickRequest.awayTeamLabel}? if you are correct, you'll earn ${payoutPoints} points`,
+      confirmLabel: 'confirm',
+      cancelLabel: 'cancel',
+    });
+
+    if (!result.confirmed) {
+      return;
+    }
+
+    this.isSubmittingPick = true;
+
+    this.sportsPredictionService
+      .createPick({
+        leagueId: this.leagueId,
+        userId: this.currentUserId,
+        fixtureId: pickRequest.fixtureId,
+        selectedTeamId: pickRequest.selectedTeamId,
+        isDrawPick: pickRequest.isDrawPick,
+        isCorrect: false,
+        isSettled: false,
+        payoutMultiplier: pickRequest.payoutMultiplier,
+        status: 'pending',
+        coinsAwarded: 0,
+        pointsAwarded: 0,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.isSubmittingPick = false;
+          this.toastService.addToast('pick created', 'check', 'success');
+          const fixtureIdKey = this.normalizeFixtureId(pickRequest.fixtureId);
+          this.selectedPickOptionByFixtureId = {
+            ...this.selectedPickOptionByFixtureId,
+            [fixtureIdKey]: pickRequest.pickOption,
+          };
+        },
+        error: () => {
+          this.isSubmittingPick = false;
+          this.toastService.addToast('failed to create pick', 'error', 'danger');
+        },
+      });
+  }
+
   private loadLeague(): void {
     if (!this.leagueId) {
       this.league = null;
@@ -295,17 +406,25 @@ export class LeagueDetails implements OnInit, OnDestroy {
       this.upcomingFixtures = [];
       this.fixtureTeamNameById = {};
       this.fixtureTeamLogoById = {};
+      this.selectedPickOptionByFixtureId = {};
+      this.recentPicks = [];
       return;
     }
 
     const leagueId = this.league.id;
 
     forkJoin({
-      fixtures: this.sportsPredictionService.getFixturesForLeague(leagueId, 'UPCOMING').pipe(catchError(() => of([]))),
+      fixtures: this.sportsPredictionService.getFixturesForLeague(leagueId, 'UPCOMING', 0).pipe(catchError(() => of([]))),
       teams: this.sportsPredictionService.getTeamsForLeague(leagueId).pipe(catchError(() => of([]))),
+      picks: this.currentUserId
+        ? this.sportsPredictionService.getMyPicksForLeague(leagueId).pipe(catchError(() => of([])))
+        : of([]),
+      recentPicksPage: this.sportsPredictionService
+        .getRecentPicksForLeague(leagueId, 0)
+        .pipe(catchError(() => of({ page: 0, pageSize: 20, hasMore: false, picks: [] } as SportsPredictionPicksPage))),
     })
       .pipe(takeUntil(this.destroy$))
-      .subscribe(({ fixtures, teams }) => {
+      .subscribe(({ fixtures, teams, picks, recentPicksPage }) => {
         this.fixtureTeamNameById = teams.reduce<Record<string, string>>((acc, team) => {
           if (team.id) {
             acc[team.id] = team.name;
@@ -321,7 +440,51 @@ export class LeagueDetails implements OnInit, OnDestroy {
         }, {});
 
         this.upcomingFixtures = fixtures;
+        this.selectedPickOptionByFixtureId = this.buildSelectedPickOptionByFixtureId(fixtures, picks);
+        this.recentPicks = recentPicksPage.picks ?? [];
       });
+  }
+
+  private buildSelectedPickOptionByFixtureId(
+    fixtures: SportsPredictionFixture[],
+    picks: SportsPredictionPick[],
+  ): Record<string, FixturePickOption> {
+    const fixtureById = fixtures.reduce<Record<string, SportsPredictionFixture>>((acc, fixture) => {
+      if (fixture.id) {
+        acc[this.normalizeFixtureId(fixture.id)] = fixture;
+      }
+
+      return acc;
+    }, {});
+
+    return picks.reduce<Record<string, FixturePickOption>>((acc, pick) => {
+      const normalizedFixtureId = this.normalizeFixtureId(pick.fixtureId);
+      const fixture = fixtureById[normalizedFixtureId];
+      if (!fixture) {
+        return acc;
+      }
+
+      if (pick.isDrawPick) {
+        acc[normalizedFixtureId] = 'draw';
+        return acc;
+      }
+
+      if (pick.selectedTeamId && pick.selectedTeamId === fixture.homeTeamId) {
+        acc[normalizedFixtureId] = 'home';
+        return acc;
+      }
+
+      if (pick.selectedTeamId && pick.selectedTeamId === fixture.awayTeamId) {
+        acc[normalizedFixtureId] = 'away';
+        return acc;
+      }
+
+      return acc;
+    }, {});
+  }
+
+  private normalizeFixtureId(fixtureId: string): string {
+    return fixtureId.trim().toLowerCase();
   }
 
   private loadParticipants(): void {

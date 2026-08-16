@@ -120,8 +120,46 @@
   background: style-variables.$blue-slate;
 }
 
-.fixture-card__odd:hover {
+.fixture-card__odd--picked {
   background: style-variables.$grass;
+  color: style-variables.$light-text;
+}
+
+.fixture-card__odd--picked span,
+.fixture-card__odd--picked strong {
+  color: style-variables.$light-text;
+}
+
+.fixture-card__odd--disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.fixture-card__odd--disabled:hover {
+  background: style-variables.$snow;
+  color: inherit;
+  transform: none;
+}
+
+.fixture-card__odd--disabled:hover span {
+  color: style-variables.$slate;
+}
+
+.fixture-card__odd--disabled:hover strong {
+  color: style-variables.$primary-text;
+}
+
+.fixture-card__odd--picked.fixture-card__odd--disabled:hover {
+  background: style-variables.$grass;
+}
+
+.fixture-card__odd--picked.fixture-card__odd--disabled:hover span,
+.fixture-card__odd--picked.fixture-card__odd--disabled:hover strong {
+  color: style-variables.$light-text;
+}
+
+.fixture-card__odd:hover {
+  background: style-variables.$sea-glass;
   color: style-variables.$light-text;
   transform: translateY(-2px) scale(1.01);
 }

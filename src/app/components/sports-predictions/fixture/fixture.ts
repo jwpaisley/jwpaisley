@@ -1,6 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SportsPredictionFixture } from '../../../services/sports-prediction-service/sports-prediction-service';
+
+export type FixturePickOption = 'home' | 'draw' | 'away';
+
+export interface FixturePickRequest {
+  fixtureId: string;
+  selectedTeamId: string | null;
+  isDrawPick: boolean;
+  payoutMultiplier: number;
+  pickOption: FixturePickOption;
+  pickLabel: string;
+  homeTeamLabel: string;
+  awayTeamLabel: string;
+}
 
 @Component({
   selector: 'jwpaisley-fixture',
@@ -13,6 +26,8 @@ export class Fixture {
   @Input({ required: true }) fixture!: SportsPredictionFixture;
   @Input() teamNameById: Record<string, string> = {};
   @Input() teamLogoById: Record<string, string> = {};
+  @Input() selectedPickOption: FixturePickOption | null = null;
+  @Output() pickRequested = new EventEmitter<FixturePickRequest>();
 
   get isPastGameWithResult(): boolean {
     return this.hasResult() && this.isPastGame();
@@ -81,6 +96,57 @@ export class Fixture {
     }
   }
 
+  get isPickLocked(): boolean {
+    if (this.fixture.status && ['IN_PROGRESS', 'FINISHED'].includes(this.fixture.status.toUpperCase())) {
+      return true;
+    }
+
+    if (!this.fixture.commenceTime) {
+      return false;
+    }
+
+    const commenceTime = new Date(this.fixture.commenceTime).getTime();
+    return !Number.isNaN(commenceTime) && commenceTime <= Date.now();
+  }
+
+  onOddsClicked(pickOption: FixturePickOption): void {
+    if (!this.fixture.id || this.isPastGameWithResult || this.isPickLocked) {
+      return;
+    }
+
+    const payoutMultiplier = this.getPayoutMultiplierForOption(pickOption);
+    if (payoutMultiplier == null) {
+      return;
+    }
+
+    const selectedTeamId = pickOption === 'draw'
+      ? null
+      : pickOption === 'home'
+        ? this.fixture.homeTeamId
+        : this.fixture.awayTeamId;
+
+    const pickLabel = pickOption === 'draw'
+      ? 'draw'
+      : pickOption === 'home'
+        ? this.homeTeamLabel
+        : this.awayTeamLabel;
+
+    this.pickRequested.emit({
+      fixtureId: this.fixture.id,
+      selectedTeamId,
+      isDrawPick: pickOption === 'draw',
+      payoutMultiplier,
+      pickOption,
+      pickLabel,
+      homeTeamLabel: this.homeTeamLabel,
+      awayTeamLabel: this.awayTeamLabel,
+    });
+  }
+
+  isSelectedPickOption(pickOption: FixturePickOption): boolean {
+    return this.selectedPickOption === pickOption;
+  }
+
   private hasResult(): boolean {
     return this.fixture.homeScore != null && this.fixture.awayScore != null;
   }
@@ -139,6 +205,18 @@ export class Fixture {
 
   private formatOdds(value?: number | null): string {
     return value == null ? '-' : value.toFixed(2);
+  }
+
+  private getPayoutMultiplierForOption(pickOption: FixturePickOption): number | null {
+    if (pickOption === 'home') {
+      return this.fixture.homeOdds ?? null;
+    }
+
+    if (pickOption === 'draw') {
+      return this.fixture.drawOdds ?? null;
+    }
+
+    return this.fixture.awayOdds ?? null;
   }
 
   private getTeamInitial(label: string): string {

@@ -1,0 +1,31 @@
+<div class="pick-list">
+  @if (picks.length === 0) {
+    <div class="pick-list__empty">no picks to display</div>
+  } @else {
+    <ul class="pick-list__items">
+      @for (pick of visiblePicks; track pick.id) {
+        <li class="pick-list__item">
+          <jwpaisley-pick
+            [pickerName]="pick.pickerName"
+            [pickerImageUrl]="pick.pickerImageUrl"
+            [fixtureLabel]="pick.fixtureLabel"
+            [pickLabel]="pick.pickLabel"
+            [payoutPoints]="pick.payoutPoints"
+            [status]="pick.status"
+            [createdAt]="pick.createdAt"
+          ></jwpaisley-pick>
+        </li>
+      }
+    </ul>
+
+    @if (hasMorePicks) {
+      <div class="pick-list__actions">
+        <jwpaisley-button
+          text="show more"
+          variant="secondary"
+          (click)="toggleShowMore()"
+        ></jwpaisley-button>
+      </div>
+    }
+  }
+</div>

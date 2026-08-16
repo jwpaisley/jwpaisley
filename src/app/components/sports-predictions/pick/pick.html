@@ -1,0 +1,23 @@
+<article class="pick-card">
+  <div class="pick-card__meta">
+    <div class="pick-card__picker-block">
+      <div class="pick-card__picker-avatar" [attr.aria-label]="pickerName + ' avatar'">
+        @if (pickerImageUrl) {
+          <img [src]="pickerImageUrl" [alt]="pickerName + ' avatar'" />
+        } @else {
+          <span>{{ pickerInitials }}</span>
+        }
+      </div>
+      <span class="pick-card__picker">{{ pickerName }}</span>
+    </div>
+    <span class="pick-card__created">{{ formatCreatedAt(createdAt) }}</span>
+  </div>
+
+  <div class="pick-card__fixture">{{ fixtureLabel }}</div>
+
+  <div class="pick-card__details">
+    <span class="pick-card__selection">pick: {{ pickLabel }}</span>
+    <span class="pick-card__payout">{{ payoutPoints }} pts</span>
+    <span class="pick-card__status">{{ status.toLowerCase() }}</span>
+  </div>
+</article>

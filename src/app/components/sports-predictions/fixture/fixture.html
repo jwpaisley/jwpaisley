@@ -45,15 +45,15 @@
     </div>
   } @else {
     <div class="fixture-card__odds">
-      <div class="fixture-card__odd">
+      <div class="fixture-card__odd" [class.fixture-card__odd--picked]="isSelectedPickOption('home')" [class.fixture-card__odd--disabled]="isPickLocked" (click)="onOddsClicked('home')">
         <span>home</span>
         <strong>{{ displayHomeOdds }}</strong>
       </div>
-      <div class="fixture-card__odd">
+      <div class="fixture-card__odd" [class.fixture-card__odd--picked]="isSelectedPickOption('draw')" [class.fixture-card__odd--disabled]="isPickLocked" (click)="onOddsClicked('draw')">
         <span>draw</span>
         <strong>{{ displayDrawOdds }}</strong>
       </div>
-      <div class="fixture-card__odd">
+      <div class="fixture-card__odd" [class.fixture-card__odd--picked]="isSelectedPickOption('away')" [class.fixture-card__odd--disabled]="isPickLocked" (click)="onOddsClicked('away')">
         <span>away</span>
         <strong>{{ displayAwayOdds }}</strong>
       </div>

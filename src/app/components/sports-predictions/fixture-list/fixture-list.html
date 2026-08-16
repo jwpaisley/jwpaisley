@@ -9,6 +9,8 @@
             [fixture]="fixture"
             [teamNameById]="teamNameById"
             [teamLogoById]="teamLogoById"
+            [selectedPickOption]="getSelectedPickOption(fixture.id)"
+            (pickRequested)="onPickRequested($event)"
           ></jwpaisley-fixture>
         </li>
       }
@@ -17,7 +19,7 @@
     @if (hasMoreFixtures) {
       <div class="fixture-list__actions">
         <jwpaisley-button
-          [text]="showAll ? 'show less' : 'show more'"
+          text="show more"
           variant="secondary"
           (click)="toggleShowMore()"
         ></jwpaisley-button>

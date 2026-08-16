@@ -69,20 +69,30 @@
             <jwpaisley-standings [standings]="standingsData"></jwpaisley-standings>
         </jwpaisley-card>
         <jwpaisley-card title="upcoming matches">
-          <jwpaisley-fixture-list
-            [fixtures]="upcomingFixtures"
-            [teamNameById]="fixtureTeamNameById"
-            [teamLogoById]="fixtureTeamLogoById"
-            [maxFixturesToShow]="5"
-          ></jwpaisley-fixture-list>
+          <jwpaisley-scrollbox [maxHeightRem]="24">
+            <jwpaisley-fixture-list
+              [fixtures]="upcomingFixtures"
+              [teamNameById]="fixtureTeamNameById"
+              [teamLogoById]="fixtureTeamLogoById"
+              [selectedPickOptionByFixtureId]="selectedPickOptionByFixtureId"
+              [maxFixturesToShow]="5"
+              (pickRequested)="onPickRequested($event)"
+            ></jwpaisley-fixture-list>
+          </jwpaisley-scrollbox>
         </jwpaisley-card>
         <jwpaisley-card title="picks">
+          @if (displayRecentPicks.length > 0) {
+            <jwpaisley-scrollbox [maxHeightRem]="24">
+              <jwpaisley-pick-list [picks]="displayRecentPicks" [maxPicksToShow]="5"></jwpaisley-pick-list>
+            </jwpaisley-scrollbox>
+          } @else {
             <jwpaisley-empty-state
-                size="medium"
-                emoji="👉"
-                title="no picks yet"
-                subtitle="when there are picks to display, they will appear here"
+              size="medium"
+              emoji="👉"
+              title="no picks yet"
+              subtitle="when there are picks to display, they will appear here"
             />
+          }
         </jwpaisley-card>
         <jwpaisley-card title="prediction bots">
             <jwpaisley-empty-state

@@ -1,0 +1,27 @@
+@use '../../../styles/_variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.scrollbox {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: style-variables.$sprout transparent;
+  scrollbar-width: thin;
+}
+
+.scrollbox::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.scrollbox::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbox::-webkit-scrollbar-thumb {
+  background: style-variables.$sprout;
+  border-radius: 999px;
+}

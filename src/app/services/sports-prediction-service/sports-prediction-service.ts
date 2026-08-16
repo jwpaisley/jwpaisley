@@ -87,6 +87,13 @@ export interface SportsPredictionLeagueUserPointsTotal {
   totalPoints: number;
 }
 
+export interface SportsPredictionPicksPage {
+  page: number;
+  pageSize: number;
+  hasMore: boolean;
+  picks: SportsPredictionPick[];
+}
+
 export type SportsPredictionFixtureScope = 'ALL' | 'PAST' | 'UPCOMING';
 
 @Injectable({
@@ -167,9 +174,10 @@ export class SportsPredictionService {
   getFixturesForLeague(
     leagueId: string,
     scope: SportsPredictionFixtureScope = 'ALL',
+    page = 0,
   ): Observable<SportsPredictionFixture[]> {
     return this.httpClient.get<SportsPredictionFixture[]>(
-      `${this.fixturesApiUrl}/league/${leagueId}?scope=${scope}`,
+      `${this.fixturesApiUrl}/league/${leagueId}?scope=${scope}&page=${page}`,
     );
   }
 
@@ -229,6 +237,18 @@ export class SportsPredictionService {
 
   getLeagueUserTotals(leagueId: string): Observable<SportsPredictionLeagueUserPointsTotal[]> {
     return this.httpClient.get<SportsPredictionLeagueUserPointsTotal[]>(`${this.picksApiUrl}/league/${leagueId}/totals`);
+  }
+
+  getRecentPicksForLeague(leagueId: string, page = 0): Observable<SportsPredictionPicksPage> {
+    return this.httpClient.get<SportsPredictionPicksPage>(`${this.picksApiUrl}/league/${leagueId}/recent?page=${page}`);
+  }
+
+  getMyPicksForLeague(leagueId: string): Observable<SportsPredictionPick[]> {
+    return this.httpClient.get<SportsPredictionPick[]>(`${this.picksApiUrl}/league/${leagueId}/mine`);
+  }
+
+  getMyPickForLeagueFixture(leagueId: string, fixtureId: string): Observable<SportsPredictionPick> {
+    return this.httpClient.get<SportsPredictionPick>(`${this.picksApiUrl}/league/${leagueId}/fixture/${fixtureId}/mine`);
   }
 
   createPick(pick: SportsPredictionPick): Observable<SportsPredictionPick> {

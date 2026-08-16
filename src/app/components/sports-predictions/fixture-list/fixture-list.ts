@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from '../../button/button';
 import { SportsPredictionFixture } from '../../../services/sports-prediction-service/sports-prediction-service';
-import { Fixture } from '../fixture/fixture';
+import { Fixture, FixturePickOption, FixturePickRequest } from '../fixture/fixture';
 
 @Component({
   selector: 'jwpaisley-fixture-list',
@@ -15,7 +15,9 @@ export class FixtureList {
   @Input() fixtures: SportsPredictionFixture[] = [];
   @Input() teamNameById: Record<string, string> = {};
   @Input() teamLogoById: Record<string, string> = {};
+  @Input() selectedPickOptionByFixtureId: Record<string, FixturePickOption> = {};
   @Input() maxFixturesToShow = 5;
+  @Output() pickRequested = new EventEmitter<FixturePickRequest>();
 
   showAll = false;
 
@@ -28,10 +30,22 @@ export class FixtureList {
   }
 
   get hasMoreFixtures(): boolean {
-    return this.fixtures.length > this.maxFixturesToShow;
+    return !this.showAll && this.fixtures.length > this.maxFixturesToShow;
   }
 
   toggleShowMore(): void {
-    this.showAll = !this.showAll;
+    this.showAll = true;
+  }
+
+  onPickRequested(pickRequest: FixturePickRequest): void {
+    this.pickRequested.emit(pickRequest);
+  }
+
+  getSelectedPickOption(fixtureId?: string): FixturePickOption | null {
+    if (!fixtureId) {
+      return null;
+    }
+
+    return this.selectedPickOptionByFixtureId[fixtureId.trim().toLowerCase()] ?? null;
   }
 }
