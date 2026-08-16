@@ -87,6 +87,8 @@ export interface SportsPredictionLeagueUserPointsTotal {
   totalPoints: number;
 }
 
+export type SportsPredictionFixtureScope = 'ALL' | 'PAST' | 'UPCOMING';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -104,6 +106,10 @@ export class SportsPredictionService {
 
   getTeams(): Observable<SportsPredictionTeam[]> {
     return this.httpClient.get<SportsPredictionTeam[]>(this.teamsApiUrl);
+  }
+
+  getTeamsForLeague(leagueId: string): Observable<SportsPredictionTeam[]> {
+    return this.httpClient.get<SportsPredictionTeam[]>(`${this.teamsApiUrl}/league/${leagueId}`);
   }
 
   getTeam(teamId: string): Observable<SportsPredictionTeam> {
@@ -158,8 +164,23 @@ export class SportsPredictionService {
     return this.httpClient.get<SportsPredictionFixture[]>(this.fixturesApiUrl);
   }
 
+  getFixturesForLeague(
+    leagueId: string,
+    scope: SportsPredictionFixtureScope = 'ALL',
+  ): Observable<SportsPredictionFixture[]> {
+    return this.httpClient.get<SportsPredictionFixture[]>(
+      `${this.fixturesApiUrl}/league/${leagueId}?scope=${scope}`,
+    );
+  }
+
   getFixture(fixtureId: string): Observable<SportsPredictionFixture> {
     return this.httpClient.get<SportsPredictionFixture>(`${this.fixturesApiUrl}/${fixtureId}`);
+  }
+
+  syncFixturesJob(): Observable<string> {
+    return this.httpClient.post(`${this.fixturesApiUrl}/sync-job`, null, {
+      responseType: 'text',
+    });
   }
 
   createFixture(fixture: SportsPredictionFixture): Observable<SportsPredictionFixture> {

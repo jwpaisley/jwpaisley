@@ -1,0 +1,62 @@
+<article class="fixture-card" *ngIf="fixture">
+  <div class="fixture-card__teams">
+    <div class="fixture-card__team-block">
+      <div class="fixture-card__team-logo" [attr.aria-label]="homeTeamLabel + ' logo'">
+        @if (homeTeamLogoUrl) {
+          <img [src]="homeTeamLogoUrl" [alt]="homeTeamLabel + ' logo'" />
+        } @else {
+          <span>{{ homeTeamInitial }}</span>
+        }
+      </div>
+      <span class="fixture-card__team">{{ homeTeamLabel }}</span>
+    </div>
+    <span class="fixture-card__versus">vs</span>
+    <div class="fixture-card__team-block fixture-card__team-block--away">
+      <div class="fixture-card__team-logo" [attr.aria-label]="awayTeamLabel + ' logo'">
+        @if (awayTeamLogoUrl) {
+          <img [src]="awayTeamLogoUrl" [alt]="awayTeamLabel + ' logo'" />
+        } @else {
+          <span>{{ awayTeamInitial }}</span>
+        }
+      </div>
+      <span class="fixture-card__team">{{ awayTeamLabel }}</span>
+    </div>
+  </div>
+
+  <div class="fixture-card__meta">
+    <span>{{ formatDate(fixture.commenceTime) }}</span>
+    <span>{{ fixture.status || 'scheduled' }}</span>
+  </div>
+
+  @if (isPastGameWithResult) {
+    <div class="fixture-card__odds fixture-card__odds--result">
+      <div class="fixture-card__odd" [class.fixture-card__odd--correct]="homeResultState === 'correct'" [class.fixture-card__odd--incorrect]="homeResultState === 'incorrect'">
+        <span>home</span>
+        <strong>{{ fixture.homeScore ?? '-' }}</strong>
+      </div>
+      <div class="fixture-card__odd" [class.fixture-card__odd--correct]="drawResultState === 'correct'" [class.fixture-card__odd--incorrect]="drawResultState === 'incorrect'">
+        <span>draw</span>
+        <strong>{{ displayResultLabel }}</strong>
+      </div>
+      <div class="fixture-card__odd" [class.fixture-card__odd--correct]="awayResultState === 'correct'" [class.fixture-card__odd--incorrect]="awayResultState === 'incorrect'">
+        <span>away</span>
+        <strong>{{ fixture.awayScore ?? '-' }}</strong>
+      </div>
+    </div>
+  } @else {
+    <div class="fixture-card__odds">
+      <div class="fixture-card__odd">
+        <span>home</span>
+        <strong>{{ displayHomeOdds }}</strong>
+      </div>
+      <div class="fixture-card__odd">
+        <span>draw</span>
+        <strong>{{ displayDrawOdds }}</strong>
+      </div>
+      <div class="fixture-card__odd">
+        <span>away</span>
+        <strong>{{ displayAwayOdds }}</strong>
+      </div>
+    </div>
+  }
+</article>

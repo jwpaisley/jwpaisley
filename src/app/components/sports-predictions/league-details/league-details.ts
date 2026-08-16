@@ -11,10 +11,11 @@ import { Button } from '../../button/button';
 import { PeopleList, PeopleListPerson } from '../../people-list/people-list';
 import { KeyValueList } from '../../key-value-list/key-value-list';
 import { Standings, StandingsItem } from '../../standings/standings';
+import { FixtureList } from '../fixture-list/fixture-list';
 import { UserService } from '../../../services/user-service/user-service';
 import { DialogService } from '../../../services/dialog-service/dialog-service';
 import { ToastService } from '../../../services/toast-service/toast-service';
-import { SportsPredictionLeague, SportsPredictionService } from '../../../services/sports-prediction-service/sports-prediction-service';
+import { SportsPredictionFixture, SportsPredictionLeague, SportsPredictionService } from '../../../services/sports-prediction-service/sports-prediction-service';
 
 interface ParticipantRow {
   id: string;
@@ -28,7 +29,7 @@ interface ParticipantRow {
 @Component({
   selector: 'jwpaisley-sports-prediction-league-details',
   standalone: true,
-  imports: [CommonModule, Loader, RouterModule, CardGrid, Card, EmptyState, Button, PeopleList, KeyValueList, Standings],
+  imports: [CommonModule, Loader, RouterModule, CardGrid, Card, EmptyState, Button, PeopleList, KeyValueList, Standings, FixtureList],
   templateUrl: './league-details.html',
   styleUrl: './league-details.scss',
 })
@@ -45,6 +46,9 @@ export class LeagueDetails implements OnInit, OnDestroy {
   currentUserId: string | null = null;
   participants: ParticipantRow[] = [];
   isLoading = true;
+  upcomingFixtures: SportsPredictionFixture[] = [];
+  fixtureTeamNameById: Record<string, string> = {};
+  fixtureTeamLogoById: Record<string, string> = {};
 
   get peopleListData(): PeopleListPerson[] {
     return this.participants.map((participant) => ({
@@ -273,13 +277,50 @@ export class LeagueDetails implements OnInit, OnDestroy {
       .subscribe({
         next: (league) => {
           this.league = league ?? null;
+          this.loadUpcomingFixtures();
           this.loadParticipants();
         },
         error: () => {
           this.league = null;
+          this.upcomingFixtures = [];
+          this.fixtureTeamNameById = {};
           this.participants = [];
           this.isLoading = false;
         },
+      });
+  }
+
+  private loadUpcomingFixtures(): void {
+    if (!this.league?.id) {
+      this.upcomingFixtures = [];
+      this.fixtureTeamNameById = {};
+      this.fixtureTeamLogoById = {};
+      return;
+    }
+
+    const leagueId = this.league.id;
+
+    forkJoin({
+      fixtures: this.sportsPredictionService.getFixturesForLeague(leagueId, 'UPCOMING').pipe(catchError(() => of([]))),
+      teams: this.sportsPredictionService.getTeamsForLeague(leagueId).pipe(catchError(() => of([]))),
+    })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ fixtures, teams }) => {
+        this.fixtureTeamNameById = teams.reduce<Record<string, string>>((acc, team) => {
+          if (team.id) {
+            acc[team.id] = team.name;
+          }
+          return acc;
+        }, {});
+
+        this.fixtureTeamLogoById = teams.reduce<Record<string, string>>((acc, team) => {
+          if (team.id && team.logoUrl) {
+            acc[team.id] = team.logoUrl;
+          }
+          return acc;
+        }, {});
+
+        this.upcomingFixtures = fixtures;
       });
   }
 

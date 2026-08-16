@@ -1,7 +1,21 @@
 <div class="page-container">
-  <div class="page-header">
-    <h1>users</h1>
-  </div>
-
-  <jwpaisley-users-table></jwpaisley-users-table>
+    <div class="page-section">
+        <h2>users</h2>
+        <jwpaisley-users-table></jwpaisley-users-table>
+    </div>
+    <div class="page-section">
+        <h2>admin actions</h2>
+        <jwpaisley-card-grid [largeColumns]="3" [mediumColumns]="2" [smallColumns]="1" class="admin-actions-grid">
+            <jwpaisley-card title="sports predictions">
+                <div class="admin-actions-card-section">
+                    <p>fixtures</p>
+                    <jwpaisley-button text="sync fixtures"
+                        variant="primary" 
+                        (click)="syncSportsPredictionFixtures()" 
+                        [disabled]="isSyncingSportsPredictionFixtures">
+                    </jwpaisley-button>
+                </div>
+            </jwpaisley-card>
+        </jwpaisley-card-grid>
+    </div>
 </div>

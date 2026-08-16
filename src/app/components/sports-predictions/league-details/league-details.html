@@ -69,12 +69,12 @@
             <jwpaisley-standings [standings]="standingsData"></jwpaisley-standings>
         </jwpaisley-card>
         <jwpaisley-card title="upcoming matches">
-            <jwpaisley-empty-state 
-                size="medium"
-                emoji="🏟️"
-                title="no upcoming matches yet"
-                subtitle="when there are upcoming matches to display, they will appear here"
-            />
+          <jwpaisley-fixture-list
+            [fixtures]="upcomingFixtures"
+            [teamNameById]="fixtureTeamNameById"
+            [teamLogoById]="fixtureTeamLogoById"
+            [maxFixturesToShow]="5"
+          ></jwpaisley-fixture-list>
         </jwpaisley-card>
         <jwpaisley-card title="picks">
             <jwpaisley-empty-state

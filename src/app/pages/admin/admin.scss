@@ -3,20 +3,49 @@
 .page-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 0 2rem;
+  gap: 2rem;
 }
 
-.page-header {
+.page-section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-  h1 {
-    margin: 0;
-    color: style-variables.$primary-text;
-    font-size: 1.75rem;
-    text-transform: lowercase;
+h2 {
+  color: style-variables.$primary-text;
+  text-transform: lowercase;
+}
+
+.admin-actions-card-section {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-actions-card-section p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.admin-actions-card-section jwpaisley-button {
+  display: block;
+  width: 100%;
+}
+
+.admin-actions-card-section jwpaisley-button ::ng-deep .btn {
+  width: 100%;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .admin-actions-card-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-actions-card-section {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -1,0 +1,27 @@
+<div class="fixture-list">
+  @if (fixtures.length === 0) {
+    <div class="fixture-list__empty">no fixtures to display</div>
+  } @else {
+    <ul class="fixture-list__items">
+      @for (fixture of visibleFixtures; track fixture.id ?? fixture.apiSportsFixtureId) {
+        <li class="fixture-list__item">
+          <jwpaisley-fixture
+            [fixture]="fixture"
+            [teamNameById]="teamNameById"
+            [teamLogoById]="teamLogoById"
+          ></jwpaisley-fixture>
+        </li>
+      }
+    </ul>
+
+    @if (hasMoreFixtures) {
+      <div class="fixture-list__actions">
+        <jwpaisley-button
+          [text]="showAll ? 'show less' : 'show more'"
+          variant="secondary"
+          (click)="toggleShowMore()"
+        ></jwpaisley-button>
+      </div>
+    }
+  }
+</div>
