@@ -31,10 +31,11 @@ export interface SailingConditionsCardData {
   windDirection: string;
   windSpeed: number;
   currentSpeed: number | null;
+  currentDirection: string;
   gusts: number;
   waveHeight: string;
-  waterTemp: number;
-  tide: string;
+  waterTemp: number | null;
+  visibility: string;
   forecast: string;
   time: string;
 }

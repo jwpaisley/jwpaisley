@@ -13,12 +13,6 @@ export interface SailingPort {
   name: string;
   latitude: number;
   longitude: number;
-  tideStationId?: string | null;
-  currentStationId?: string | null;
-  buoyStationId?: string | null;
-  nwsOffice?: string | null;
-  nwsGridX?: number | null;
-  nwsGridY?: number | null;
   createdAt?: string | null;
   updatedAt?: string | null;
 }
@@ -41,13 +35,13 @@ export class SailingPortReflectionService {
       windDirection: this.getWindDirection(index),
       windSpeed: this.getWindSpeed(index),
       currentSpeed: this.getCurrentSpeed(index),
+      currentDirection: this.getCurrentDirection(index),
       gusts: this.getGusts(index),
       waveHeight: this.getWaveHeight(index),
       waterTemp: this.getWaterTemp(index),
-      tide: this.getTide(port),
+      visibility: this.getVisibility(index),
       forecast: this.getForecast(index),
       time: 'updated just now',
-      notes: this.getNotes(port),
     }));
   }
 
@@ -83,8 +77,7 @@ export class SailingPortReflectionService {
 
   private getConditionScore(port: SailingPort): number {
     const nameScore = port.name?.length ?? 0;
-    const gridScore = (port.nwsGridX ?? 0) + (port.nwsGridY ?? 0);
-    return Math.min(100, nameScore * 2 + gridScore * 2 + 35);
+    return Math.min(100, nameScore * 4 + 35);
   }
 
   private getWindDirection(index: number): string {
@@ -104,6 +97,11 @@ export class SailingPortReflectionService {
     return 1 + (index % 4) * 0.5;
   }
 
+  private getCurrentDirection(index: number): string {
+    const directions = ['180° S', '225° SW', '270° W', '315° NW'];
+    return directions[index % directions.length];
+  }
+
   private getWaveHeight(index: number): string {
     const heights = ['1-2 ft', '2-3 ft', '3-4 ft', '4-5 ft', '5-6 ft'];
     return heights[index % heights.length];
@@ -113,11 +111,8 @@ export class SailingPortReflectionService {
     return 62 + (index % 6) * 2;
   }
 
-  private getTide(port: SailingPort): string {
-    const directions = ['rising', 'falling', 'slack'];
-    const direction = directions[(port.name?.length ?? 0) % directions.length];
-    const height = 1 + ((port.nwsGridX ?? 0) % 4) * 0.8;
-    return `${direction} ${height.toFixed(1)} ft`;
+  private getVisibility(index: number): string {
+    return `${(8 + index).toFixed(1)} km`;
   }
 
   private getForecast(index: number): string {
@@ -125,7 +120,4 @@ export class SailingPortReflectionService {
     return forecasts[index % forecasts.length];
   }
 
-  private getNotes(port: SailingPort): string {
-    return `${port.name} is ready for a quick look at current conditions and local station data.`;
-  }
 }

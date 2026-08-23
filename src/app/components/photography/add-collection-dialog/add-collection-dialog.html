@@ -1,6 +1,6 @@
 <div class="dialog-backdrop" (click)="onCancel()">
   <div class="dialog-card" (click)="$event.stopPropagation()">
-    <button class="close-x" type="button" (click)="onCancel()">
+    <button class="close-x" type="button" [disabled]="isSubmitting" (click)="onCancel()">
       <mat-icon>close</mat-icon>
     </button>
 
@@ -37,6 +37,8 @@
         <jwpaisley-form-image-upload
           label="images"
           [ngModel]="images"
+          [lockEditing]="isSubmitting"
+          [uploadStateByImageKey]="uploadStateByImageKey"
           (ngModelChange)="onImagesChange($event)"
           (imageSelect)="onImageSelect($event)"
         ></jwpaisley-form-image-upload>
@@ -46,11 +48,11 @@
     <div class="actions">
       <jwpaisley-button
         variant="primary"
-        [text]="confirmLabel"
+        [text]="isSubmitting ? 'uploading...' : confirmLabel"
         [disabled]="disableCreateButton"
         (click)="onConfirm()"
       ></jwpaisley-button>
-      <jwpaisley-button variant="secondary" text="cancel" (click)="onCancel()"></jwpaisley-button>
+      <jwpaisley-button variant="secondary" text="cancel" [disabled]="isSubmitting" (click)="onCancel()"></jwpaisley-button>
     </div>
   </div>
 </div>

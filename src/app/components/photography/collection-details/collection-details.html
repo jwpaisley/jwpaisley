@@ -77,6 +77,8 @@
     mode="edit"
     [collection]="collection"
     [photos]="photos"
+    [isSubmitting]="isSubmittingCollection"
+    [uploadStateByImageKey]="uploadStateByImageKey"
     (confirm)="handleEditCollectionConfirm($event)"
     (cancel)="closeEditCollectionDialog()"
   ></jwpaisley-add-collection-dialog>

@@ -50,10 +50,14 @@ export class LeagueDetails implements OnInit, OnDestroy {
   participants: ParticipantRow[] = [];
   isLoading = true;
   upcomingFixtures: SportsPredictionFixture[] = [];
+  recentPickFixtureById: Record<string, SportsPredictionFixture> = {};
   fixtureTeamNameById: Record<string, string> = {};
   fixtureTeamLogoById: Record<string, string> = {};
   selectedPickOptionByFixtureId: Record<string, FixturePickOption> = {};
   recentPicks: SportsPredictionPick[] = [];
+  hasMoreRecentPicks = false;
+  isLoadingMoreRecentPicks = false;
+  private currentRecentPicksPage = 0;
   private isSubmittingPick = false;
 
   get displayRecentPicks(): DisplayPick[] {
@@ -69,15 +73,8 @@ export class LeagueDetails implements OnInit, OnDestroy {
       return acc;
     }, {});
 
-    const fixtureById = this.upcomingFixtures.reduce<Record<string, SportsPredictionFixture>>((acc, fixture) => {
-      if (fixture.id) {
-        acc[this.normalizeFixtureId(fixture.id)] = fixture;
-      }
-      return acc;
-    }, {});
-
     return this.recentPicks.map((pick) => {
-      const fixture = fixtureById[this.normalizeFixtureId(pick.fixtureId)];
+      const fixture = this.recentPickFixtureById[this.normalizeFixtureId(pick.fixtureId)];
       const homeTeamName = fixture ? (this.fixtureTeamNameById[fixture.homeTeamId] ?? 'home') : 'home';
       const awayTeamName = fixture ? (this.fixtureTeamNameById[fixture.awayTeamId] ?? 'away') : 'away';
       const fixtureLabel = fixture ? `${homeTeamName} vs ${awayTeamName}` : 'fixture';
@@ -141,12 +138,10 @@ export class LeagueDetails implements OnInit, OnDestroy {
       return [];
     }
 
-    const totalsByUser = new Map<string, number>();
-
     const totals = this.participants.map((participant) => ({
       label: participant.name,
       imageUrl: participant.imageUrl ?? null,
-      points: totalsByUser.get(participant.userId) ?? 0,
+      points: participant.points ?? 0,
     }));
 
     return totals.sort((a, b) => b.points - a.points);
@@ -324,17 +319,6 @@ export class LeagueDetails implements OnInit, OnDestroy {
 
     const payoutPoints = Math.ceil(10 * pickRequest.payoutMultiplier);
 
-    const result = await this.dialogService.openConfirmDialog({
-      title: 'confirm pick',
-      text: `pick '${pickRequest.pickOption}' for ${pickRequest.homeTeamLabel} vs ${pickRequest.awayTeamLabel}? if you are correct, you'll earn ${payoutPoints} points`,
-      confirmLabel: 'confirm',
-      cancelLabel: 'cancel',
-    });
-
-    if (!result.confirmed) {
-      return;
-    }
-
     this.isSubmittingPick = true;
 
     this.sportsPredictionService
@@ -355,7 +339,11 @@ export class LeagueDetails implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.isSubmittingPick = false;
-          this.toastService.addToast('pick created', 'check', 'success');
+          this.toastService.addToast(
+            `picked '${pickRequest.pickOption}' for ${pickRequest.homeTeamLabel} vs ${pickRequest.awayTeamLabel}. if you are correct, you'll earn ${payoutPoints} points`,
+            'check',
+            'success',
+          );
           const fixtureIdKey = this.normalizeFixtureId(pickRequest.fixtureId);
           this.selectedPickOptionByFixtureId = {
             ...this.selectedPickOptionByFixtureId,
@@ -404,10 +392,14 @@ export class LeagueDetails implements OnInit, OnDestroy {
   private loadUpcomingFixtures(): void {
     if (!this.league?.id) {
       this.upcomingFixtures = [];
+      this.recentPickFixtureById = {};
       this.fixtureTeamNameById = {};
       this.fixtureTeamLogoById = {};
       this.selectedPickOptionByFixtureId = {};
       this.recentPicks = [];
+      this.hasMoreRecentPicks = false;
+      this.currentRecentPicksPage = 0;
+      this.isLoadingMoreRecentPicks = false;
       return;
     }
 
@@ -420,8 +412,8 @@ export class LeagueDetails implements OnInit, OnDestroy {
         ? this.sportsPredictionService.getMyPicksForLeague(leagueId).pipe(catchError(() => of([])))
         : of([]),
       recentPicksPage: this.sportsPredictionService
-        .getRecentPicksForLeague(leagueId, 0)
-        .pipe(catchError(() => of({ page: 0, pageSize: 20, hasMore: false, picks: [] } as SportsPredictionPicksPage))),
+        .getRecentPicksForLeague(leagueId, 0, 5)
+        .pipe(catchError(() => of({ page: 0, pageSize: 5, hasMore: false, picks: [] } as SportsPredictionPicksPage))),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ fixtures, teams, picks, recentPicksPage }) => {
@@ -441,7 +433,82 @@ export class LeagueDetails implements OnInit, OnDestroy {
 
         this.upcomingFixtures = fixtures;
         this.selectedPickOptionByFixtureId = this.buildSelectedPickOptionByFixtureId(fixtures, picks);
+
+        const baseFixtureByNormalizedId = fixtures.reduce<Record<string, SportsPredictionFixture>>((acc, fixture) => {
+          if (fixture.id) {
+            acc[this.normalizeFixtureId(fixture.id)] = fixture;
+          }
+
+          return acc;
+        }, {});
+
+        this.currentRecentPicksPage = recentPicksPage.page ?? 0;
+        this.hasMoreRecentPicks = recentPicksPage.hasMore ?? false;
         this.recentPicks = recentPicksPage.picks ?? [];
+
+        this.hydrateRecentPickFixtures(this.recentPicks, baseFixtureByNormalizedId);
+      });
+  }
+
+  protected onShowMoreRecentPicks(): void {
+    if (!this.league?.id || this.isLoadingMoreRecentPicks || !this.hasMoreRecentPicks) {
+      return;
+    }
+
+    this.isLoadingMoreRecentPicks = true;
+    const nextPage = this.currentRecentPicksPage + 1;
+
+    this.sportsPredictionService
+      .getRecentPicksForLeague(this.league.id, nextPage, 5)
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(() => of({ page: nextPage, pageSize: 5, hasMore: false, picks: [] } as SportsPredictionPicksPage)),
+      )
+      .subscribe((recentPicksPage) => {
+        this.currentRecentPicksPage = recentPicksPage.page ?? nextPage;
+        this.hasMoreRecentPicks = recentPicksPage.hasMore ?? false;
+        const additionalPicks = recentPicksPage.picks ?? [];
+        this.recentPicks = [...this.recentPicks, ...additionalPicks];
+        this.isLoadingMoreRecentPicks = false;
+
+        this.hydrateRecentPickFixtures(additionalPicks, this.recentPickFixtureById);
+      });
+  }
+
+  private hydrateRecentPickFixtures(
+    picks: SportsPredictionPick[],
+    existingFixtureByNormalizedId: Record<string, SportsPredictionFixture>,
+  ): void {
+    const missingRecentPickFixtureIds = Array.from(
+      new Set(
+        picks
+          .map((pick) => pick.fixtureId?.trim())
+          .filter((fixtureId): fixtureId is string => !!fixtureId)
+          .filter((fixtureId) => !existingFixtureByNormalizedId[this.normalizeFixtureId(fixtureId)]),
+      ),
+    );
+
+    if (missingRecentPickFixtureIds.length === 0) {
+      this.recentPickFixtureById = { ...existingFixtureByNormalizedId };
+      return;
+    }
+
+    forkJoin(
+      missingRecentPickFixtureIds.map((fixtureId) =>
+        this.sportsPredictionService.getFixture(fixtureId).pipe(catchError(() => of(null))),
+      ),
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((missingFixtures) => {
+        const mergedFixtureById = { ...existingFixtureByNormalizedId };
+
+        missingFixtures.forEach((fixture) => {
+          if (fixture?.id) {
+            mergedFixtureById[this.normalizeFixtureId(fixture.id)] = fixture;
+          }
+        });
+
+        this.recentPickFixtureById = mergedFixtureById;
       });
   }
 

@@ -14,7 +14,7 @@
     </div>
     <div class="stat">
       <span class="label">current</span>
-      <strong>{{ card.currentSpeed != null ? card.currentSpeed + ' kt' : 'n/a' }}</strong>
+      <strong>{{ card.currentSpeed != null ? card.currentSpeed + ' kt • ' + card.currentDirection : 'n/a' }}</strong>
     </div>
     <div class="stat">
       <span class="label">gusts</span>
@@ -26,11 +26,11 @@
     </div>
     <div class="stat">
       <span class="label">water</span>
-      <strong>{{ card.waterTemp }}°F</strong>
+      <strong>{{ card.waterTemp != null ? card.waterTemp + '°F' : 'n/a' }}</strong>
     </div>
     <div class="stat">
-      <span class="label">tide</span>
-      <strong>{{ card.tide }}</strong>
+      <span class="label">visibility</span>
+      <strong>{{ card.visibility }}</strong>
     </div>
     <div class="stat">
       <span class="label">weather</span>

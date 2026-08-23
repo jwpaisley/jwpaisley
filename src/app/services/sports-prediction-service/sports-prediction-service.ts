@@ -191,6 +191,12 @@ export class SportsPredictionService {
     });
   }
 
+  settlePicksJob(): Observable<string> {
+    return this.httpClient.post(`${this.picksApiUrl}/settle-job`, null, {
+      responseType: 'text',
+    });
+  }
+
   createFixture(fixture: SportsPredictionFixture): Observable<SportsPredictionFixture> {
     return this.httpClient.post<SportsPredictionFixture>(this.fixturesApiUrl, fixture);
   }
@@ -239,8 +245,9 @@ export class SportsPredictionService {
     return this.httpClient.get<SportsPredictionLeagueUserPointsTotal[]>(`${this.picksApiUrl}/league/${leagueId}/totals`);
   }
 
-  getRecentPicksForLeague(leagueId: string, page = 0): Observable<SportsPredictionPicksPage> {
-    return this.httpClient.get<SportsPredictionPicksPage>(`${this.picksApiUrl}/league/${leagueId}/recent?page=${page}`);
+  getRecentPicksForLeague(leagueId: string, page = 0, pageSize?: number): Observable<SportsPredictionPicksPage> {
+    const pageSizeQuery = typeof pageSize === 'number' ? `&pageSize=${pageSize}` : '';
+    return this.httpClient.get<SportsPredictionPicksPage>(`${this.picksApiUrl}/league/${leagueId}/recent?page=${page}${pageSizeQuery}`);
   }
 
   getMyPicksForLeague(leagueId: string): Observable<SportsPredictionPick[]> {

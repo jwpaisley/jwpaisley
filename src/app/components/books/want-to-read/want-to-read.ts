@@ -77,7 +77,6 @@ export class WantToRead implements OnInit, OnDestroy {
           this.addBook();
         } else {
           alert('woops!')
-          console.log(action.type)
         }
       });
   }

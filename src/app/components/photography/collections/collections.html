@@ -16,6 +16,8 @@
 
   <jwpaisley-add-collection-dialog
     *ngIf="showAddCollectionDialog"
+    [isSubmitting]="isSubmittingCollection"
+    [uploadStateByImageKey]="uploadStateByImageKey"
     (confirm)="handleAddCollectionConfirm($event)"
     (cancel)="closeAddCollectionDialog()"
   ></jwpaisley-add-collection-dialog>

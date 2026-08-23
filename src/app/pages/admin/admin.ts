@@ -16,6 +16,7 @@ export class AdminPage {
   private readonly sportsPredictionService = inject(SportsPredictionService);
   private readonly toastService = inject(ToastService);
   protected isSyncingSportsPredictionFixtures = false;
+  protected isSettlingSportsPredictionPicks = false;
 
   protected syncSportsPredictionFixtures(): void {
     if (this.isSyncingSportsPredictionFixtures) {
@@ -32,6 +33,25 @@ export class AdminPage {
       error: () => {
         this.isSyncingSportsPredictionFixtures = false;
         this.toastService.addToast('failed to sync sports predictions fixtures', 'error', 'danger');
+      },
+    });
+  }
+
+  protected settleSportsPredictionPicks(): void {
+    if (this.isSettlingSportsPredictionPicks) {
+      return;
+    }
+
+    this.isSettlingSportsPredictionPicks = true;
+
+    this.sportsPredictionService.settlePicksJob().subscribe({
+      next: () => {
+        this.isSettlingSportsPredictionPicks = false;
+        this.toastService.addToast('sports predictions pick settlement started', 'sync', 'info');
+      },
+      error: () => {
+        this.isSettlingSportsPredictionPicks = false;
+        this.toastService.addToast('failed to settle sports predictions picks', 'error', 'danger');
       },
     });
   }

@@ -15,6 +15,8 @@ export interface FormImageUploadValue {
   image?: string;
 }
 
+export type FormImageUploadState = 'uploading' | 'uploaded' | 'failed';
+
 @Component({
   selector: 'jwpaisley-form-image-upload',
   standalone: true,
@@ -33,6 +35,8 @@ export class FormImageUpload implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = 'Select images';
   @Input() maxImages: number | null = null;
+  @Input() uploadStateByImageKey: Record<string, FormImageUploadState> = {};
+  @Input() lockEditing = false;
   @Output() imageSelect = new EventEmitter<FormImageUploadValue>();
 
   value: FormImageUploadValue[] = [];
@@ -53,6 +57,10 @@ export class FormImageUpload implements ControlValueAccessor {
     }
 
     return `${image.url || ''}:${image.name || ''}`;
+  }
+
+  getUploadState(image: FormImageUploadValue): FormImageUploadState | null {
+    return this.uploadStateByImageKey[this.getImageKey(image)] ?? null;
   }
 
   private deduplicateImages(images: FormImageUploadValue[]): FormImageUploadValue[] {
@@ -87,6 +95,10 @@ export class FormImageUpload implements ControlValueAccessor {
   }
 
   handleFileSelection(event: Event): void {
+    if (this.lockEditing) {
+      return;
+    }
+
     const input = event.target as HTMLInputElement;
     const files = Array.from(input.files ?? []);
 
@@ -118,13 +130,17 @@ export class FormImageUpload implements ControlValueAccessor {
   }
 
   removeImage(index: number): void {
+    if (this.lockEditing) {
+      return;
+    }
+
     this.value = this.value.filter((_, imageIndex) => imageIndex !== index);
     this.onChange(this.value);
     this.onTouched();
   }
 
   triggerPicker(): void {
-    if (this.disabled || this.isSelectionLimitReached) {
+    if (this.disabled || this.isSelectionLimitReached || this.lockEditing) {
       return;
     }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from '../../button/button';
 import { Pick } from '../pick/pick';
 
@@ -23,23 +23,15 @@ export interface DisplayPick {
 })
 export class PickList {
   @Input() picks: DisplayPick[] = [];
-  @Input() maxPicksToShow = 5;
+  @Input() hasMorePicks = false;
+  @Input() isLoadingMore = false;
+  @Output() showMoreRequested = new EventEmitter<void>();
 
-  showAll = false;
-
-  get visiblePicks(): DisplayPick[] {
-    if (this.showAll || this.picks.length <= this.maxPicksToShow) {
-      return this.picks;
+  requestShowMore(): void {
+    if (this.isLoadingMore || !this.hasMorePicks) {
+      return;
     }
 
-    return this.picks.slice(0, this.maxPicksToShow);
-  }
-
-  get hasMorePicks(): boolean {
-    return !this.showAll && this.picks.length > this.maxPicksToShow;
-  }
-
-  toggleShowMore(): void {
-    this.showAll = true;
+    this.showMoreRequested.emit();
   }
 }

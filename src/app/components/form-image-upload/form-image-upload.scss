@@ -45,6 +45,33 @@
   object-fit: cover;
 }
 
+.upload-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.upload-overlay mat-icon {
+  color: white;
+}
+
+.upload-overlay--uploading {
+  background: rgba(17, 24, 39, 0.45);
+}
+
+.upload-overlay--uploaded {
+  background: rgba(17, 24, 39, 0.35);
+}
+
+.upload-overlay--uploaded mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+}
+
 .add-tile {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -76,4 +103,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
+}
+
+.remove-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

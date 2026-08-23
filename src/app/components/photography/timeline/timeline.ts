@@ -20,10 +20,12 @@ import { ImageDialog } from '../image-dialog/image-dialog';
 })
 export class Timeline implements OnInit, OnDestroy {
   protected isLoading = false;
+  protected isSubmittingCollection = false;
   protected destroy$ = new Subject<void>();
   protected photos: Photo[] = [];
   protected groupedPhotos: { label: string; photos: Photo[] }[] = [];
   protected showAddCollectionDialog = false;
+  protected uploadStateByImageKey: Record<string, 'uploading' | 'uploaded' | 'failed'> = {};
   protected selectedImageUrl: string | null = null;
   protected selectedImageCaption: string | null = null;
   protected selectedImageResourceId: string | null = null;
@@ -89,28 +91,42 @@ export class Timeline implements OnInit, OnDestroy {
   }
 
   protected openAddCollectionDialog(): void {
+    this.uploadStateByImageKey = {};
+    this.isSubmittingCollection = false;
     this.showAddCollectionDialog = true;
     this.cdr.detectChanges();
   }
 
   protected closeAddCollectionDialog(): void {
+    if (this.isSubmittingCollection) {
+      return;
+    }
+
     this.showAddCollectionDialog = false;
+    this.uploadStateByImageKey = {};
     this.cdr.detectChanges();
   }
 
   protected handleAddCollectionConfirm(data: AddCollectionDialogData): void {
-    this.isLoading = true;
+    this.isSubmittingCollection = true;
+    this.uploadStateByImageKey = {};
 
     this.photoService.createPhotoCollectionWithPhotos({
       title: data.title,
       description: data.description,
       location: data.location,
       images: data.images,
+    }, (progress) => {
+      this.uploadStateByImageKey = {
+        ...this.uploadStateByImageKey,
+        [progress.imageKey]: progress.status,
+      };
+      this.cdr.detectChanges();
     })
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
-          this.isLoading = false;
+          this.isSubmittingCollection = false;
           this.cdr.detectChanges();
         }),
       )

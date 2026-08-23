@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CreateSailingPortRequest, SailingPortService } from './sailing-port-service';
+import { CreateSailingPortRequest, SailingPort, SailingPortService } from './sailing-port-service';
 import { MarineConditionLevel } from '../../components/sailing/sailing-conditions-card/sailing-conditions-card';
 
 describe('SailingPortService', () => {
@@ -26,12 +26,19 @@ describe('SailingPortService', () => {
         name: 'Long Beach',
         latitude: 33.76,
         longitude: -118.19,
-        tideStationId: 'a',
-        currentStationId: 'b',
-        buoyStationId: 'c',
-        nwsOffice: 'LOX',
-        nwsGridX: 1,
-        nwsGridY: 2,
+        conditions: {
+          windSpeed: 12,
+          windDirection: 250,
+          gustSpeed: 16,
+          currentSpeed: 1.2,
+          currentDirection: 195,
+          waveHeight: 1.4,
+          wavePeriod: 5.8,
+          waterTemperature: 60,
+          airTemperature: 67,
+          weather: 'PARTLY_SUNNY',
+          visibility: 14,
+        },
       },
     ]);
 
@@ -49,19 +56,25 @@ describe('SailingPortService', () => {
         latitude: 33.76,
         longitude: -118.19,
         conditions: {
-          tideSummary: 'next tide 15:42 at 3.2 ft',
-          currentSummary: 'current flow ebb at 1.2 kt',
-          waveSummary: 'wave data observed',
-          weatherSummary: 'Mostly sunny with wind 12 mph',
-          marineAlert: 'active alerts present',
-          updatedAt: '2026-08-01T12:00:00Z',
+          windSpeed: 12,
+          windDirection: 250,
+          gustSpeed: 16,
+          currentSpeed: 1.2,
+          currentDirection: 195,
+          waveHeight: 1.4,
+          wavePeriod: 5.8,
+          weather: 'PARTLY_SUNNY',
+          airTemperature: 67,
+          visibility: 14,
+          fetchedAt: '2026-08-01T12:00:00Z',
         },
       },
     ]);
 
-    expect(cards[0].tide).toContain('next tide');
-    expect(cards[0].forecast).toContain('Mostly sunny');
-    expect(cards[0].notes).toContain('current flow');
+    expect(cards[0].windDirection).toContain('250°');
+    expect(cards[0].currentDirection).toContain('195°');
+    expect(cards[0].forecast).toContain('Partly Sunny');
+    expect(cards[0].visibility).toContain('14.0 km');
     expect(cards[0].windSpeed).toBe(12);
   });
 

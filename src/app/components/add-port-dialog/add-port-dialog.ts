@@ -10,12 +10,6 @@ export interface AddPortDialogData {
   name: string;
   latitude: number | null;
   longitude: number | null;
-  tideStationId?: string | null;
-  currentStationId?: string | null;
-  buoyStationId?: string | null;
-  nwsOffice?: string | null;
-  nwsGridX?: number | null;
-  nwsGridY?: number | null;
 }
 
 @Component({
@@ -28,7 +22,7 @@ export interface AddPortDialogData {
 export class AddPortDialog {
   @Input() icon = 'directions_boat';
   @Input() title = 'add sailing port';
-  @Input() text = 'add the details for a new port and save it for later review.';
+  @Input() text = 'add a port name and coordinates. stormglass uses latitude and longitude to fetch marine conditions.';
   @Input() confirmLabel = 'save port';
   @Input() cancelLabel = 'cancel';
 
@@ -39,12 +33,6 @@ export class AddPortDialog {
     name: new FormControl('', [Validators.required, Validators.minLength(1)]),
     latitude: new FormControl<number | null>(null, [Validators.required]),
     longitude: new FormControl<number | null>(null, [Validators.required]),
-    tideStationId: new FormControl(''),
-    currentStationId: new FormControl(''),
-    buoyStationId: new FormControl(''),
-    nwsOffice: new FormControl(''),
-    nwsGridX: new FormControl<number | null>(null),
-    nwsGridY: new FormControl<number | null>(null),
   });
 
   get enableConfirmButton(): boolean {
@@ -63,12 +51,6 @@ export class AddPortDialog {
       name: rawValue.name?.trim() ?? '',
       latitude: rawValue.latitude != null ? Number(rawValue.latitude) : null,
       longitude: rawValue.longitude != null ? Number(rawValue.longitude) : null,
-      tideStationId: rawValue.tideStationId?.trim() || null,
-      currentStationId: rawValue.currentStationId?.trim() || null,
-      buoyStationId: rawValue.buoyStationId?.trim() || null,
-      nwsOffice: rawValue.nwsOffice?.trim() || null,
-      nwsGridX: rawValue.nwsGridX != null ? Number(rawValue.nwsGridX) : null,
-      nwsGridY: rawValue.nwsGridY != null ? Number(rawValue.nwsGridY) : null,
     });
   }
 

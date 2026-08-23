@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@ang
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, finalize, takeUntil } from 'rxjs';
 import { Photo, PhotoCollection, PhotoService } from '../../../services/photo-service/photo-service';
 import { Loader } from '../../loader/loader';
 import { ToastService } from '../../../services/toast-service/toast-service';
@@ -37,6 +37,8 @@ export class CollectionDetails implements OnInit, OnDestroy {
   protected currentUser: NonNullable<ReturnType<UserService['getUserInfoFromLocalStorage']>> | null = null;
   protected showDeleteConfirmation = false;
   protected showEditCollectionDialog = false;
+  protected isSubmittingCollection = false;
+  protected uploadStateByImageKey: Record<string, 'uploading' | 'uploaded' | 'failed'> = {};
   protected currentCollectionId: string | null = null;
   protected pendingPhotoId: string | null = null;
 
@@ -150,12 +152,19 @@ export class CollectionDetails implements OnInit, OnDestroy {
   }
 
   onEditCollectionClick(): void {
+    this.isSubmittingCollection = false;
+    this.uploadStateByImageKey = {};
     this.showEditCollectionDialog = true;
     this.cdr.detectChanges();
   }
 
   closeEditCollectionDialog(): void {
+    if (this.isSubmittingCollection) {
+      return;
+    }
+
     this.showEditCollectionDialog = false;
+    this.uploadStateByImageKey = {};
     this.cdr.detectChanges();
   }
 
@@ -164,8 +173,8 @@ export class CollectionDetails implements OnInit, OnDestroy {
       return;
     }
 
-    this.isLoading = true;
-    this.closeEditCollectionDialog();
+    this.isSubmittingCollection = true;
+    this.uploadStateByImageKey = {};
     this.cdr.detectChanges();
 
     this.photoService.updatePhotoCollectionWithNewPhotos(this.collection.id, {
@@ -173,15 +182,27 @@ export class CollectionDetails implements OnInit, OnDestroy {
       description: data.description,
       location: data.location,
       images: data.images,
-    }).pipe(takeUntil(this.destroy$)).subscribe({
+    }, (progress) => {
+      this.uploadStateByImageKey = {
+        ...this.uploadStateByImageKey,
+        [progress.imageKey]: progress.status,
+      };
+      this.cdr.detectChanges();
+    }).pipe(
+      takeUntil(this.destroy$),
+      finalize(() => {
+        this.isSubmittingCollection = false;
+        this.cdr.detectChanges();
+      }),
+    ).subscribe({
       next: () => {
-        this.isLoading = false;
+        this.showEditCollectionDialog = false;
+        this.uploadStateByImageKey = {};
         this.toastService.addToast('collection updated', 'success');
         this.router.navigate(['/photography', 'collections', this.collection?.id]);
       },
       error: (error) => {
         console.error(error);
-        this.isLoading = false;
         this.toastService.addToast('failed to update collection. please try again later.', 'error', 'danger');
         this.cdr.detectChanges();
       },

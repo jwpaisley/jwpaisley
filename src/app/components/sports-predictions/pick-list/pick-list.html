@@ -3,7 +3,7 @@
     <div class="pick-list__empty">no picks to display</div>
   } @else {
     <ul class="pick-list__items">
-      @for (pick of visiblePicks; track pick.id) {
+      @for (pick of picks; track pick.id) {
         <li class="pick-list__item">
           <jwpaisley-pick
             [pickerName]="pick.pickerName"
@@ -21,9 +21,10 @@
     @if (hasMorePicks) {
       <div class="pick-list__actions">
         <jwpaisley-button
-          text="show more"
+          [text]="isLoadingMore ? 'loading...' : 'show more'"
           variant="secondary"
-          (click)="toggleShowMore()"
+          (click)="requestShowMore()"
+          [disabled]="isLoadingMore"
         ></jwpaisley-button>
       </div>
     }

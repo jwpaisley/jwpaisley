@@ -10,16 +10,19 @@ import {
 
 export interface SailingPortConditions {
   windSpeed?: number | null;
-  windDirection?: string | null;
+  windDirection?: number | null;
   gustSpeed?: number | null;
-  waveSize?: number | null;
   currentSpeed?: number | null;
+  currentDirection?: number | null;
+  waveHeight?: number | null;
+  wavePeriod?: number | null;
   waterTemperature?: number | null;
-  currentTide?: string | null;
-  tideSizeFeet?: number | null;
   airTemperature?: number | null;
+  cloudCover?: number | null;
+  precipitation?: number | null;
+  visibility?: number | null;
   weather?: string | null;
-  marineAlert?: string | null;
+  forecastTime?: string | null;
   fetchedAt?: string | null;
 }
 
@@ -28,12 +31,6 @@ export interface SailingPort {
   name: string;
   latitude: number;
   longitude: number;
-  tideStationId?: string | null;
-  currentStationId?: string | null;
-  buoyStationId?: string | null;
-  nwsOffice?: string | null;
-  nwsGridX?: number | null;
-  nwsGridY?: number | null;
   createdAt?: string | null;
   updatedAt?: string | null;
   conditions?: SailingPortConditions | null;
@@ -43,12 +40,6 @@ export interface CreateSailingPortRequest {
   name: string;
   latitude: number | null;
   longitude: number | null;
-  tideStationId?: string | null;
-  currentStationId?: string | null;
-  buoyStationId?: string | null;
-  nwsOffice?: string | null;
-  nwsGridX?: number | null;
-  nwsGridY?: number | null;
 }
 
 @Injectable({
@@ -69,10 +60,11 @@ export class SailingPortService {
       windDirection: this.getWindDirection(port),
       windSpeed: this.getWindSpeed(port),
       currentSpeed: this.getCurrentSpeed(port),
+      currentDirection: this.getCurrentDirection(port),
       gusts: this.getGusts(port),
       waveHeight: this.getWaveHeight(port),
       waterTemp: this.getWaterTemp(port),
-      tide: this.getTide(port),
+      visibility: this.getVisibility(port),
       forecast: this.getForecast(port),
       time: this.getTime(port),
     }));
@@ -93,7 +85,7 @@ export class SailingPortService {
     }
 
     const weather = conditions.weather?.toLowerCase() ?? '';
-    const waveSize = conditions.waveSize ?? 0;
+    const waveHeight = conditions.waveHeight ?? 0;
     const windSpeed = conditions.windSpeed ?? 0;
     const gustSpeed = conditions.gustSpeed ?? windSpeed;
 
@@ -101,7 +93,7 @@ export class SailingPortService {
       port: port.name,
       windSpeed,
       gustSpeed,
-      waveSize,
+      waveHeight,
       weather,
     };
 
@@ -116,29 +108,29 @@ export class SailingPortService {
       return MarineConditionLevel.DANGEROUS;
     }
 
-    if (windSpeed >= 28 || gustSpeed >= 34 || waveSize > 6.0) {
+    if (windSpeed >= 28 || gustSpeed >= 34 || waveHeight > 6.0) {
       console.debug('[sailing-port-condition]', 'Hazardous due to extreme wind/wave threshold', debugContext);
       return MarineConditionLevel.HAZARDOUS;
     }
 
-    if (windSpeed >= 22 || gustSpeed >= 28 || waveSize > 4.5) {
+    if (windSpeed >= 22 || gustSpeed >= 28 || waveHeight > 4.5) {
       console.debug('[sailing-port-condition]', 'Caution due to elevated wind/wave threshold', debugContext);
       return MarineConditionLevel.CAUTION;
     }
 
     // 2. Heavy / Brisk Conditions (Reefing required)
-    if (windSpeed >= 18 || gustSpeed >= 24 || waveSize > 3.0) {
+    if (windSpeed >= 18 || gustSpeed >= 24 || waveHeight > 3.0) {
       console.debug('[sailing-port-condition]', 'Challenging due to heavy wind/wave threshold', debugContext);
       return MarineConditionLevel.CHALLENGING;
     }
 
-    if (windSpeed >= 15 || waveSize > 2.0) {
+    if (windSpeed >= 15 || waveHeight > 2.0) {
       console.debug('[sailing-port-condition]', 'Brisk due to wind/wave threshold', debugContext);
       return MarineConditionLevel.BRISK;
     }
 
     // 3. The Sweet Spot (Ideal / Good)
-    if (windSpeed >= 10 && windSpeed <= 14 && waveSize <= 2.0) {
+    if (windSpeed >= 10 && windSpeed <= 14 && waveHeight <= 2.0) {
       console.debug('[sailing-port-condition]', 'Ideal due to sweet-spot threshold', debugContext);
       return MarineConditionLevel.IDEAL;
     }
@@ -164,7 +156,7 @@ export class SailingPortService {
   }
 
   private getWindDirection(port: SailingPort): string {
-    return port.conditions?.windDirection?.trim() || 'n/a';
+    return this.formatDirection(port.conditions?.windDirection);
   }
 
   private getWindSpeed(port: SailingPort): number {
@@ -179,26 +171,40 @@ export class SailingPortService {
     return port.conditions?.currentSpeed ?? null;
   }
 
+  private getCurrentDirection(port: SailingPort): string {
+    return this.formatDirection(port.conditions?.currentDirection);
+  }
+
   private getWaveHeight(port: SailingPort): string {
-    const waveSize = port.conditions?.waveSize;
-    return waveSize == null ? 'n/a' : `${waveSize.toFixed(1)} ft`;
-  }
+    const waveHeight = port.conditions?.waveHeight;
+    const wavePeriod = port.conditions?.wavePeriod;
 
-  private getWaterTemp(port: SailingPort): number {
-    return port.conditions?.waterTemperature ?? 0;
-  }
-
-  private getTide(port: SailingPort): string {
-    const tideState = port.conditions?.currentTide ?? 'slack';
-    const tideSize = port.conditions?.tideSizeFeet;
-    if (tideSize == null) {
-      return `${tideState}`;
+    if (waveHeight == null) {
+      return 'n/a';
     }
-    return `${tideState} • ${tideSize.toFixed(1)} ft`;
+
+    if (wavePeriod == null) {
+      return `${waveHeight.toFixed(1)} ft`;
+    }
+
+    return `${waveHeight.toFixed(1)} ft • ${wavePeriod.toFixed(1)} s`;
+  }
+
+  private getWaterTemp(port: SailingPort): number | null {
+    return port.conditions?.waterTemperature ?? null;
+  }
+
+  private getVisibility(port: SailingPort): string {
+    const visibility = port.conditions?.visibility;
+    if (visibility == null) {
+      return 'n/a';
+    }
+
+    return `${visibility.toFixed(1)} km`;
   }
 
   private getForecast(port: SailingPort): string {
-    const weather = port.conditions?.weather ?? 'Unknown';
+    const weather = this.formatWeather(port.conditions?.weather);
     const airTemp = port.conditions?.airTemperature;
     if (airTemp == null) {
       return weather;
@@ -252,5 +258,28 @@ export class SailingPortService {
       default:
         return 'th';
     }
+  }
+
+  private formatDirection(direction: number | null | undefined): string {
+    if (direction == null || Number.isNaN(direction)) {
+      return 'n/a';
+    }
+
+    const normalized = ((direction % 360) + 360) % 360;
+    const labels = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round(normalized / 45) % labels.length;
+    return `${Math.round(normalized)}° ${labels[index]}`;
+  }
+
+  private formatWeather(weather: string | null | undefined): string {
+    if (!weather) {
+      return 'Unknown';
+    }
+
+    return weather
+      .split(/[_\s]+/)
+      .filter(Boolean)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   }
 }

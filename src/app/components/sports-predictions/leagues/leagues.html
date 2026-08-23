@@ -7,26 +7,28 @@
 
   <jwpaisley-loader [isLoading]="isLoading">
     <div class="league-section-stack">
-      <section class="league-section">
-        <h2 class="section-title">my leagues</h2>
-        @if (myLeagues.length === 0) {
-          <jwpaisley-empty-state
-            emoji="🏆"
-            title="no leagues yet"
-            subtitle="join a league to track your standings here"
-          ></jwpaisley-empty-state>
-        } @else {
-          <div class="league-grid">
-            @for (league of myLeagues; track league.id) {
-              <jwpaisley-sports-prediction-league-card
-                [league]="league"
-                [participantCount]="getParticipantCount(league.id)"
-                [currentLeader]="'-'"
-              />
-            }
-          </div>
-        }
-      </section>
+      @if (isUserLoggedIn) {
+        <section class="league-section">
+          <h2 class="section-title">my leagues</h2>
+          @if (myLeagues.length === 0) {
+            <jwpaisley-empty-state
+              emoji="🏆"
+              title="no leagues yet"
+              subtitle="join a league to track your standings here"
+            ></jwpaisley-empty-state>
+          } @else {
+            <div class="league-grid">
+              @for (league of myLeagues; track league.id) {
+                <jwpaisley-sports-prediction-league-card
+                  [league]="league"
+                  [participantCount]="getParticipantCount(league.id)"
+                  [currentLeader]="getCurrentLeader(league.id)"
+                />
+              }
+            </div>
+          }
+        </section>
+      }
 
       <section class="league-section">
         <h2 class="section-title">open leagues</h2>
@@ -42,7 +44,7 @@
               <jwpaisley-sports-prediction-league-card
                 [league]="league"
                 [participantCount]="getParticipantCount(league.id)"
-                [currentLeader]="'-'"
+                [currentLeader]="getCurrentLeader(league.id)"
               />
             }
           </div>
@@ -63,7 +65,7 @@
               <jwpaisley-sports-prediction-league-card
                 [league]="league"
                 [participantCount]="getParticipantCount(league.id)"
-                [currentLeader]="'-'"
+                [currentLeader]="getCurrentLeader(league.id)"
               />
             }
           </div>

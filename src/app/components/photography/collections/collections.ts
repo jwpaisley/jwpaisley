@@ -18,10 +18,12 @@ import { CollectionCard } from '../collection-card/collection-card';
 })
 export class Collections implements OnInit, OnDestroy {
   protected isLoading = false;
+  protected isSubmittingCollection = false;
   protected destroy$ = new Subject<void>();
   protected photoCollections: PhotoCollection[] = [];
   protected collectionPhotos: Record<string, Photo[]> = {};
   protected showAddCollectionDialog = false;
+  protected uploadStateByImageKey: Record<string, 'uploading' | 'uploaded' | 'failed'> = {};
 
   constructor(
     private actionsService: ActionsService,
@@ -84,28 +86,42 @@ export class Collections implements OnInit, OnDestroy {
   }
   
   protected openAddCollectionDialog(): void {
+    this.uploadStateByImageKey = {};
+    this.isSubmittingCollection = false;
     this.showAddCollectionDialog = true;
     this.cdr.detectChanges();
   }
 
   protected closeAddCollectionDialog(): void {
+    if (this.isSubmittingCollection) {
+      return;
+    }
+
     this.showAddCollectionDialog = false;
+    this.uploadStateByImageKey = {};
     this.cdr.detectChanges();
   }
 
   protected handleAddCollectionConfirm(data: AddCollectionDialogData): void {
-    this.isLoading = true;
+    this.isSubmittingCollection = true;
+    this.uploadStateByImageKey = {};
 
     this.photoService.createPhotoCollectionWithPhotos({
       title: data.title,
       description: data.description,
       location: data.location,
       images: data.images,
+    }, (progress) => {
+      this.uploadStateByImageKey = {
+        ...this.uploadStateByImageKey,
+        [progress.imageKey]: progress.status,
+      };
+      this.cdr.detectChanges();
     })
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
-          this.isLoading = false;
+          this.isSubmittingCollection = false;
           this.cdr.detectChanges();
         }),
       )

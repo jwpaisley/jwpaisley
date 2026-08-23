@@ -36,6 +36,8 @@ export class AddCollectionDialog {
   @Input() mode: CollectionDialogMode = 'create';
   @Input() collection: PhotoCollection | null = null;
   @Input() photos: Photo[] = [];
+  @Input() isSubmitting = false;
+  @Input() uploadStateByImageKey: Record<string, 'uploading' | 'uploaded' | 'failed'> = {};
 
   @Output() confirm = new EventEmitter<AddCollectionDialogData>();
   @Output() cancel = new EventEmitter<void>();
@@ -59,7 +61,7 @@ export class AddCollectionDialog {
   }
 
   get disableCreateButton(): boolean {
-    return !this.title.trim() || !this.description.trim() || !this.location.trim() || this.images.length === 0;
+    return this.isSubmitting || !this.title.trim() || !this.description.trim() || !this.location.trim() || this.images.length === 0;
   }
 
   get dialogTitle(): string {
@@ -111,7 +113,7 @@ export class AddCollectionDialog {
   }
 
   onConfirm(): void {
-    if (this.disableCreateButton) {
+    if (this.disableCreateButton || this.isSubmitting) {
       return;
     }
 
@@ -124,6 +126,10 @@ export class AddCollectionDialog {
   }
 
   onCancel(): void {
+    if (this.isSubmitting) {
+      return;
+    }
+
     this.cancel.emit();
   }
 }

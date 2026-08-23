@@ -83,7 +83,12 @@
         <jwpaisley-card title="picks">
           @if (displayRecentPicks.length > 0) {
             <jwpaisley-scrollbox [maxHeightRem]="24">
-              <jwpaisley-pick-list [picks]="displayRecentPicks" [maxPicksToShow]="5"></jwpaisley-pick-list>
+              <jwpaisley-pick-list
+                [picks]="displayRecentPicks"
+                [hasMorePicks]="hasMoreRecentPicks"
+                [isLoadingMore]="isLoadingMoreRecentPicks"
+                (showMoreRequested)="onShowMoreRecentPicks()"
+              ></jwpaisley-pick-list>
             </jwpaisley-scrollbox>
           } @else {
             <jwpaisley-empty-state

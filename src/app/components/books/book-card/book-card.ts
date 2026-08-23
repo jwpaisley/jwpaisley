@@ -177,8 +177,6 @@ export class BookCard implements OnInit, OnDestroy, OnChanges {
           bookToSave.id = '';
         }
 
-        console.log(bookToSave);
-
         this.bookService.createBook(bookToSave)
           .subscribe({
             next: (createdBook: Book) => {
@@ -245,7 +243,6 @@ export class BookCard implements OnInit, OnDestroy, OnChanges {
 
       this.bookService.uploadCover(file).subscribe({
         next: (response) => {
-          console.log(response);
           this.formGroup?.patchValue({ coverImage: response.url });
           this.book.coverImage = response.url;
         },

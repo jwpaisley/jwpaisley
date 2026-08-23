@@ -7,7 +7,17 @@
     @for (image of value; track image.name) {
       <div class="image-tile" role="listitem" (click)="selectImage(image)">
         <img [src]="image.url" [alt]="image.name" />
-        <button type="button" class="remove-button" (click)="$event.stopPropagation(); removeImage($index)">
+        @if (getUploadState(image) === 'uploading') {
+          <div class="upload-overlay upload-overlay--uploading" aria-label="uploading image">
+            <mat-icon>cloud_upload</mat-icon>
+          </div>
+        }
+        @if (getUploadState(image) === 'uploaded') {
+          <div class="upload-overlay upload-overlay--uploaded" aria-label="uploaded image">
+            <mat-icon>check</mat-icon>
+          </div>
+        }
+        <button type="button" class="remove-button" [disabled]="lockEditing" (click)="$event.stopPropagation(); removeImage($index)">
           ×
         </button>
       </div>
@@ -17,7 +27,7 @@
       <button
         type="button"
         class="image-tile add-tile"
-        [disabled]="disabled"
+        [disabled]="disabled || lockEditing"
         (click)="triggerPicker()"
       >
         <mat-icon>add_a_photo</mat-icon>

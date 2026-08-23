@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, concatMap, forkJoin, of, throwError } from 'rxjs';
+import { Observable, catchError, concatMap, forkJoin, from, of, throwError, toArray } from 'rxjs';
 import { getApiUrl } from '../../helpers/api-url';
 
 export declare interface Photo {
@@ -47,6 +47,13 @@ export interface CreatePhotoCollectionPayload {
   images: PhotoUploadValue[];
 }
 
+export type PhotoUploadStatus = 'uploading' | 'uploaded' | 'failed';
+
+export interface PhotoCollectionUploadProgress {
+  imageKey: string;
+  status: PhotoUploadStatus;
+}
+
 export declare interface PhotoCollectionPage {
   items: PhotoCollection[];
   nextPageToken: string | null;
@@ -60,6 +67,14 @@ export class PhotoService {
   private readonly localApiUrl = 'http://localhost:8080/api';
   private readonly prodApiUrl = 'https://api.jwpaisley.com/api';
   private readonly apiUrl = getApiUrl(this.localApiUrl, this.prodApiUrl);
+
+  private getPhotoUploadKey(image: PhotoUploadValue): string {
+    if (image.file) {
+      return `${image.file.name}:${image.file.size}:${image.file.lastModified}`;
+    }
+
+    return `${image.url || ''}:${image.name || ''}`;
+  }
 
   createPhoto(photo: Photo): Observable<Photo> {
     return this.httpClient.post<Photo>(`${this.apiUrl}/photos`, photo);
@@ -136,7 +151,10 @@ export class PhotoService {
     return this.httpClient.put<PhotoCollection>(`${this.apiUrl}/photo-collections/${photoCollection.id}`, photoCollection);
   }
 
-  createPhotoCollectionWithPhotos(payload: CreatePhotoCollectionPayload): Observable<Photo[]> {
+  createPhotoCollectionWithPhotos(
+    payload: CreatePhotoCollectionPayload,
+    onUploadProgress?: (progress: PhotoCollectionUploadProgress) => void,
+  ): Observable<Photo[]> {
     return this.createPhotoCollection({
       title: payload.title,
       caption: payload.description,
@@ -149,9 +167,12 @@ export class PhotoService {
           return throwError(() => new Error('Each selected photo must include a file.'));
         }
 
-        return forkJoin(
-          imageFiles.map((image) =>
-            this.uploadPhoto(image.file as File).pipe(
+        return from(imageFiles).pipe(
+          concatMap((image) => {
+            const imageKey = this.getPhotoUploadKey(image);
+            onUploadProgress?.({ imageKey, status: 'uploading' });
+
+            return this.uploadPhoto(image.file as File).pipe(
               concatMap((uploadResult) =>
                 this.createPhoto({
                   collection: collection.id,
@@ -163,8 +184,17 @@ export class PhotoService {
                     : undefined),
                 }),
               ),
-            ),
-          ),
+              concatMap((createdPhoto) => {
+                onUploadProgress?.({ imageKey, status: 'uploaded' });
+                return of(createdPhoto);
+              }),
+              catchError((error) => {
+                onUploadProgress?.({ imageKey, status: 'failed' });
+                return throwError(() => error);
+              }),
+            );
+          }),
+          toArray(),
         );
       }),
     );
@@ -184,7 +214,11 @@ export class PhotoService {
     return this.httpClient.get<PhotoCollection>(`${this.apiUrl}/photo-collections/${photoCollectionId}`);
   }
 
-  updatePhotoCollectionWithNewPhotos(collectionId: string, payload: CreatePhotoCollectionPayload): Observable<Photo[]> {
+  updatePhotoCollectionWithNewPhotos(
+    collectionId: string,
+    payload: CreatePhotoCollectionPayload,
+    onUploadProgress?: (progress: PhotoCollectionUploadProgress) => void,
+  ): Observable<Photo[]> {
     return this.updatePhotoCollection({
       id: collectionId,
       title: payload.title,
@@ -211,23 +245,48 @@ export class PhotoService {
           return of([]);
         }
 
-        const createOps = newImageFiles.map((image) =>
-          this.uploadPhoto(image.file as File).pipe(
-            concatMap((uploadResult) =>
-              this.createPhoto({
-                collection: collectionId,
-                image: uploadResult.url,
-                caption: image.caption ?? '',
-                location: image.location ?? '',
-                takenDate: image.takenDate || (image.file?.lastModified
-                  ? new Date(image.file.lastModified).toISOString().slice(0, 10)
-                  : undefined),
-              }),
-            ),
-          ),
-        );
+        const existingUpdates$ = existingPhotoUpdates.length > 0
+          ? forkJoin(existingPhotoUpdates)
+          : of([] as Photo[]);
 
-        return forkJoin([...existingPhotoUpdates, ...createOps]);
+        return existingUpdates$.pipe(
+          concatMap((existingUpdatedPhotos) => {
+            if (newImageFiles.length === 0) {
+              return of(existingUpdatedPhotos);
+            }
+
+            return from(newImageFiles).pipe(
+              concatMap((image) => {
+                const imageKey = this.getPhotoUploadKey(image);
+                onUploadProgress?.({ imageKey, status: 'uploading' });
+
+                return this.uploadPhoto(image.file as File).pipe(
+                  concatMap((uploadResult) =>
+                    this.createPhoto({
+                      collection: collectionId,
+                      image: uploadResult.url,
+                      caption: image.caption ?? '',
+                      location: image.location ?? '',
+                      takenDate: image.takenDate || (image.file?.lastModified
+                        ? new Date(image.file.lastModified).toISOString().slice(0, 10)
+                        : undefined),
+                    }),
+                  ),
+                  concatMap((createdPhoto) => {
+                    onUploadProgress?.({ imageKey, status: 'uploaded' });
+                    return of(createdPhoto);
+                  }),
+                  catchError((error) => {
+                    onUploadProgress?.({ imageKey, status: 'failed' });
+                    return throwError(() => error);
+                  }),
+                );
+              }),
+              toArray(),
+              concatMap((newlyCreatedPhotos) => of([...existingUpdatedPhotos, ...newlyCreatedPhotos])),
+            );
+          }),
+        );
       }),
     );
   }
