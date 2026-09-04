@@ -5,6 +5,7 @@ import { Conditions } from '../../components/sailing/conditions/conditions';
 import { Boats } from '../../components/sailing/boats/boats';
 import { BoatDetails } from '../../components/sailing/boat-details/boat-details';
 import { Voyages } from '../../components/sailing/voyages/voyages';
+import { Posts } from '../../components/sailing/posts/posts';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'voyages',
         component: Voyages,
+      },
+      {
+        path: 'posts',
+        component: Posts,
       },
     ],
   },

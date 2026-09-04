@@ -63,6 +63,13 @@
           />
         }
 
+        @case ('create-post') {
+          <jwpaisley-create-post-dialog
+            (confirm)="handleConfirm($event)"
+            (cancel)="handleCancel()"
+          />
+        }
+
         @case ('create-sports-prediction-league') {
           <jwpaisley-create-sports-prediction-league-dialog
             (confirm)="handleConfirm($event)"
