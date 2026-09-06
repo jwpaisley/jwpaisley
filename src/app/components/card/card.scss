@@ -21,6 +21,7 @@
 .jwpaisley-card__image-wrap {
   width: 100%;
   height: 12rem;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.04);
 }
@@ -30,6 +31,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  flex-shrink: 0;
 }
 
 h2 {

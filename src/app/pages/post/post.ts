@@ -274,6 +274,8 @@ export class PostPage implements OnInit {
       breaks: true,
     }) : '';
 
-    return this.sanitizer.sanitize(SecurityContext.HTML, parsedHtml) ?? '';
+    const htmlWithMarkdownLinkClasses = parsedHtml.replace(/<a\b/gi, '<a class="post-page__markdown-link"');
+
+    return this.sanitizer.sanitize(SecurityContext.HTML, htmlWithMarkdownLinkClasses) ?? '';
   }
 }

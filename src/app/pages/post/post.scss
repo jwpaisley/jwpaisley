@@ -84,6 +84,25 @@ hr {
   margin: 0 0 1rem;
 }
 
+:host ::ng-deep .post-page__markdown a,
+:host ::ng-deep .post-page__markdown a:link,
+:host ::ng-deep .post-page__markdown a:visited,
+:host ::ng-deep .post-page__markdown a:hover,
+:host ::ng-deep .post-page__markdown a:focus-visible,
+:host ::ng-deep .post-page__markdown a:active {
+  color: style-variables.$sea-glass !important;
+  text-decoration: none;
+  text-decoration-color: rgba(style-variables.$sea-glass, 0.7);
+  text-underline-offset: 0.15em;
+}
+
+:host ::ng-deep .post-page__markdown a:hover,
+:host ::ng-deep .post-page__markdown a:focus-visible,
+:host ::ng-deep .post-page__markdown a:active {
+  color: style-variables.$sea-glass !important;
+  text-decoration-color: currentColor;
+}
+
 .post-page__markdown :deep(h2),
 .post-page__markdown :deep(h3),
 .post-page__markdown :deep(h4) {
