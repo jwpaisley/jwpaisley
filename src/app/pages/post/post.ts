@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Input, OnInit, PLATFORM_ID, SecurityContext, inject } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, PLATFORM_ID, SecurityContext, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -35,6 +35,7 @@ export class PostPage implements OnInit {
   private readonly dialogService = inject(DialogService);
   private readonly toastService = inject(ToastService);
   private readonly userService = inject(UserService);
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
 
   protected isLoading = true;
   protected post: Post | null = null;
@@ -187,6 +188,7 @@ export class PostPage implements OnInit {
       const savedPost = await firstValueFrom(this.postsService.updatePost(updatedPost));
       this.post = savedPost;
       this.renderedMarkdown = this.renderMarkdown(this.post.content ?? '');
+      this.scheduleMarkdownAnchorSync();
       this.toastService.addToast('post updated successfully', 'check', 'success');
     } catch (error) {
       console.error('Failed to update post:', error);
@@ -237,6 +239,7 @@ export class PostPage implements OnInit {
       const savedPost = await firstValueFrom(this.postsService.updatePost(updatedPost));
       this.post = savedPost;
       this.renderedMarkdown = this.renderMarkdown(this.post.content ?? '');
+      this.scheduleMarkdownAnchorSync();
       this.toastService.addToast(successMessage, 'check', 'success');
     } catch (error) {
       console.error('Failed to update post status:', error);
@@ -260,6 +263,7 @@ export class PostPage implements OnInit {
       const post = await firstValueFrom(this.postsService.getPost(routePostId));
       this.post = post;
       this.renderedMarkdown = this.renderMarkdown(post.content ?? '');
+      this.scheduleMarkdownAnchorSync();
     } catch {
       this.router.navigate(['/']);
       return;
@@ -268,14 +272,163 @@ export class PostPage implements OnInit {
     }
   }
 
+  private scheduleMarkdownAnchorSync(): void {
+    if (typeof document === 'undefined' || typeof window === 'undefined') {
+      return;
+    }
+
+    setTimeout(() => this.syncMarkdownAnchors(), 0);
+  }
+
+  private syncMarkdownAnchors(): void {
+    if (typeof document === 'undefined' || typeof window === 'undefined') {
+      return;
+    }
+
+    const container = this.elementRef.nativeElement.querySelector('.post-page__markdown');
+    if (!container) {
+      return;
+    }
+
+    const headings = Array.from(
+      container.querySelectorAll('h1, h2, h3, h4, h5, h6') as NodeListOf<HTMLHeadingElement>,
+    );
+    const seenIds = new Map<string, number>();
+
+    headings.forEach((heading: HTMLHeadingElement) => {
+      const text = heading.textContent ?? '';
+      const baseSlug = this.buildSlug(text);
+      let newSlug = baseSlug;
+      const previousCount = seenIds.get(baseSlug) ?? 0;
+      seenIds.set(baseSlug, previousCount + 1);
+
+      if (previousCount > 0) {
+        newSlug = `${baseSlug}-${previousCount}`;
+      }
+
+      if (!heading.id) {
+        heading.id = newSlug;
+      }
+    });
+
+    const links = Array.from(container.querySelectorAll('a[href]') as NodeListOf<HTMLAnchorElement>);
+    links.forEach((link: HTMLAnchorElement) => {
+      const rawHref = link.getAttribute('href');
+      if (!rawHref || !rawHref.includes('#')) {
+        return;
+      }
+
+      const targetUrl = new URL(rawHref, window.location.href);
+      const hash = decodeURIComponent(targetUrl.hash.replace(/^#/, ''));
+      if (!hash) {
+        return;
+      }
+
+      const target = document.getElementById(hash);
+      if (target) {
+        link.setAttribute('href', this.getCurrentPostPathWithHash(hash));
+      }
+
+      link.onclick = (event: MouseEvent) => {
+        event.preventDefault();
+        this.scrollToHashTarget(hash);
+      };
+    });
+
+    if (window.location.hash) {
+      this.scrollToHashTarget(window.location.hash.slice(1));
+    }
+  }
+
+  private scrollToHashTarget(hash: string): void {
+    if (typeof document === 'undefined' || typeof window === 'undefined' || !hash) {
+      return;
+    }
+
+    const target = document.getElementById(hash) ?? document.getElementById(decodeURIComponent(hash));
+    if (!target) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const currentUrl = new URL(window.location.href);
+      currentUrl.hash = hash;
+      window.history.replaceState(null, '', `${currentUrl.pathname}${currentUrl.search}#${hash}`);
+    }, 0);
+  }
+
+  private readonly handleHashChange = (): void => {
+    if (!window.location.hash) {
+      return;
+    }
+
+    this.scrollToHashTarget(window.location.hash.slice(1));
+  };
+
+  private buildSlug(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/&amp;/g, 'and')
+      .replace(/&/g, 'and')
+      .replace(/[`~!@#$%^&*()+=\[\]{}|\\:;"'<>,.?/]+/g, '-')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '') || 'section';
+  }
+
+  private getCurrentPostPathWithHash(hash: string): string {
+    const postId = this.route.snapshot.paramMap.get('id') ?? this.id;
+
+    if (!postId) {
+      return `#${hash}`;
+    }
+
+    return `/post/${postId}#${hash}`;
+  }
+
   private renderMarkdown(content: string): string {
     const parsedHtml = typeof marked !== 'undefined' ? marked.parse(content ?? '', {
       gfm: true,
       breaks: true,
     }) : '';
 
-    const htmlWithMarkdownLinkClasses = parsedHtml.replace(/<a\b/gi, '<a class="post-page__markdown-link"');
+    const htmlWithHeadingIds = parsedHtml.replace(/<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi, (match, level, attrs, innerHtml) => {
+      const hasId = /\s+id=\s*["'][^"']+["']/i.test(attrs);
+      if (hasId) {
+        return match;
+      }
 
+      const text = innerHtml
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&quot;/gi, '"')
+        .replace(/&#39;/gi, "'")
+        .replace(/&#x27;/gi, "'")
+        .replace(/&#x2F;/gi, '/')
+        .trim();
+
+      return `<h${level}${attrs} id="${this.buildSlug(text)}">${innerHtml}</h${level}>`;
+    });
+
+    const htmlWithResolvedAnchorLinks = htmlWithHeadingIds.replace(
+      /href=(['"])(#[^'"]+|post\/[^'"#]+#[^'"]+|post\/[^'"#]+)(\1)/gi,
+      (match, quote, href) => {
+        if (href.startsWith('#')) {
+          const hash = href.slice(1);
+          return `href=${quote}${this.getCurrentPostPathWithHash(hash)}${quote}`;
+        }
+
+        const normalizedHref = href.startsWith('post/') ? `/${href}` : href;
+        return `href=${quote}${normalizedHref}${quote}`;
+      }
+    );
+
+    const htmlWithMarkdownLinkClasses = htmlWithResolvedAnchorLinks.replace(/<a\b/gi, '<a class="post-page__markdown-link"');
     return this.sanitizer.sanitize(SecurityContext.HTML, htmlWithMarkdownLinkClasses) ?? '';
   }
 }
