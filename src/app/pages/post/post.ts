@@ -53,12 +53,22 @@ export class PostPage implements OnInit {
     return `${minutes} min read`;
   }
 
+  protected get viewCount(): string | null {
+    const viewCount = this.post?.viewCount;
+
+    if (viewCount == null || viewCount <= 0) {
+      return null;
+    }
+
+    return `${viewCount} views`;
+  }
+
   protected get createdAtDisplay(): string {
-    return this.formatDateRow('created at', this.post?.createdAt);
+    return this.formatDateRow('created on', this.post?.createdAt);
   }
 
   protected get updatedAtDisplay(): string {
-    return this.formatDateRow('updated at', this.post?.updatedAt);
+    return this.formatDateRow('updated on', this.post?.updatedAt);
   }
 
   protected get publishStatusDisplay(): string {
@@ -71,10 +81,10 @@ export class PostPage implements OnInit {
     }
 
     if (this.post.status === 'ARCHIVED') {
-      return this.formatDateRow('archived at', this.post.archivedAt);
+      return this.formatDateRow('archived on', this.post.archivedAt);
     }
 
-    return this.formatDateRow('published at', this.post.publishedAt);
+    return this.formatDateRow('published on', this.post.publishedAt);
   }
 
   private formatDateRow(label: string, timestamp?: string | null): string {

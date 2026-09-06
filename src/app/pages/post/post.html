@@ -11,9 +11,14 @@
       <p class="post-page__description">{{ post.description }}</p>
 
       <div class="post-page__meta">
-        @if (readTimeDisplay) {
+        @if (readTimeDisplay && viewCount) {
+          <p>{{ readTimeDisplay }} • {{ viewCount }}</p>
+        } @else if (readTimeDisplay) {
           <p>{{ readTimeDisplay }}</p>
+        } @else if (viewCount) {
+          <p>{{ viewCount }}</p>
         }
+
         <p>{{ createdAtDisplay }}</p>
         <p>{{ updatedAtDisplay }}</p>
         <p>{{ publishStatusDisplay }}</p>
