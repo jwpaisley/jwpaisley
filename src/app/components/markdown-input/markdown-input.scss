@@ -1,0 +1,203 @@
+@use '../../../styles/variables' as style-variables;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.markdown-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.markdown-input__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: style-variables.$slate;
+}
+
+.markdown-input__editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  height: 28rem;
+  min-height: 22rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(style-variables.$slate, 0.25);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(style-variables.$cloud, 0.9), rgba(style-variables.$snow, 0.7));
+  box-shadow: inset 0 0 0 1px rgba(style-variables.$slate, 0.08), 0 10px 24px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.markdown-input__panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  border: 1px solid rgba(style-variables.$slate, 0.2);
+  border-radius: 10px;
+  background: rgba(style-variables.$snow, 0.5);
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.markdown-input__textarea {
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  resize: none;
+  border: none;
+  background: rgba(style-variables.$snow, 0.7);
+  color: style-variables.$primary-text;
+  padding: 1rem;
+  font: inherit;
+  line-height: 1.6;
+  box-sizing: border-box;
+  overflow: auto;
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgba(style-variables.$lake, 0.35);
+  }
+}
+
+.markdown-input__preview {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem 1.1rem 1.5rem;
+  background: transparent;
+  color: style-variables.$primary-text;
+  line-height: 1.7;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1.2rem 0 0.6rem;
+    line-height: 1.25;
+    color: style-variables.$charcoal;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.3rem; }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  pre,
+  table {
+    margin: 0 0 1rem;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.4rem;
+  }
+
+  li + li {
+    margin-top: 0.35rem;
+  }
+
+  a {
+    color: style-variables.$accent-variant-2;
+    text-decoration: underline;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 26rem;
+    border-radius: 10px;
+    margin: 0.75rem 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  code {
+    background: rgba(style-variables.$slate, 0.08);
+    border-radius: 6px;
+    padding: 0.15rem 0.4rem;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+  }
+
+  pre {
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    background: rgba(style-variables.$charcoal, 0.94);
+    color: rgba(style-variables.$cloud, 0.96);
+    border-radius: 10px;
+
+    code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+    }
+  }
+
+  blockquote {
+    padding: 0.6rem 1rem;
+    border-left: 4px solid style-variables.$lake;
+    background: rgba(style-variables.$lake, 0.08);
+    border-radius: 0 8px 8px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid rgba(style-variables.$slate, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th,
+  td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid rgba(style-variables.$slate, 0.2);
+    text-align: left;
+  }
+
+  th {
+    background: rgba(style-variables.$lake, 0.08);
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid rgba(style-variables.$slate, 0.2);
+    margin: 1.5rem 0;
+  }
+
+  .katex-display {
+    display: block;
+    margin: 0.75rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 820px) {
+  .markdown-input__editor {
+    grid-template-columns: 1fr;
+  }
+}

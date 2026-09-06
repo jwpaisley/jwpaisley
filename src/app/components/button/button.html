@@ -2,21 +2,25 @@
   *ngIf="!routerLink"
   class="btn"
   [class]="variant"
+  [class.icon-only]="!!icon && !text"
   [class.disabled]="disabled"
   [disabled]="disabled"
   [attr.aria-disabled]="disabled ? 'true' : null"
   [style.opacity]="disabled ? 0.6 : null"
   [style.pointer-events]="disabled ? 'none' : null"
+  [attr.aria-label]="icon && !text ? 'Upload image' : null"
   type="button"
   (click)="onClick($event)"
 >
-  {{ text }}
+  <mat-icon *ngIf="icon" aria-hidden="true">{{ icon }}</mat-icon>
+  <span *ngIf="text">{{ text }}</span>
 </button>
 
 <a
   *ngIf="routerLink"
   class="btn"
   [class]="variant"
+  [class.icon-only]="!!icon && !text"
   [class.disabled]="disabled"
   [attr.aria-disabled]="disabled ? 'true' : null"
   [style.opacity]="disabled ? 0.6 : null"
@@ -24,5 +28,6 @@
   [routerLink]="routerLink"
   (click)="onClick($event)"
 >
-  {{ text }}
+  <mat-icon *ngIf="icon" aria-hidden="true">{{ icon }}</mat-icon>
+  <span *ngIf="text">{{ text }}</span>
 </a>

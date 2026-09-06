@@ -17,6 +17,11 @@
   margin-bottom: 1rem;
 }
 
+jwpaisley-loader + .section-title,
+.section-title + jwpaisley-loader {
+  margin-top: 1rem;
+}
+
 h2 {
   margin: 0;
   font-size: 1.1rem;
@@ -27,4 +32,19 @@ p {
   margin: 0;
   font-size: 0.8rem;
   color: style-variables.$slate;
+}
+
+@media (max-width: 640px) {
+  .sailing-section {
+    padding: 0.75rem 0 1.5rem;
+  }
+
+  .section-title {
+    margin-bottom: 0.75rem;
+  }
+
+  jwpaisley-loader + .section-title,
+  .section-title + jwpaisley-loader {
+    margin-top: 0.75rem;
+  }
 }

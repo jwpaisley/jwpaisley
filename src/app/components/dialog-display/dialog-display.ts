@@ -7,7 +7,7 @@ import { AddRecipeTagDialog } from '../add-recipe-tag-dialog/add-recipe-tag-dial
 import { AddPortDialog } from '../add-port-dialog/add-port-dialog';
 import { AddSailboatDialog } from '../add-sailboat-dialog/add-sailboat-dialog';
 import { AddSailboatPhotoDialog } from '../sailing/add-sailboat-photo-dialog/add-sailboat-photo-dialog';
-import { CreatePostDialog } from '../sailing/create-post-dialog/create-post-dialog';
+import { AddPostDialog } from '../posts/add-post-dialog/add-post-dialog';
 import { CreateSportsPredictionLeagueDialog } from '../sports-predictions/create-sports-prediction-league-dialog/create-sports-prediction-league-dialog';
 import { TagSelectorDialog } from '../tag-selector-dialog/tag-selector-dialog';
 import { AchievementDialog } from '../achievement-dialog/achievement-dialog';
@@ -16,7 +16,7 @@ import { Tag } from '../tag/tag';
 @Component({
   selector: 'jwpaisley-dialog-display',
   standalone: true,
-  imports: [CommonModule, ConfirmationDialog, EmojiPickerDialog, AchievementDialog, AddRecipeTagDialog, AddPortDialog, AddSailboatDialog, AddSailboatPhotoDialog, CreatePostDialog, CreateSportsPredictionLeagueDialog, TagSelectorDialog],
+  imports: [CommonModule, ConfirmationDialog, EmojiPickerDialog, AchievementDialog, AddRecipeTagDialog, AddPortDialog, AddSailboatDialog, AddSailboatPhotoDialog, AddPostDialog, CreateSportsPredictionLeagueDialog, TagSelectorDialog],
   templateUrl: './dialog-display.html',
   styleUrl: './dialog-display.scss'
 })

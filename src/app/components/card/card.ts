@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class Card {
   @Input() title!: string;
+  @Input() image?: string | null;
   @Input() heightRem?: number;
 
   get resolvedHeight(): string {

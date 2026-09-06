@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 const BUTTON_VARIANTS = [
   'primary', 
@@ -14,12 +15,13 @@ type ButtonVariant = typeof BUTTON_VARIANTS[number];
 
 @Component({
   selector: 'jwpaisley-button',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MatIconModule],
   templateUrl: './button.html',
   styleUrl: './button.scss',
 })
 export class Button {
   @Input() text: string = 'button';
+  @Input() icon: string | null = null;
   @Input() variant: ButtonVariant = 'primary';
   @Input() disabled: boolean = false;
   @Input() routerLink: string | any[] | null = null;

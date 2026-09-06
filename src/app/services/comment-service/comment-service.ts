@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { getApiUrl } from '../../helpers/api-url';
 import { UserService } from '../user-service/user-service';
 
-export type CommentResourceType = 'PHOTO' | 'PHOTO_COLLECTION' | 'RECIPE';
+export type CommentResourceType = 'PHOTO' | 'PHOTO_COLLECTION' | 'RECIPE' | 'POST';
 
 export interface Comment {
   id?: string;

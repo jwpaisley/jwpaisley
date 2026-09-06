@@ -10,14 +10,14 @@ import { ActionsService, Action } from '../../../services/actions-service/action
 import { DialogService } from '../../../services/dialog-service/dialog-service';
 import { ToastService } from '../../../services/toast-service/toast-service';
 import { Post, PostsService } from '../../../services/posts-service/posts-service';
-import { CreatePostDialogData } from '../create-post-dialog/create-post-dialog';
+import { CreatePostDialogData } from '../../posts/add-post-dialog/add-post-dialog';
 import { CardGrid } from '../../card-grid/card-grid';
-import { Card } from '../../card/card';
+import { PostCard } from '../../posts/post-card/post-card';
 
 @Component({
   selector: 'jwpaisley-sailing-posts',
   standalone: true,
-  imports: [CommonModule, Loader, EmptyState, ActionDock, ActionDockButton, CardGrid, Card],
+  imports: [CommonModule, Loader, EmptyState, ActionDock, ActionDockButton, CardGrid, PostCard],
   templateUrl: './posts.html',
   styleUrl: './posts.scss',
 })
@@ -93,6 +93,7 @@ export class Posts implements OnInit {
       icon: 'article',
       confirmLabel: 'save post',
       cancelLabel: 'cancel',
+      value: { defaultType: 'sailing' },
     });
 
     if (result.confirmed && result.value) {

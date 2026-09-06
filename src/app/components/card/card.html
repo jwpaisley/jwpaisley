@@ -1,4 +1,9 @@
 <div class="jwpaisley-card" [style.minHeight]="resolvedHeight">
+  @if (image) {
+    <div class="jwpaisley-card__image-wrap">
+      <img class="jwpaisley-card__image" [src]="image" [alt]="title" />
+    </div>
+  }
   <h2>{{ title }}</h2>
   <ng-content></ng-content>
 </div>

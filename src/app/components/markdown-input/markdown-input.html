@@ -1,0 +1,27 @@
+<div class="markdown-input">
+  @if (label) {
+    <label class="markdown-input__label">{{ label }}</label>
+  }
+
+  <div class="markdown-input__editor">
+    <div class="markdown-input__panel markdown-input__panel--editor">
+      <textarea
+        #inputPane
+        class="markdown-input__textarea"
+        [value]="value"
+        [placeholder]="placeholder"
+        (input)="onInput($event)"
+        (scroll)="onPanelScroll('input')"
+      ></textarea>
+    </div>
+
+    <div class="markdown-input__panel markdown-input__panel--preview">
+      <div
+        #previewPane
+        class="markdown-input__preview"
+        [innerHTML]="renderedHtml"
+        (scroll)="onPanelScroll('preview')"
+      ></div>
+    </div>
+  </div>
+</div>

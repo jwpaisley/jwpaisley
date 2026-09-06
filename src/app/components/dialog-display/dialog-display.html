@@ -64,7 +64,13 @@
         }
 
         @case ('create-post') {
-          <jwpaisley-create-post-dialog
+          <jwpaisley-add-post-dialog
+            [defaultType]="config()?.value?.defaultType || 'sailing'"
+            [existingPost]="config()?.value?.post || null"
+            [title]="config()?.title || 'create post'"
+            [text]="config()?.text || 'add a new post and save it when ready.'"
+            [confirmLabel]="config()?.confirmLabel || 'save post'"
+            [cancelLabel]="config()?.cancelLabel || 'cancel'"
             (confirm)="handleConfirm($event)"
             (cancel)="handleCancel()"
           />

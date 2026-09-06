@@ -1,0 +1,57 @@
+@if (isLoading) {
+  <jwpaisley-loader [isLoading]="true"></jwpaisley-loader>
+} @else if (post) {
+  <article class="post-page">
+    @if (post.coverPhotoUrl) {
+      <img class="post-page__hero" [src]="post.coverPhotoUrl" [alt]="post.title" />
+    }
+
+    <div class="post-page__content">
+      <h1>{{ post.title }}</h1>
+      <p class="post-page__description">{{ post.description }}</p>
+
+      <div class="post-page__meta">
+        @if (readTimeDisplay) {
+          <p>{{ readTimeDisplay }}</p>
+        }
+        <p>{{ createdAtDisplay }}</p>
+        <p>{{ updatedAtDisplay }}</p>
+        <p>{{ publishStatusDisplay }}</p>
+      </div>
+
+      <hr />
+
+      @if (isUserAdmin) {
+        <div class="post-page__admin-actions">
+          <jwpaisley-button text="edit post" icon="edit" variant="primary" [disabled]="isSubmittingAction" (click)="onEditPost()">edit post</jwpaisley-button>
+          @if (showPublishButton) {
+            <jwpaisley-button text="publish post" icon="publish" variant="success" [disabled]="isSubmittingAction" (click)="onPublishPost()">publish post</jwpaisley-button>
+          }
+          @if (showArchiveButton) {
+            <jwpaisley-button text="archive post" icon="archive" variant="secondary" [disabled]="isSubmittingAction" (click)="onArchivePost()">archive post</jwpaisley-button>
+          } @else {
+            <jwpaisley-button text="unarchive post" icon="unarchive" variant="secondary" [disabled]="isSubmittingAction" (click)="onUnarchivePost()">unarchive post</jwpaisley-button>
+          }
+          @if (showUnpublishButton) {
+            <jwpaisley-button text="unpublish post" icon="undo" variant="secondary" [disabled]="isSubmittingAction" (click)="onUnpublishPost()">unpublish post</jwpaisley-button>
+          }
+          <jwpaisley-button text="delete post" icon="delete" variant="danger" [disabled]="isSubmittingAction" (click)="onDeletePost()">delete post</jwpaisley-button>
+        </div>
+        <hr />
+      }
+
+      <div class="post-page__markdown" [innerHTML]="renderedMarkdown"></div>
+
+      <div class="post-page__comments">
+        <jwpaisley-comments-section
+          [resourceId]="post.id"
+          [resourceType]="'POST'"
+        ></jwpaisley-comments-section>
+      </div>
+    </div>
+  </article>
+} @else {
+  <div class="post-page__empty">
+    <p>post not found</p>
+  </div>
+}

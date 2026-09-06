@@ -1,0 +1,44 @@
+@use '../../../../styles/variables' as style-variables;
+
+:host {
+  display: block;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.post-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+:host:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+:host:hover ::ng-deep .jwpaisley-card {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+p {
+  margin: 0 1rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: style-variables.$slate;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+  :host {
+    width: 100%;
+  }
+
+  p {
+    margin: 0 0.75rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}

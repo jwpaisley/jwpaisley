@@ -1,0 +1,5 @@
+<a class="post-card-link" [routerLink]="['/post', post.id]" [attr.aria-label]="'view post: ' + post.title">
+  <jwpaisley-card [title]="post.title" [image]="post.coverPhotoUrl || null">
+    <p>{{ excerpt }}</p>
+  </jwpaisley-card>
+</a>

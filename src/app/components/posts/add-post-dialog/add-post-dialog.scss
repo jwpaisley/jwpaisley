@@ -68,6 +68,27 @@
   gap: 0.5rem;
 }
 
+.cover-upload-row,
+.content-upload-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.cover-upload-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.content-upload-row {
+  justify-content: space-between;
+}
+
+.content-upload-label {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.75);
+}
+
 .form {
   display: flex;
   flex-direction: column;
